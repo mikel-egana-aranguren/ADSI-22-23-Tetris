@@ -25,9 +25,3 @@ hs_err_pid*
 ignore/
 
 target/
-
-.classpath
-.project
-org.eclipse.jdt.core.prefs
-pom.xml
-log4j2.xml
