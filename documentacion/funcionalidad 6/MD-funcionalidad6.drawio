@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="S8z7VlIsHLkRVv9DtLN1" name="Page-1">
-        <mxGraphModel dx="890" dy="824" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+        <mxGraphModel dx="1330" dy="824" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -27,8 +27,8 @@
                 <mxCell id="8" value="0..*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontFamily=Helvetica;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="480" y="270" width="30" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="Progresa" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;" vertex="1" parent="1">
-                    <mxGeometry x="395" y="300" width="60" height="20" as="geometry"/>
+                <mxCell id="9" value="R1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="410" y="300" width="30" height="20" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
