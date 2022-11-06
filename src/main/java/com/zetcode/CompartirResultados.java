@@ -157,7 +157,7 @@ public class CompartirResultados extends JFrame {
 		});
 		panel.add(btnNewButton_1);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Salir del juego");
 		panel.add(btnNewButton);
 	}
 }
