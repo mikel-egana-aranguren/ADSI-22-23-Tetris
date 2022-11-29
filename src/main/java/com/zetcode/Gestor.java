@@ -4,11 +4,20 @@ import java.util.ArrayList;
 
 public class Gestor {
     private String obtenerPremios() {
+        usuario = obtenerUsuarioActual()
+        nombreUsuario = getNombreUsuario(usuario)
+        GestorPremios.obtenerPremios(nombreUsuario)
+        getNombre()
+        getProgreso()
+        getProgresoMax()
         // TODO
         return "";
     }
 
-    private String obtenerDescripcionPremio(String st1) {
+    private String obtenerDescripcionPremio(String nombrePremio) {
+        usuario = obtenerUsuarioActual()
+        getNombreUsuario(usuario)
+        obtenerDescripcionPremio(nombrePremio)
         // TODO
         return "";
     }
