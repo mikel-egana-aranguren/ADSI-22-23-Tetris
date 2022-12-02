@@ -3,7 +3,7 @@ package com.zetcode;
 import java.util.ArrayList;
 
 public class GestorPremios {
-    public ArrayList<Premio> obtenerPremios(String nombreUsuario) {
+    public static ArrayList<Premio> obtenerPremios(String nombreUsuario) {
         String resultado; // TODO
         resultado = execSQL(String.format(""
             + "SELECT nombrepremio, progreso, progresoMax "
@@ -27,7 +27,7 @@ public class GestorPremios {
         return null;
     }
 
-    public String obtenerDescripcionPremio(String nombrePremio) {
+    public static String obtenerDescripcionPremio(String nombrePremio) {
         String resultado; // TODO
         resultado = execSQL(String.format(""
             + "SELECT descripcion, progreso, progresoMax "
@@ -42,12 +42,12 @@ public class GestorPremios {
         return "";
     }
 
-    private void comprobarProgresoPremios() {
+    private static void comprobarProgresoPremios() {
         ArrayList<Premio> premios = obtenerPremiosProgresados();
         guardarProgresoPremios(premios);
     }
 
-    private ArrayList<Premio> obtenerPremiosProgresados() {
+    private static ArrayList<Premio> obtenerPremiosProgresados() {
         Premio pcf = obtenerPremioColocarFichas();
         Premio pef = obtenerPremioEliminarFilas();
         Premio pht = obtenerPremioHacerTetris();
@@ -66,13 +66,12 @@ public class GestorPremios {
         return listaPremios;
     }
 
-    private Premio obtenerPremioColocarFichas() {
-        GestorUsuario gu = null; // TODO
-        GestorPartida gpar = null; // TODO
+    private static Premio obtenerPremioColocarFichas() {
+        GestorUsuario gu = GestorUsuario.getGestor();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
-        Integer fichas = gpar.fichasColocadas(partida);
+        Integer fichas = GestorPartida.fichasColocadas(partida);
 
         Premio p = null;
         if (fichas > 0) {
@@ -82,13 +81,12 @@ public class GestorPremios {
         return p;
     }
 
-    private Premio obtenerPremioEliminarFilas() {
-        GestorUsuario gu = null; // TODO
-        GestorPartida gpar = null; // TODO
+    private static Premio obtenerPremioEliminarFilas() {
+        GestorUsuario gu = GestorUsuario.getGestor();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
-        Integer filas = gpar.filasEliminadas(partida);
+        Integer filas = GestorPartida.filasEliminadas(partida);
 
         Premio p = null;
         if (filas > 0) {
@@ -98,13 +96,12 @@ public class GestorPremios {
         return p;
     }
 
-    private Premio obtenerPremioHacerTetris() {
-        GestorUsuario gu = null; // TODO
-        GestorPartida gpar = null; // TODO
+    private static Premio obtenerPremioHacerTetris() {
+        GestorUsuario gu = GestorUsuario.getGestor();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
-        Integer tetrises = gpar.tetrisHechos(partida);
+        Integer tetrises = GestorPartida.tetrisHechos(partida);
 
         Premio p = null;
         if (tetrises > 0) {
@@ -114,59 +111,52 @@ public class GestorPremios {
         return p;
     }
 
-    private void guardarProgresoPremios(ArrayList<Premio> premios) {
-        GestorUsuario gu = null; // TODO
-        GestorPartida gpar = null; // TODO
+    private static void guardarProgresoPremios(ArrayList<Premio> premios) {
+        GestorUsuario gu = GestorUsuario.getGestor();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
-        gpar.anadirPremios(partida, premios);
+        GestorPartida.anadirPremios(partida, premios);
     }
 
-    private void comprobarProgresoPremiosFinalPartida() {
+    private static void comprobarProgresoPremiosFinalPartida() {
         ArrayList<Premio> premios = obtenerPremiosProgresadosFinalPartida();
         premios.forEach(premio -> progresarPremio(premio));
     }
 
-    private ArrayList<String> obtenerPremiosCompletados(String usu, ArrayList<Premio> listaPremios) {
+    private static ArrayList<String> obtenerPremiosCompletados(String usu, ArrayList<Premio> listaPremios) {
         // TODO
         return null;
     }
 
-    private ArrayList<Premio> obtenerPremiosProgresadosFinalPartida() {
-        GestorUsuario gu = null; // TODO
-        GestorPartida gpar = null; // TODO
+    private static ArrayList<Premio> obtenerPremiosProgresadosFinalPartida() {
+        GestorUsuario gu = GestorUsuario.getGestor();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
         obtenerPremioDificultad(partida, usuario);
         obtenerPremioPuntos(partida);
         comprobarProgresoPremios();
-        return gpar.obtenerPremios(partida);
+        return GestorPartida.obtenerPremios(partida);
     }
 
-    private Premio obtenerPremioDificultad(Partida partida, Usuario usuario) {
-        GestorPartida gpar = null; // TODO
-        GestorDificultad gdif = null; // TODO
-
-        Integer puntos = gpar.obtenerPuntos(partida);
-        Dificultad dificultad = gdif.buscarDificultad(usuario);
+    private static Premio obtenerPremioDificultad(Partida partida, Usuario usuario) {
+        Integer puntos = GestorPartida.obtenerPuntos(partida);
+        Dificultad dificultad = GestorDificultad.buscarDificultad(usuario);
 
         Premio p = new Premio("%dependiendo de la dificultad", puntos, null); // TODO
         return p;
     }
 
-    private Premio obtenerPremioPuntos(Partida partida) {
-        GestorPartida gpar = null; // TODO
-
-        Integer puntos = gpar.obtenerPuntos(partida);
+    private static Premio obtenerPremioPuntos(Partida partida) {
+        Integer puntos = GestorPartida.obtenerPuntos(partida);
 
         Premio p = new Premio("puntos totales obtenidos", puntos, null); // TODO
         return p;
     }
 
-    private void progresarPremio(Premio premio) {
-        GestorUsuario gu = null; // TODO
+    private static void progresarPremio(Premio premio) {
+        GestorUsuario gu = GestorUsuario.getGestor();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         String nusuario = gu.getNombreUsuario(usuario);

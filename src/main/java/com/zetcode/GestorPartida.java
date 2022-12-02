@@ -4,27 +4,27 @@ import java.util.ArrayList;
 
 public class GestorPartida {
 
-    public Integer fichasColocadas(Partida partida) {
+    public static Integer fichasColocadas(Partida partida) {
         return partida.fichasColocadas();
     }
 
-    public Integer filasEliminadas(Partida partida) {
+    public static Integer filasEliminadas(Partida partida) {
         return partida.filasEliminadas();
     }
 
-    public Integer tetrisHechos(Partida partida) {
+    public static Integer tetrisHechos(Partida partida) {
         return partida.tetrisHechos();
     }
 
-    public void anadirPremios(Partida partida, ArrayList<Premio> premios) {
+    public static void anadirPremios(Partida partida, ArrayList<Premio> premios) {
         partida.anadirPremios(premios);
     }
 
-    public ArrayList<Premio> obtenerPremios(Partida partida) {
+    public static ArrayList<Premio> obtenerPremios(Partida partida) {
         return partida.obtenerPremios();
     }
 
-    public Integer obtenerPuntos(Partida partida) {
+    public static Integer obtenerPuntos(Partida partida) {
         return partida.obtenerPuntos();
     }
 }
