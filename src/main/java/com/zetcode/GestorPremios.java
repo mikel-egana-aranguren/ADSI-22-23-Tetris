@@ -106,7 +106,13 @@ public class GestorPremios {
         return null;
     }
 
-    private ArrayList<Premio> obtenerPremiosProgresoadosFinalPartida() {
+    private ArrayList<Premio> obtenerPremiosProgresadosFinalPartida() {
+        usuario = obtenerUsuarioActual()
+        partida = obtenerPartidaUsuario(usuario)
+        obtenerPremioDificultad(partida, usuario)
+        obtenerPremioPuntos(partida)
+        comprobarProgresoPremios()
+        obtenerPremios(partida)
         // TODO
         return null;
     }
