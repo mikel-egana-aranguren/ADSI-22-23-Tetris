@@ -11,45 +11,46 @@ public class Partida {
     private int idPartida;
     private ArrayList<Ficha> listaFichas;
 
-    private int fichasColocadas() {
-        // TODO
-        return 0;
+    public int fichasColocadas() {
+        int fichas = fichasColocadas;
+        resetearContadorFichas();
+        return fichas;
     }
 
     private void resetearContadorFichas() {
-        // TODO
+        fichasColocadas = 0;
     }
 
-    private int filasEliminadas() {
-        // TODO
-        return 0;
+    public int filasEliminadas() {
+        int filas = filasEliminadas;
+        resetearContadorFilas();
+        return filas;
     }
 
     private void resetearContadorFilas() {
-        // TODO
+        filasEliminadas = 0;
     }
 
-    private int tetrisHechos() {
-        // TODO
-        return 0;
+    public int tetrisHechos() {
+        int tetrises = tetrisHechos;
+        resetearContadorTetris();
+        return tetrises;
     }
 
     private void resetearContadorTetris() {
-        // TODO
+        tetrisHechos = 0;
     }
 
-    private void anadirPremios(ArrayList<Premio> premios) {
+    public void anadirPremios(ArrayList<Premio> premios) {
         // TODO
     }
     
-    private int obtenerPuntos() {
-        // TODO
-        return 0;
+    public int obtenerPuntos() {
+        return puntos;
     }
 
-    private ArrayList<Premio> obtenerPremios() {
-        // TODO
-        return null;
+    public ArrayList<Premio> obtenerPremios() {
+        return premios;
     }
 
     private int obtenerId() {

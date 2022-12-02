@@ -3,102 +3,129 @@ package com.zetcode;
 import java.util.ArrayList;
 
 public class GestorPremios {
-    private ArrayList<Premio> obtenerPremios(String nombreUsuario) {
-        resultado = esecSQL("""
-            SELECT nombrepremio, progreso, progresoMax
-            FROM Premio JOIN PremioObtenido
-                ON PremioObtenido.nombrepremio=Premio.Nombre
-            WHERE PremioObtenido.nombreusuario=%nombreUsuario%
-            """);
-        resultado.next()
-        nombre = resultado.getSring("nombre")
-        progreso = resultado.getInt("progreso")
-        progresoMax = resultado.getInt("progresoMax")
-        new Premio(nombre, progreso, progresoMax)
-        resultado = execSQL("""
-            SELECT nombrepremio, progresoMax
-            FROM Premio""")
-        resultado.next()
-        nombre = resultado.getString("nombre")
-        progresoMax = resultado.getInt("progresoMax")
-        new Premio(nombre, 0, progresoMax)
+    public ArrayList<Premio> obtenerPremios(String nombreUsuario) {
+        String resultado; // TODO
+        resultado = execSQL(String.format(""
+            + "SELECT nombrepremio, progreso, progresoMax "
+            + "FROM Premio JOIN PremioObtenido "
+                + "ON PremioObtenido.nombrepremio=Premio.Nombre "
+            + "WHERE PremioObtenido.nombreusuario='%s'"
+            , nombreUsuario));
+        resultado.next();
+        String nombre = resultado.getSring("nombre");
+        Integer progreso = resultado.getInt("progreso");
+        Integer progresoMax = resultado.getInt("progresoMax");
+        Premio premio = new Premio(nombre, progreso, progresoMax);
+        resultado = execSQL(""
+            + "SELECT nombrepremio, progresoMax "
+            + "FROM Premio");
+        resultado.next();
+        nombre = resultado.getString("nombre");
+        progresoMax = resultado.getInt("progresoMax");
+        new Premio(nombre, 0, progresoMax);
         // TODO
         return null;
     }
 
-    private String obtenerDescripcionPremio(String nombrePremio) {
-        resultado = execSQL("""
-            SELECT descripcion, progreso, progresoMax
-            FROM Premio JOIN PremioObtenido
-                ON PremioObtenido.nombrepremio=Premio.Nombre
-            WHERE PremioObtenido.nombrepremio=%nombrePRemio%
-            """)
+    public String obtenerDescripcionPremio(String nombrePremio) {
+        String resultado; // TODO
+        resultado = execSQL(String.format(""
+            + "SELECT descripcion, progreso, progresoMax "
+            + "FROM Premio JOIN PremioObtenido "
+                + "ON PremioObtenido.nombrepremio=Premio.Nombre "
+            + "WHERE PremioObtenido.nombrepremio='%s'", nombrePremio));
         
-        descripcion = resultado.getString("descripcion")
-        progreso = resultado.getInt("progreso")
-        progresoMax = resultado.getInt("progresoMax")
+        String descripcion = resultado.getString("descripcion");
+        Integer progreso = resultado.getInt("progreso");
+        Integer progresoMax = resultado.getInt("progresoMax");
         // TODO
         return "";
     }
 
     private void comprobarProgresoPremios() {
-        premios = obtenerPremiosProgresados()
-        guardarProgresoPremios(premios)
-        // TODO
+        ArrayList<Premio> premios = obtenerPremiosProgresados();
+        guardarProgresoPremios(premios);
     }
 
     private ArrayList<Premio> obtenerPremiosProgresados() {
-        obtenerPremioColocarFichas()
-        obtenerPremioEliminarFilas()
-        obtenerPremioHacerTetris()
-        // TODO
-        return null;
+        Premio pcf = obtenerPremioColocarFichas();
+        Premio pef = obtenerPremioEliminarFilas();
+        Premio pht = obtenerPremioHacerTetris();
+
+        ArrayList<Premio> listaPremios = new ArrayList<Premio>();
+        if (pcf != null) {
+            listaPremios.add(pcf);
+        }
+        if (pef != null) {
+            listaPremios.add(pef);
+        }
+        if (pht != null) {
+            listaPremios.add(pht);
+        }
+
+        return listaPremios;
     }
 
     private Premio obtenerPremioColocarFichas() {
-        usuario = obtenerUsuarioActual()
-        partida = obtenerPartidaUsuario(usuario)
-        fichas = fichasColocadas(partida)
-        if fichas > 0 {
-            new Premio("fichas colocadas", fichas, null)
+        GestorUsuario gu = null; // TODO
+        GestorPartida gpar = null; // TODO
+
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+        Integer fichas = gpar.fichasColocadas(partida);
+
+        Premio p = null;
+        if (fichas > 0) {
+            p = new Premio("fichas colocadas", fichas, null);
         }
-        // TODO
-        return null;
+
+        return p;
     }
 
     private Premio obtenerPremioEliminarFilas() {
-        usuario = obtenerUsuarioActual()
-        partida = obtenerPartidaUsuario(usuario)
-        filas = filasEliminadas(partida)
-        if filas > 0 {
-            new Premio("filas eliminadas", filas, null)
+        GestorUsuario gu = null; // TODO
+        GestorPartida gpar = null; // TODO
+
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+        Integer filas = gpar.filasEliminadas(partida);
+
+        Premio p = null;
+        if (filas > 0) {
+            p = new Premio("filas eliminadas", filas, null);
         }
-        // TODO
-        return null;
+
+        return p;
     }
 
-    private Premio obtenerPremioHacerTetris(String st1) {
-        usuario = obtenerUsuarioActual()
-        partida = obtenerPartidaUsuario(usuario)
-        tetrises = tetrisHechos(partida)
-        if tetrises > 0 {
-            new Premio("tetris hechos", tetrises, null)
+    private Premio obtenerPremioHacerTetris() {
+        GestorUsuario gu = null; // TODO
+        GestorPartida gpar = null; // TODO
+
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+        Integer tetrises = gpar.tetrisHechos(partida);
+
+        Premio p = null;
+        if (tetrises > 0) {
+            p = new Premio("tetris hechos", tetrises, null);
         }
-        // TODO
-        return null;
+
+        return p;
     }
 
-    private void guardarProgresoPremios(ArrayList<Premio> ar1) {
-        usuario = obtenerUsuarioActual()
-        partida = obtenerPartidaUsuario(usuario)
-        añadirPremios(partida, premios)
-        // TODO
+    private void guardarProgresoPremios(ArrayList<Premio> premios) {
+        GestorUsuario gu = null; // TODO
+        GestorPartida gpar = null; // TODO
+
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+        gpar.anadirPremios(partida, premios);
     }
 
     private void comprobarProgresoPremiosFinalPartida() {
-        premios = obtenerPremiosProgresadosFinalPartida()
-        progresarPremio(premios[i])
-        // TODO
+        ArrayList<Premio> premios = obtenerPremiosProgresadosFinalPartida();
+        premios.forEach(premio -> progresarPremio(premio));
     }
 
     private ArrayList<String> obtenerPremiosCompletados(String usu, ArrayList<Premio> listaPremios) {
@@ -107,50 +134,66 @@ public class GestorPremios {
     }
 
     private ArrayList<Premio> obtenerPremiosProgresadosFinalPartida() {
-        usuario = obtenerUsuarioActual()
-        partida = obtenerPartidaUsuario(usuario)
-        obtenerPremioDificultad(partida, usuario)
-        obtenerPremioPuntos(partida)
-        comprobarProgresoPremios()
-        obtenerPremios(partida)
-        // TODO
-        return null;
+        GestorUsuario gu = null; // TODO
+        GestorPartida gpar = null; // TODO
+
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+        obtenerPremioDificultad(partida, usuario);
+        obtenerPremioPuntos(partida);
+        comprobarProgresoPremios();
+        return gpar.obtenerPremios(partida);
     }
 
-    private Premio obtenerPremioDificultad(Partida p1, Usuario u1) {
-        puntos = obtenerPuntos(partida)
-        dificultad = buscarDificultad(usuario)
-        new Premio("%dependiendo de la dificultad", puntos, null)
-        // TODO
-        return null;
+    private Premio obtenerPremioDificultad(Partida partida, Usuario usuario) {
+        GestorPartida gpar = null; // TODO
+        GestorDificultad gdif = null; // TODO
+
+        Integer puntos = gpar.obtenerPuntos(partida);
+        Dificultad dificultad = gdif.buscarDificultad(usuario);
+
+        Premio p = new Premio("%dependiendo de la dificultad", puntos, null); // TODO
+        return p;
     }
 
-    private Premio obtenerPremioPuntos(Partida p1) {
-        puntos = obtenerPuntos(partida)
-        new Premio("puntos totales obtenidos", puntos, null)
-        // TODO
-        return null;
+    private Premio obtenerPremioPuntos(Partida partida) {
+        GestorPartida gpar = null; // TODO
+
+        Integer puntos = gpar.obtenerPuntos(partida);
+
+        Premio p = new Premio("puntos totales obtenidos", puntos, null); // TODO
+        return p;
     }
 
-    private void progresarPremio(Premio p1) {
-        usuario = obtenerUsuarioActual()
-        nusuario = getNombreUsuario(usuario)
-        npremio = getNombre()
-        progreso = getProgreso()
-        execSQL("""
-            INSERT INTO PremioObtenido(nombrepremio, nombreusuario, progreso
-            VALUES (%npremio%, %nusuario%, 0)
-            WHERE %npremio% NOT IN
-                (SELECT nombrepremio
-                FROM PremioObtenido
-                WHERE nombreusuario=%nusuario%)
-                """)
-        execSQL("""
-                UPDATE PremioObtenido
-                SET progreso=progreso+%progreso%
-                WHERE nombrepremio=%npremio%
-                    AND nombreusuario=%nusuario%
-                """;)
+    private void progresarPremio(Premio premio) {
+        GestorUsuario gu = null; // TODO
+
+        Usuario usuario = gu.obtenerUsuarioActual();
+        String nusuario = gu.getNombreUsuario(usuario);
+        String npremio = premio.getNombre();
+        Integer progreso = premio.getProgreso();
+        execSQL(String.format(""
+            + "INSERT INTO PremioObtenido(nombrepremio, nombreusuario, progreso "
+            + "VALUES ('%s', '%s', 0) "
+            + "WHERE '%s' NOT IN "
+                + "(SELECT nombrepremio "
+                + "FROM PremioObtenido "
+                + "WHERE nombreusuario='%s')",
+            npremio, nusuario,
+            npremio,
+
+
+            nusuario
+            ));
+        execSQL(String.format(""
+                + "UPDATE PremioObtenido "
+                + "SET progreso=progreso+%s "
+                + "WHERE nombrepremio='%s' "
+                    + "AND nombreusuario='%s'",
+                progreso,
+                npremio,
+                nusuario
+            ));
         // TODO
     }
 }

@@ -3,24 +3,23 @@ package com.zetcode;
 public class Premio {
     private String nombre;
     private int progreso;
-    private int progresoMax;
+    private Integer progresoMax;
 
-    private Premio(String st1, int i1, int i2) {
-        // TODO
+    public Premio(String pNombre, int pProgreso, Integer pProgresoMax) {
+        nombre = pNombre;
+        progreso = pProgreso;
+        progresoMax = pProgresoMax;
     }
 
-    private String getNombre() {
-        // TODO
-        return "";
+    public String getNombre() {
+        return nombre;
     }
 
-    private int getProgreso() {
-        // TODO
-        return 0;
+    public int getProgreso() {
+        return progreso;
     }
 
-    private int getProgresoMax() {
-        // TODO
-        return 0;
+    public int getProgresoMax() {
+        return progresoMax;
     }
 }

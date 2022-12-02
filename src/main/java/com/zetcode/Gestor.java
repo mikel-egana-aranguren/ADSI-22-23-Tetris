@@ -1,25 +1,37 @@
 package com.zetcode;
 
 import java.util.ArrayList;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Gestor {
-    private String obtenerPremios() {
-        usuario = obtenerUsuarioActual()
-        nombreUsuario = getNombreUsuario(usuario)
-        GestorPremios.obtenerPremios(nombreUsuario)
-        getNombre()
-        getProgreso()
-        getProgresoMax()
-        // TODO
-        return "";
+    private JSONArray obtenerPremios() {
+        GestorUsuario gu = null; // TODO
+        GestorPremios gp = null; // TODO
+        Usuario usuario = gu.obtenerUsuarioActual();
+        String nombreUsuario = gu.getNombreUsuario(usuario);
+        ArrayList<Premio> premios = gp.obtenerPremios(nombreUsuario);
+        JSONArray premiosjson = new JSONArray(premios.stream().map(
+            premio -> {
+                JSONObject json = new JSONObject();
+                json.put("nombrePremio", premio.getNombre());
+                json.put("progreso", premio.getProgreso());
+                json.put("ProgresoMax", premio.getProgresoMax());
+                return json;
+            }).collect(Collectors.toList()
+        ));
+        return premiosjson;
     }
 
     private String obtenerDescripcionPremio(String nombrePremio) {
-        usuario = obtenerUsuarioActual()
-        getNombreUsuario(usuario)
-        obtenerDescripcionPremio(nombrePremio)
-        // TODO
-        return "";
+        GestorUsuario gu = null; // TODO
+        GestorPremios gp = null; // TODO
+        Usuario usuario = gu.obtenerUsuarioActual();
+        gu.getNombreUsuario(usuario);
+        return gp.obtenerDescripcionPremio(nombrePremio);
     }
 
     private String getRankingGlobal() {
