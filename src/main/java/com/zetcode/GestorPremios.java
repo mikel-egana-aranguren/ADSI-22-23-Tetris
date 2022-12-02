@@ -2,32 +2,44 @@ package com.zetcode;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 public class GestorPremios {
     public static ArrayList<Premio> obtenerPremios(String nombreUsuario) {
+        ArrayList<Premio> listaPremios = new ArrayList<Premio>();
+
         String resultado; // TODO
         resultado = execSQL(String.format(""
             + "SELECT nombrepremio, progreso, progresoMax "
             + "FROM Premio JOIN PremioObtenido "
                 + "ON PremioObtenido.nombrepremio=Premio.Nombre "
-            + "WHERE PremioObtenido.nombreusuario='%s'"
-            , nombreUsuario));
-        resultado.next();
-        String nombre = resultado.getSring("nombre");
-        Integer progreso = resultado.getInt("progreso");
-        Integer progresoMax = resultado.getInt("progresoMax");
-        Premio premio = new Premio(nombre, progreso, progresoMax);
+            + "WHERE PremioObtenido.nombreusuario='%s'",
+            nombreUsuario
+        ));
+        while (resultado.next()) {
+            String nombre = resultado.getSring("nombre");
+            Integer progreso = resultado.getInt("progreso");
+            Integer progresoMax = resultado.getInt("progresoMax");
+            Premio premio = new Premio(nombre, progreso, progresoMax);
+
+            listaPremios.add(premio);
+        };
+
         resultado = execSQL(""
             + "SELECT nombrepremio, progresoMax "
             + "FROM Premio");
-        resultado.next();
-        nombre = resultado.getString("nombre");
-        progresoMax = resultado.getInt("progresoMax");
-        new Premio(nombre, 0, progresoMax);
-        // TODO
-        return null;
+        while (resultado.next()) {
+            String nombre = resultado.getString("nombre");
+            Integer progresoMax = resultado.getInt("progresoMax");
+            Premio premio = new Premio(nombre, 0, progresoMax);
+
+            listaPremios.add(premio);
+        }
+
+        return listaPremios;
     }
 
-    public static String obtenerDescripcionPremio(String nombrePremio) {
+    public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
         String resultado; // TODO
         resultado = execSQL(String.format(""
             + "SELECT descripcion, progreso, progresoMax "
@@ -38,8 +50,14 @@ public class GestorPremios {
         String descripcion = resultado.getString("descripcion");
         Integer progreso = resultado.getInt("progreso");
         Integer progresoMax = resultado.getInt("progresoMax");
-        // TODO
-        return "";
+
+        JSONObject json = new JSONObject();
+    
+        json.put("nombre", nombrePremio);
+        json.put("descripcion", descripcion);
+        json.put("progreso", progreso);
+        json.put("ProgresoMax", progresoMax);
+        return json;
     }
 
     private static void comprobarProgresoPremios() {
@@ -151,7 +169,7 @@ public class GestorPremios {
     private static Premio obtenerPremioPuntos(Partida partida) {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
 
-        Premio p = new Premio("puntos totales obtenidos", puntos, null); // TODO
+        Premio p = new Premio("puntos totales obtenidos", puntos, null);
         return p;
     }
 
