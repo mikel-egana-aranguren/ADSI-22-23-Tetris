@@ -9,11 +9,10 @@ import org.json.JSONObject;
 
 public class Gestor {
     private JSONArray obtenerPremios() {
-        GestorUsuario gu = null; // TODO
-        GestorPremios gp = null; // TODO
+        GestorUsuario gu = GestorUsuario.getGestor();
         Usuario usuario = gu.obtenerUsuarioActual();
         String nombreUsuario = gu.getNombreUsuario(usuario);
-        ArrayList<Premio> premios = gp.obtenerPremios(nombreUsuario);
+        ArrayList<Premio> premios = GestorPremios.obtenerPremios(nombreUsuario);
         JSONArray premiosjson = new JSONArray(premios.stream().map(
             premio -> {
                 JSONObject json = new JSONObject();
@@ -26,12 +25,11 @@ public class Gestor {
         return premiosjson;
     }
 
-    private String obtenerDescripcionPremio(String nombrePremio) {
-        GestorUsuario gu = null; // TODO
-        GestorPremios gp = null; // TODO
+    private JSONObject obtenerDescripcionPremio(String nombrePremio) {
+        GestorUsuario gu = GestorUsuario.getGestor();
         Usuario usuario = gu.obtenerUsuarioActual();
         gu.getNombreUsuario(usuario);
-        return gp.obtenerDescripcionPremio(nombrePremio);
+        return GestorPremios.obtenerDescripcionPremio(nombrePremio);
     }
 
     private String getRankingGlobal() {
