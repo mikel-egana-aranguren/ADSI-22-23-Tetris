@@ -44,7 +44,7 @@ public class premiodescripcion extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton.setBounds(12, 42, 195, 176);
 		contentPane.add(btnNewButton);
 		

@@ -44,12 +44,12 @@ public class menupremios extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton.setBounds(34, 56, 195, 184);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton_1.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -58,22 +58,22 @@ public class menupremios extends JFrame {
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("");
-		btnNewButton_2.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton_2.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton_2.setBounds(454, 56, 195, 184);
 		contentPane.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("");
-		btnNewButton_3.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton_3.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton_3.setBounds(34, 283, 195, 184);
 		contentPane.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("");
-		btnNewButton_4.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton_4.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton_4.setBounds(241, 283, 195, 184);
 		contentPane.add(btnNewButton_4);
 		
 		JButton btnNewButton_5 = new JButton("");
-		btnNewButton_5.setIcon(new ImageIcon("documentacion/premio.png"));
+		btnNewButton_5.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
 		btnNewButton_5.setBounds(454, 283, 195, 184);
 		contentPane.add(btnNewButton_5);
 		
