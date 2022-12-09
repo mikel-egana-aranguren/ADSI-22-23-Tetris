@@ -3,7 +3,20 @@ package eus.ehu.lsi.adsi;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import org.junit.After;
+import org.junit.Before;
+
 public class TestPremios {
+
+    @Before  
+    public void setUp() {   
+        
+    }
+
+    @After  
+    public void tearDown() {   
+        
+    }   
 
     /**
      * <h2>Test 6.0</h2>
@@ -19,6 +32,9 @@ public class TestPremios {
         // 2. Abrir la ventana de los premios
         // 3. Imprimir un mensaje para que el tester compruebe que aparece como obtenido
         // 4. Borrar el progreso del premio
+        execSQL(
+            "INSERT INTO Usuario(NombreUsuario) VALUES (TEST)"
+        )
         fail("Not yet implemented");
 	}
 
