@@ -13,14 +13,14 @@ public class GestorPremios {
     }
 
     public String premioPartida(String codPartida, String nomUsuario) {
-
+        return null;
     }
 
     public Boolean hayLogros(){
-
+        return true;
     }
 
-    public JsonObject obtenerLogro(){
-
+    public String obtenerLogro(){
+        return null;
     }
 }

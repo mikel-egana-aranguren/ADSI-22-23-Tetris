@@ -17,29 +17,30 @@ public class GestorUsuarios {
     }
 
     public Boolean comprobarUsuario(String nomUsu, String pwd){
-
+        return null;
     }
     public Boolean comprobarContrasena(String pwd, String pwd2){
-
+        return null;
     }
 
     public Boolean existeUsuario(String nomUsu){
-
+        return null;
     }
     public void personalizacion(String colorFondo, String colorBloques, int volumen, String sonidoAcciones){
 
     }
 
-    public JsonObject obtenerRankingAbsPersonal(){
-
+    public String obtenerRankingAbsPersonal(){
+        // NO HE PEUSTO QUE DEVUELVE STRING PARA PODER EJECUTAR LAS OTRAS CLASES SIN HACER ESTA TODAVIA
+        return null;
     }
-    public JsonObject obtenerRankingAbsGlobal(){
-
+    public String obtenerRankingAbsGlobal(){
+        return null;
     }
-    public JsonObject obtenerRankingPorNivelPersonal(){
-
+    public String obtenerRankingPorNivelPersonal(){
+        return null;
     }
-    public JsonObject obtenerRankingPorNivelGlobal(){
-
+    public String obtenerRankingPorNivelGlobal(){
+        return null;
     }
 }

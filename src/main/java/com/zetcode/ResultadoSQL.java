@@ -7,17 +7,18 @@ public class ResultadoSQL {
     }
 
     public String getString(){
-
+        return null;
     }
-    public Date getDate(){
 
+    public String getDate(){
+        return null;
     }
 
     public int getInt(){
-
+        return 1;
     }
     public Boolean next(){
-
+        return null;
     }
 
 }

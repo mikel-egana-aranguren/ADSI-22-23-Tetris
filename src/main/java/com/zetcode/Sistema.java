@@ -20,7 +20,7 @@ public class Sistema {
     }
 
     public void crearPartida(int nivel, String nomUsuario) {
-        miGestorPartidas.crearPartida();
+        miGestorPartidas.crearPartida(2, "asd");
     }
 
 }

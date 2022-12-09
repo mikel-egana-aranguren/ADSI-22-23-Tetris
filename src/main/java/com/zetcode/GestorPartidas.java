@@ -16,10 +16,10 @@ public class GestorPartidas {
 
     }
     public int getMaximaPuntuacion(String codPartida, String nomUsuario) {
-
+        return 1;
     }
     public int getResultadosPartida(String codPartida, String nomUsuario) {
-
+        return 1;
     }
 
     public void recuperarPartida(){
