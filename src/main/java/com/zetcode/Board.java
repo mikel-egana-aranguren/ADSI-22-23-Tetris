@@ -26,6 +26,8 @@ public class Board extends JPanel {
     private int curY = 0;
     private JLabel statusbar;
     private Shape curPiece;
+
+    // board es la lista de shape y noShape. Es el estado del juegpo
     private Tetrominoe[] board;
 
     public Board(Tetris parent) {
@@ -51,6 +53,7 @@ public class Board extends JPanel {
     }
 
     private Tetrominoe shapeAt(int x, int y) {
+        // Devuelve lo que hay en board[x,y], puede haber un noShape (no hay nada) o un Shape (ladrillo)
 
         return board[(y * BOARD_WIDTH) + x];
     }
@@ -147,6 +150,7 @@ public class Board extends JPanel {
         }
     }
 
+    // Limpia el tablero, recorre cada casilla de board[] y la pone como noShape; borra todos los ladrillos
     private void clearBoard() {
 
         for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; i++) {

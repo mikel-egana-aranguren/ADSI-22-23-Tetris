@@ -20,5 +20,7 @@ public class GestorPremios {
 
     }
 
-    public JsonObject obtenerLogro:
+    public JsonObject obtenerLogro(){
+
+    }
 }

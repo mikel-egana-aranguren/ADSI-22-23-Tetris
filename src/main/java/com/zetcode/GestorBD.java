@@ -1,4 +1,5 @@
 package com.zetcode;
+import java.sql.*;
 
 public class GestorBD {
     private static GestorBD miGestorBD;
@@ -10,5 +11,9 @@ public class GestorBD {
             miGestorBD = new GestorBD();
         }
         return miGestorBD;
+    }
+
+    public crearPartida() {
+        Class.forName("com.mysql.jdbc.Driver");
     }
 }

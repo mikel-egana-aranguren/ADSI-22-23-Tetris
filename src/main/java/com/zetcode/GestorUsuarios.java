@@ -12,7 +12,7 @@ public class GestorUsuarios {
         return miGestorUsuarios;
     }
 
-    public void anadirPartida(String nomUsuario, PARTIDA NO ES UNA CLASE) {
+    public void anadirPartida(String nomUsuario) {
 
     }
 
