@@ -1,5 +1,6 @@
 package com.zetcode;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +12,11 @@ public class EjemploBDD {
         // JDBC driver name and database URL 
         String JDBC_DRIVER = "org.h2.Driver";
         String DB_URL = "jdbc:h2:~/test";
+        try {
+            DB_URL = "jdbc:h2:" + new File("test").getCanonicalPath();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         //  Database credentials 
         String USER = "sa";
