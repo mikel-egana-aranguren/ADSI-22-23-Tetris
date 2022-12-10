@@ -24,6 +24,7 @@ public class SGBD {
     }
 
     private static void inicializar() {
+        inicializado = true;
         String JDBC_DRIVER = "org.h2.Driver";
         try {
             Class.forName(JDBC_DRIVER);
