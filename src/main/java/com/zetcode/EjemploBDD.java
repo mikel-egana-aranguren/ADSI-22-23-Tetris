@@ -9,27 +9,14 @@ import java.sql.Statement;
 
 public class EjemploBDD {
     public static void main(String[] args) {
-        // JDBC driver name and database URL 
-        String JDBC_DRIVER = "org.h2.Driver";
-        String DB_URL = "jdbc:h2:~/test";
-        try {
-            DB_URL = "jdbc:h2:" + new File("test").getCanonicalPath();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        //  Database credentials 
-        String USER = "sa";
-        String PASS = "sa";
         Connection conn = null;
         Statement stmt = null;
-        try { 
-            // STEP 1: Register JDBC driver 
-            Class.forName(JDBC_DRIVER); 
-                
+        
+        try {
+
             //STEP 2: Open a connection 
             System.out.println("Connecting to database..."); 
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            conn = SGBD.getConnection();
             
             //STEP 3: Execute a query 
             System.out.println("Creating table in given database..."); 
@@ -52,15 +39,12 @@ public class EjemploBDD {
             // STEP 4: Clean-up environment 
             stmt.close(); 
             conn.close(); 
-
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);  
-
             
             if (sin_inicializar) {
                 //STEP 2: Open a connection 
                 System.out.println("Connecting to database..."); 
-                conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
+                conn = SGBD.getConnection();
+    
                 //STEP 3: Execute a query 
                 System.out.println("INSERTING..."); 
                 stmt = conn.createStatement(); 
@@ -72,11 +56,11 @@ public class EjemploBDD {
                 stmt.close();
                 conn.close();
             }
-
+    
             //STEP 2: Open a connection 
             System.out.println("Connecting to database..."); 
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
+            conn = SGBD.getConnection();
+    
             //STEP 3: Execute a query 
             System.out.println("SELECTING..."); 
             stmt = conn.createStatement(); 
@@ -90,24 +74,18 @@ public class EjemploBDD {
             // STEP 4: Clean-up environment 
             stmt.close();
             conn.close();
-        } catch(SQLException se) { 
-            //Handle errors for JDBC 
-            se.printStackTrace(); 
-        } catch(Exception e) { 
-            //Handle errors for Class.forName 
-            e.printStackTrace(); 
-        } finally { 
-            //finally block used to close resources 
+       } catch(SQLException se) { 
+            se.printStackTrace();
             try{ 
-                if(stmt!=null) stmt.close(); 
-            } catch(SQLException se2) { 
-            } // nothing we can do 
-            try { 
-                if(conn!=null) conn.close(); 
-            } catch(SQLException se){ 
-                se.printStackTrace(); 
-            } //end finally try 
-        } //end try 
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se2){ 
+                se2.printStackTrace();
+            }
+        }
         System.out.println("Goodbye!");
-    }    
+    }
 }
