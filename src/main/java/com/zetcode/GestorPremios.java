@@ -1,5 +1,9 @@
 package com.zetcode;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
@@ -8,55 +12,105 @@ public class GestorPremios {
     public static ArrayList<Premio> obtenerPremios(String nombreUsuario) {
         ArrayList<Premio> listaPremios = new ArrayList<Premio>();
 
-        String resultado; // TODO
-        resultado = execSQL(String.format(""
-            + "SELECT nombrepremio, progreso, progresoMax "
-            + "FROM Premio JOIN PremioObtenido "
-                + "ON PremioObtenido.nombrepremio=Premio.Nombre "
-            + "WHERE PremioObtenido.nombreusuario='%s'",
-            nombreUsuario
-        ));
-        while (resultado.next()) {
-            String nombre = resultado.getSring("nombre");
-            Integer progreso = resultado.getInt("progreso");
-            Integer progresoMax = resultado.getInt("progresoMax");
-            Premio premio = new Premio(nombre, progreso, progresoMax);
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet resultado;
 
-            listaPremios.add(premio);
-        };
+        try {
+            conn = SGBD.getConnection();
+            stmt = conn.createStatement();
 
-        resultado = execSQL(""
-            + "SELECT nombrepremio, progresoMax "
-            + "FROM Premio");
-        while (resultado.next()) {
-            String nombre = resultado.getString("nombre");
-            Integer progresoMax = resultado.getInt("progresoMax");
-            Premio premio = new Premio(nombre, 0, progresoMax);
+            resultado = stmt.executeQuery(String.format(""
+                + "SELECT nombrepremio, progreso, progresoMax "
+                + "FROM Premio JOIN PremioObtenido "
+                    + "ON PremioObtenido.nombrepremio=Premio.Nombre "
+                + "WHERE PremioObtenido.nombreusuario='%s'",
+                nombreUsuario
+            ));
+            while (resultado.next()) {
+                String nombre = resultado.getString("nombre");
+                Integer progreso = resultado.getInt("progreso");
+                Integer progresoMax = resultado.getInt("progresoMax");
+                Premio premio = new Premio(nombre, progreso, progresoMax);
+    
+                listaPremios.add(premio);
+            };
 
-            listaPremios.add(premio);
-        }
+            conn.close();
+            stmt.close();
+            conn = SGBD.getConnection();
+            stmt = conn.createStatement();
+
+            resultado = stmt.executeQuery(""
+                + "SELECT nombrepremio, progresoMax "
+                + "FROM Premio");
+            while (resultado.next()) {
+                String nombre = resultado.getString("nombre");
+                Integer progresoMax = resultado.getInt("progresoMax");
+                Premio premio = new Premio(nombre, 0, progresoMax);
+    
+                listaPremios.add(premio);
+            }
+
+            conn.close();
+            stmt.close();
+        } catch(SQLException se) { 
+            se.printStackTrace();
+            try{ 
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se2){ 
+                se2.printStackTrace();
+            }
+        } 
 
         return listaPremios;
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
-        String resultado; // TODO
-        resultado = execSQL(String.format(""
-            + "SELECT descripcion, progreso, progresoMax "
-            + "FROM Premio JOIN PremioObtenido "
-                + "ON PremioObtenido.nombrepremio=Premio.Nombre "
-            + "WHERE PremioObtenido.nombrepremio='%s'", nombrePremio));
-        
-        String descripcion = resultado.getString("descripcion");
-        Integer progreso = resultado.getInt("progreso");
-        Integer progresoMax = resultado.getInt("progresoMax");
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet resultado;
+        JSONObject json = null;
 
-        JSONObject json = new JSONObject();
+        try {
+            conn = SGBD.getConnection();
+            stmt = conn.createStatement();
+
+            resultado = stmt.executeQuery(String.format(""
+                + "SELECT descripcion, progreso, progresoMax "
+                + "FROM Premio JOIN PremioObtenido "
+                    + "ON PremioObtenido.nombrepremio=Premio.Nombre "
+                + "WHERE PremioObtenido.nombrepremio='%s'", nombrePremio));
+            
+            String descripcion = resultado.getString("descripcion");
+            Integer progreso = resultado.getInt("progreso");
+            Integer progresoMax = resultado.getInt("progresoMax");
     
-        json.put("nombre", nombrePremio);
-        json.put("descripcion", descripcion);
-        json.put("progreso", progreso);
-        json.put("ProgresoMax", progresoMax);
+            json = new JSONObject();
+        
+            json.put("nombre", nombrePremio);
+            json.put("descripcion", descripcion);
+            json.put("progreso", progreso);
+            json.put("ProgresoMax", progresoMax);
+
+            conn.close();
+            stmt.close();
+        } catch(SQLException se) {
+            se.printStackTrace();
+            try{ 
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se2){
+                se2.printStackTrace();
+            }
+        }
         return json;
     }
 
@@ -176,24 +230,37 @@ public class GestorPremios {
     private static void progresarPremio(Premio premio) {
         GestorUsuario gu = GestorUsuario.getGestor();
 
+        Connection conn = null;
+        Statement stmt = null;
+
         Usuario usuario = gu.obtenerUsuarioActual();
         String nusuario = gu.getNombreUsuario(usuario);
         String npremio = premio.getNombre();
         Integer progreso = premio.getProgreso();
-        execSQL(String.format(""
-            + "INSERT INTO PremioObtenido(nombrepremio, nombreusuario, progreso "
-            + "VALUES ('%s', '%s', 0) "
-            + "WHERE '%s' NOT IN "
-                + "(SELECT nombrepremio "
-                + "FROM PremioObtenido "
-                + "WHERE nombreusuario='%s')",
-            npremio, nusuario,
-            npremio,
+        try {
+            conn = SGBD.getConnection();
+            stmt = conn.createStatement();
 
-
-            nusuario
+            stmt.executeUpdate(String.format(""
+                + "INSERT INTO PremioObtenido(nombrepremio, nombreusuario, progreso "
+                + "VALUES ('%s', '%s', 0) "
+                + "WHERE '%s' NOT IN "
+                    + "(SELECT nombrepremio "
+                    + "FROM PremioObtenido "
+                    + "WHERE nombreusuario='%s')",
+                npremio, nusuario,
+                npremio,
+    
+    
+                nusuario
             ));
-        execSQL(String.format(""
+
+            conn.close();
+            stmt.close();
+            conn = SGBD.getConnection();
+            stmt = conn.createStatement();
+
+            stmt.executeUpdate(String.format(""
                 + "UPDATE PremioObtenido "
                 + "SET progreso=progreso+%s "
                 + "WHERE nombrepremio='%s' "
@@ -202,6 +269,21 @@ public class GestorPremios {
                 npremio,
                 nusuario
             ));
-        // TODO
+            // TODO
+
+            conn.close();
+            stmt.close();
+        } catch(SQLException se) {
+            se.printStackTrace();
+            try{ 
+                if(stmt!=null) stmt.close();
+            } catch(SQLException se2) {
+            }
+            try {
+                if(conn!=null) conn.close();
+            } catch(SQLException se2){
+                se2.printStackTrace();
+            }
+        }
     }
 }
