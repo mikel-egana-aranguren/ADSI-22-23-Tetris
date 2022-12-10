@@ -71,15 +71,21 @@ public class Tetris extends JFrame {
             
             //STEP 3: Execute a query 
             System.out.println("Creating table in given database..."); 
-            stmt = conn.createStatement(); 
-            String sql =  "CREATE TABLE   REGISTRATION4 " + 
+            stmt = conn.createStatement();
+            String sql = null;
+            boolean sin_inicializar = true;
+            try {
+                sql = "CREATE TABLE   REGISTRATION " +
                 "(id INTEGER not NULL, " + 
                 " first VARCHAR(255), " +  
                 " last VARCHAR(255), " +  
                 " age INTEGER, " +  
                 " PRIMARY KEY ( id ))";  
-            stmt.executeUpdate(sql);
-            System.out.println("Created table in given database..."); 
+                stmt.executeUpdate(sql);
+                System.out.println("Created table in given database...");     
+            } catch (Exception e) {
+                sin_inicializar = false;
+            }
             
             // STEP 4: Clean-up environment 
             stmt.close(); 
@@ -87,20 +93,23 @@ public class Tetris extends JFrame {
 
             conn = DriverManager.getConnection(DB_URL,USER,PASS);  
 
-            //STEP 2: Open a connection 
-            System.out.println("Connecting to database..."); 
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-            //STEP 3: Execute a query 
-            System.out.println("INSERTING..."); 
-            stmt = conn.createStatement(); 
-            sql =  "INSERT INTO REGISTRATION(id, age) VALUES (5, 19)";
-            stmt.executeUpdate(sql);
-            System.out.println("INSERTED...");
             
-            // STEP 4: Clean-up environment 
-            stmt.close();
-            conn.close();
+            if (sin_inicializar) {
+                //STEP 2: Open a connection 
+                System.out.println("Connecting to database..."); 
+                conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+                //STEP 3: Execute a query 
+                System.out.println("INSERTING..."); 
+                stmt = conn.createStatement(); 
+                sql =  "INSERT INTO REGISTRATION(id, age) VALUES (5, 19)";
+                stmt.executeUpdate(sql);
+                System.out.println("INSERTED...");
+                
+                // STEP 4: Clean-up environment 
+                stmt.close();
+                conn.close();
+            }
 
             //STEP 2: Open a connection 
             System.out.println("Connecting to database..."); 
@@ -109,11 +118,12 @@ public class Tetris extends JFrame {
             //STEP 3: Execute a query 
             System.out.println("SELECTING..."); 
             stmt = conn.createStatement(); 
-            sql =  "SELECT (id, age) FROM REGISTRATION WHERE id=5";
+            sql =  "SELECT id, age FROM REGISTRATION WHERE id=5";
             ResultSet result = stmt.executeQuery(sql);
             System.out.println("SELECTED...");
-            System.out.println(result.findColumn("id"));
-            System.out.println(result.findColumn("age"));
+            result.next();
+            System.out.println(result.getInt("id"));
+            System.out.println(result.getInt("age"));
             
             // STEP 4: Clean-up environment 
             stmt.close();
