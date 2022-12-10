@@ -36,5 +36,12 @@ public class SGBD {
         } catch (Exception e) {
             System.err.println(e);
         }
+
+        // TODO: Ver si database.sql ya ha sido inicializada
+        /*
+         * if (no ha sido inicializada) {
+         *      // TODO: Inicializar database.sql aquí
+         * }
+        */
     }
 }
