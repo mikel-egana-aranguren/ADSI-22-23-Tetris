@@ -47,20 +47,24 @@ public class SGBD {
             System.err.println(e);
         }
     	
+        Boolean bdd_existe = false;
         try {
             ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PREMIO");
             resultado.next();
             resultado.getString("nombre");
+            bdd_existe = true;
         } catch (Exception e) {
-            System.err.println(e);
+            // La base de datos no existe, no hay que hacer nada porque bdd_existe ya es false
         }
 
-        try {
-            ScriptRunner sr = new ScriptRunner(conexion);
-            Reader reader = new BufferedReader(new FileReader("database.sql"));
-            sr.runScript(reader);
-        } catch (FileNotFoundException e) {
-            System.err.println(e);
+        if (!bdd_existe) {
+            try {
+                ScriptRunner sr = new ScriptRunner(conexion);
+                Reader reader = new BufferedReader(new FileReader("database.sql"));
+                sr.runScript(reader);
+            } catch (FileNotFoundException e) {
+                System.err.println(e);
+            }
         }
     }
     
