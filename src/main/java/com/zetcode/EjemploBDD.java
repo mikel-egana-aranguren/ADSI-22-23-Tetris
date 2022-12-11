@@ -33,6 +33,7 @@ public class EjemploBDD {
             System.out.println(result.getInt("id"));
             System.out.println(result.getInt("age"));
         } catch(Exception e) {
+            e.printStackTrace();
             System.err.println("Ha habido un problema");
         }
 

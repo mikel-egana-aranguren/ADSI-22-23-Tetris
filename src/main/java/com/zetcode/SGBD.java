@@ -75,8 +75,6 @@ public class SGBD {
             conexion = SGBD.getConnection();
     		consulta = conexion.createStatement();
     		consulta.executeUpdate(pConsulta);
-    		consulta.close();
-        	conexion.close();
     	} catch (Exception e) {
             e.printStackTrace();
     		System.err.println(e);
@@ -95,8 +93,6 @@ public class SGBD {
             conexion = SGBD.getConnection();
     		consulta = conexion.createStatement();
     		resultado = consulta.executeQuery(pConsulta);
-    		consulta.close();
-        	conexion.close();
     	} catch (Exception e) {
             e.printStackTrace();
     		System.err.println(e);
