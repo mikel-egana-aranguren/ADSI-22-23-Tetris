@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import Login.Login;
 
 /*
 Java Tetris game clone
@@ -17,7 +18,6 @@ Website: https://zetcode.com
 public class Tetris extends JFrame {
 	
 	private static final Logger logger = LogManager.getLogger(Tetris.class);
-
     private JLabel statusbar;
 
     public Tetris() {
@@ -46,12 +46,7 @@ public class Tetris extends JFrame {
     }
 
     public static void main(String[] args) {
-
-    	logger.info("Playing");
-        EventQueue.invokeLater(() -> {
-
-            var game = new Tetris();
-            game.setVisible(true);
-        });
+        Login inicioSesion = new Login();
+        inicioSesion.setVisible(true);
     }
 }
