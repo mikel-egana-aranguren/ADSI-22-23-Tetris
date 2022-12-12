@@ -67,9 +67,9 @@ public class SGBD {
             conn = SGBD.getConnection();
             stat = conn.createStatement();
             ResultSet resultado = stat.executeQuery("SELECT * FROM PREMIO");
-            resultado.next();
-            resultado.getString("nombre");
             bdd_existe = true;
+            resultado.next();
+            String a = resultado.getString("nombre");
             conn.close();
             stat.close();
         } catch (Exception e) {
