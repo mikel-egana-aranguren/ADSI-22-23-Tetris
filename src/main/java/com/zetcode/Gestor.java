@@ -1,6 +1,10 @@
 package com.zetcode;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
 
 public class Gestor {
     private String obtenerPremios() {
@@ -33,13 +37,40 @@ public class Gestor {
         return "";
     }
 
-    private boolean comprobarContraseña(String pwd1, String pwd2) {
-        // TODO
-        return false;
+    public boolean comprobarDatosRegistro(String pEmail, String pwd1, String pwd2) {
+    	if (pwd1.equals(pwd2)== true) {
+			Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	    	Matcher matcher = emailPat.matcher(pEmail);
+			if (matcher.find()==true) {
+	    		final JOptionPane option = new JOptionPane();
+	    		option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+				return true;
+			} else {
+				final JOptionPane option = new JOptionPane();
+				option.showMessageDialog(null, "El email introducido no es válido", "ERROR",JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} else {
+			final JOptionPane option = new JOptionPane();
+			option.showMessageDialog(null, "Las contraseñas no son iguales", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		} 
+    }
+    
+    public boolean comprobarDatosCambiarContraseña(String usuario, String pwd1, String pwd2) {
+    	if (pwd1.equals(pwd2)== true) {
+    		final JOptionPane option = new JOptionPane();
+    		option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		} else {
+			final JOptionPane option = new JOptionPane();
+			option.showMessageDialog(null, "Las contraseñas no son iguales", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		} 
     }
 
     private void registrarse(String usu, String email, String pwd1) {
-        // TODO
+        
     }
 
     private String identificarse(String usu, String pwd) {

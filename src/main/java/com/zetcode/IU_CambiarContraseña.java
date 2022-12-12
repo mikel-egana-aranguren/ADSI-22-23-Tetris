@@ -36,9 +36,9 @@ public class IU_CambiarContraseña extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUsuario;
-	private JTextField txtUsuario_1;
-	private JPasswordField passwordField;
-	private JPasswordField pass;
+	private JPasswordField pwd;
+	private JPasswordField pwdRepeat;
+	private JPasswordField pwdOld;
 
 	/**
 	 * Launch the application.
@@ -117,14 +117,13 @@ public class IU_CambiarContraseña extends JFrame {
 		gbc_lblEmail.gridy = 2;
 		panelCentral.add(lblEmail, gbc_lblEmail);
 		
-		txtUsuario_1 = new JTextField();
-		GridBagConstraints gbc_txtUsuario_1 = new GridBagConstraints();
-		gbc_txtUsuario_1.insets = new Insets(0, 0, 5, 5);
-		gbc_txtUsuario_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtUsuario_1.gridx = 2;
-		gbc_txtUsuario_1.gridy = 2;
-		panelCentral.add(txtUsuario_1, gbc_txtUsuario_1);
-		txtUsuario_1.setColumns(10);
+		pwdOld = new JPasswordField();
+		GridBagConstraints gbc_pwdOld = new GridBagConstraints();
+		gbc_pwdOld.insets = new Insets(0, 0, 5, 5);
+		gbc_pwdOld.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pwdOld.gridx = 2;
+		gbc_pwdOld.gridy = 2;
+		panelCentral.add(pwdOld, gbc_pwdOld);
 		
 		JLabel lblContrasea = new JLabel("Nueva contraseña");
 		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
@@ -134,13 +133,13 @@ public class IU_CambiarContraseña extends JFrame {
 		gbc_lblContrasea.gridy = 3;
 		panelCentral.add(lblContrasea, gbc_lblContrasea);
 		
-		passwordField = new JPasswordField();
-		GridBagConstraints gbc_passwordField = new GridBagConstraints();
-		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordField.gridx = 2;
-		gbc_passwordField.gridy = 3;
-		panelCentral.add(passwordField, gbc_passwordField);
+		pwd = new JPasswordField();
+		GridBagConstraints gbc_pwd = new GridBagConstraints();
+		gbc_pwd.insets = new Insets(0, 0, 5, 5);
+		gbc_pwd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pwd.gridx = 2;
+		gbc_pwd.gridy = 3;
+		panelCentral.add(pwd, gbc_pwd);
 		
 		JLabel lblRepetirContrasea = new JLabel("Repetir nueva contraseña");
 		GridBagConstraints gbc_lblRepetirContrasea = new GridBagConstraints();
@@ -150,13 +149,13 @@ public class IU_CambiarContraseña extends JFrame {
 		gbc_lblRepetirContrasea.gridy = 4;
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
-		pass = new JPasswordField();
-		GridBagConstraints gbc_pass = new GridBagConstraints();
-		gbc_pass.insets = new Insets(0, 0, 0, 5);
-		gbc_pass.fill = GridBagConstraints.HORIZONTAL;
-		gbc_pass.gridx = 2;
-		gbc_pass.gridy = 4;
-		panelCentral.add(pass, gbc_pass);
+		pwdRepeat = new JPasswordField();
+		GridBagConstraints gbc_pwdRepeat = new GridBagConstraints();
+		gbc_pwdRepeat.insets = new Insets(0, 0, 0, 5);
+		gbc_pwdRepeat.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pwdRepeat.gridx = 2;
+		gbc_pwdRepeat.gridy = 4;
+		panelCentral.add(pwdRepeat, gbc_pwdRepeat);
 		
 		//Panel INFERIOR
 		
@@ -204,6 +203,7 @@ public class IU_CambiarContraseña extends JFrame {
 	}
 	
 	public void cambiarContraseña() {
-		
+		Gestor GPrincipal = new Gestor();
+		GPrincipal.comprobarDatosCambiarContraseña(txtUsuario.getText(), String.valueOf(pwd.getPassword()),String.valueOf(pwdRepeat.getPassword()));
 	}
 }

@@ -104,6 +104,7 @@ CREATE TABLE MUSICA(
     PRIMARY KEY(codNombreMusica)
 );
 
+INSERT INTO USUARIO VALUES(admin, admin, admin@gmail.com):
 --INSERT INTO DIFICULTAD VALUES("",,);
 --INSERT INTO PREMIO VALUES(...);
 
