@@ -27,3 +27,6 @@ hs_err_pid*
 /target
 test.mv.db
 test.trace.db
+
+tetrisSASL.mv.db
+tetrisSASL.trace.db

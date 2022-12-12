@@ -104,5 +104,6 @@ CREATE TABLE PERSONALIZACION(
 
 --INSERT INTO DIFICULTAD VALUES("",,);
 --INSERT INTO PREMIO VALUES(...);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('test', 'este premio es un test', 100);
 
 --Añadir en el diagrama ER la dificultad de partida
