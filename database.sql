@@ -1,12 +1,15 @@
-CREATE DATABASE IF NOT EXISTS TETRIS;
-
-USE TETRIS;
-
 CREATE TABLE USUARIO(
     nombreUsuario VARCHAR(20) NOT NULL,
     contrasena VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL,
     PRIMARY KEY(nombreUsuario)
+);
+
+CREATE TABLE DIFICULTAD(
+    nivelDificultad VARCHAR(20) NOT NULL,
+    velocidadLadrillos DOUBLE PRECISION NOT NULL, --Ejemplo: 23.47
+    tamanoTablero VARCHAR(5) NOT NULL, --Ejemplo: 05x20
+    PRIMARY KEY(nivelDificultad)
 );
 
 CREATE TABLE PARTIDA(
@@ -29,18 +32,12 @@ CREATE TABLE PREMIO(
     PRIMARY KEY(nombre)
 );
 
-CREATE TABLE DIFICULTAD(
-    nivelDificultad VARCHAR(20) NOT NULL,
-    velocidadLadrillos DOUBLE(4,2) NOT NULL, --Ejemplo: 23.47
-    tamanoTablero VARCHAR(5) NOT NULL, --Ejemplo: 05x20
-    PRIMARY KEY(nivelDificultad)
-);
 
 CREATE TABLE PREMIOOBTENIDO(
     nombrePremio VARCHAR(20) NOT NULL,
     nombreUsuario VARCHAR(20) NOT NULL,
     progreso INT NOT NULL,
-    PRIMARY KEY(nombrePremio,nombreUsuario)
+    PRIMARY KEY(nombrePremio,nombreUsuario),
     FOREIGN KEY(nombrePremio)
     REFERENCES PREMIO(nombre),
     FOREIGN KEY(nombreUsuario)
@@ -65,25 +62,9 @@ CREATE TABLE PREMIOSENPARTIDA(
     progreso INT NOT NULL,
     PRIMARY KEY(idPartida,nombrePremio),
     FOREIGN KEY(idPartida)
-    REFERENCES PARTIDA(id)
+    REFERENCES PARTIDA(id),
     FOREIGN KEY(nombrePremio)
     REFERENCES PREMIO(nombre)
-);
-
-CREATE TABLE PERSONALIZACION(
-    nombreUsuario VARCHAR(20) NOT NULL,
-    codColorFondo INT NOT NULL,
-    codColorLadrillo INT NOT NULL,
-    codNombreMusica INT NOT NULL,
-    PRIMARY KEY(nombreUsuario),
-    FOREIGN KEY(nombreUsuario)
-    REFERENCES USUARIO(nombreUsuario),
-    FOREIGN KEY(codColorFondo)
-    REFERENCES COLORFONDO(codColorFondo),
-    FOREIGN KEY(codColorLadrillo)
-    REFERENCES COLORLADRILLO(codColorLadrillo),
-    FOREIGN KEY(codNombreMusica)
-    REFERENCES MUSICA(codNombreMusica)
 );
 
 CREATE TABLE COLORFONDO(
@@ -103,6 +84,23 @@ CREATE TABLE MUSICA(
     nombreMusica VARCHAR(20) NOT NULL,
     PRIMARY KEY(codNombreMusica)
 );
+
+CREATE TABLE PERSONALIZACION(
+    nombreUsuario VARCHAR(20) NOT NULL,
+    codColorFondo INT NOT NULL,
+    codColorLadrillo INT NOT NULL,
+    codNombreMusica INT NOT NULL,
+    PRIMARY KEY(nombreUsuario),
+    FOREIGN KEY(nombreUsuario)
+    REFERENCES USUARIO(nombreUsuario),
+    FOREIGN KEY(codColorFondo)
+    REFERENCES COLORFONDO(codColorFondo),
+    FOREIGN KEY(codColorLadrillo)
+    REFERENCES COLORLADRILLO(codColorLadrillo),
+    FOREIGN KEY(codNombreMusica)
+    REFERENCES MUSICA(codNombreMusica)
+);
+
 
 --INSERT INTO DIFICULTAD VALUES("",,);
 --INSERT INTO PREMIO VALUES(...);
