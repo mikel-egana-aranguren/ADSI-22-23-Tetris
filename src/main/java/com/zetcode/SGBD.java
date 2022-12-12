@@ -21,7 +21,7 @@ public class SGBD {
 
     private static Connection getConnection() {
         if (!inicializado) {
-            SGBD.inicializar();
+            SGBD.inicializar(false);
         }
 
         try {
@@ -32,7 +32,15 @@ public class SGBD {
         }
     }
 
-    private static void inicializar() {
+    public static void inicializarTest() {
+        if (inicializado) {
+            DB_URL = "jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1";
+        } else {
+            inicializar(true);
+        }
+    }
+
+    private static void inicializar(Boolean esTest) {
         inicializado = true;
         String JDBC_DRIVER = "org.h2.Driver";
         try {
@@ -43,7 +51,11 @@ public class SGBD {
         }
 
         try {
-            DB_URL = "jdbc:h2:" + new File("tetrisSASL").getCanonicalPath();
+            if (esTest) {
+                DB_URL = "jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1";
+            } else {
+                DB_URL = "jdbc:h2:" + new File("tetrisSASL").getCanonicalPath();
+            }
         } catch (Exception e) {
             System.err.println(e);
         }
