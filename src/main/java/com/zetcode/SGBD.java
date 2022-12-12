@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 
 public class SGBD {
     static boolean inicializado = false;
-    static String DB_URL = "jdbc:h2:~/test";
+    static String DB_URL = "jdbc:h2:~/tetrisSASL";
     static String USER = "sa";
     static String PASS = "sa";
     static Statement consulta = null;
@@ -41,27 +41,48 @@ public class SGBD {
             System.err.println("Error con los drivers de la base de datos. Cerrando el programa.");
             System.exit(1);
         }
+
         try {
-            DB_URL = "jdbc:h2:" + new File("test").getCanonicalPath();
+            DB_URL = "jdbc:h2:" + new File("tetrisSASL").getCanonicalPath();
         } catch (Exception e) {
             System.err.println(e);
         }
-    	
+
         Boolean bdd_existe = false;
+        Connection conn = null;
+        Statement stat = null;
         try {
-            ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PREMIO");
+            conn = SGBD.getConnection();
+            stat = conn.createStatement();
+            ResultSet resultado = stat.executeQuery("SELECT * FROM PREMIO");
             resultado.next();
             resultado.getString("nombre");
             bdd_existe = true;
+            conn.close();
+            stat.close();
         } catch (Exception e) {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+                if (stat != null) {
+                    stat.close();
+                }
+            } catch (Exception ex) {
+            }
             // La base de datos no existe, no hay que hacer nada porque bdd_existe ya es false
         }
 
         if (!bdd_existe) {
             try {
-                ScriptRunner sr = new ScriptRunner(conexion);
+                conn = SGBD.getConnection();
+                ScriptRunner sr = new ScriptRunner(conn);
                 Reader reader = new BufferedReader(new FileReader("database.sql"));
                 sr.runScript(reader);
+                try {
+                    conn.close();
+                } catch(Exception e) {
+                }
             } catch (FileNotFoundException e) {
                 System.err.println(e);
             }
