@@ -135,7 +135,7 @@ public class niveles extends javax.swing.JFrame {
     private void facilButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_facilButtonMouseClicked
         javax.swing.JOptionPane.showMessageDialog(this, "Ha seleccionado la dificultad FACIL");
         EventQueue.invokeLater(() -> {
-            Tetris game = new Tetris();
+            Tetris game = new Tetris("facil", 500, 600);
             game.setVisible(true);
         });
         this.dispose();
@@ -144,7 +144,7 @@ public class niveles extends javax.swing.JFrame {
     private void normalButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_normalButtonMouseClicked
         javax.swing.JOptionPane.showMessageDialog(this, "Ha seleccionado la dificultad NORMAL");
         EventQueue.invokeLater(() -> {
-            Tetris game = new Tetris();
+            Tetris game = new Tetris("normal", 500, 400);
             game.setVisible(true);
         });
         this.dispose();
@@ -153,7 +153,7 @@ public class niveles extends javax.swing.JFrame {
     private void dificilButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dificilButtonMouseClicked
         javax.swing.JOptionPane.showMessageDialog(this, "Ha seleccionado la dificultad DIFICIL");
         EventQueue.invokeLater(() -> {
-            Tetris game = new Tetris();
+            Tetris game = new Tetris("dificil", 500, 200);
             game.setVisible(true);
         });
         this.dispose();
@@ -162,7 +162,7 @@ public class niveles extends javax.swing.JFrame {
     private void muyDificilButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_muyDificilButtonMouseClicked
         javax.swing.JOptionPane.showMessageDialog(this, "Ha seleccionado la dificultad MUY DIFICIL");
         EventQueue.invokeLater(() -> {
-            Tetris game = new Tetris();
+            Tetris game = new Tetris("muyDificil", 500, 100);
             game.setVisible(true);
         });
         this.dispose();
