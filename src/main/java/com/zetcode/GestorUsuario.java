@@ -1,16 +1,32 @@
 package com.zetcode;
 
+import java.sql.ResultSet;
+
 public class GestorUsuario {
     private Usuario usuarioActual;
     private static GestorUsuario miGestor;
-
-    private GestorUsuario() {
-
-    }
     
     public void registrarse(String usu, String email, String pwd1) {
-    	String consulta = "INSERT INTO Usuario VALUES (%usu%, %pwd1%, %email%)";
-    	SGBD.execVoidSQL(consulta);
+	    //SGBD.inicializarTest();
+	    String existe = String.format("SELECT nombreUsuario FROM USUARIO WHERE nombreUsuario = '%s'", usu);
+	    ResultSet result = SGBD.execResultSQL(existe);
+	    String consulta =  String.format("INSERT INTO USUARIO VALUES ('%s', '%s', '%s')", usu,pwd1,email);
+		SGBD.execVoidSQL(consulta);
+    }
+    
+    public boolean existeUsuario(String usu) {
+    	String existe = String.format("SELECT nombreUsuario FROM USUARIO WHERE nombreUsuario = '%s'", usu);
+	    ResultSet result = SGBD.execResultSQL(existe);
+	    try {
+	    	if (result.next()) {
+	    		return true;
+	    	} else {
+				return false;
+			}
+    	} catch (Exception e) {
+			System.exit(1);
+			return false;
+		}
     }
 
     public static GestorUsuario getGestor() {

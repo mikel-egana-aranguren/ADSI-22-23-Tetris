@@ -42,8 +42,8 @@ public class Gestor {
 			Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	    	Matcher matcher = emailPat.matcher(pEmail);
 			if (matcher.find()==true) {
-	    		final JOptionPane option = new JOptionPane();
-	    		option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+	    		//final JOptionPane option = new JOptionPane();
+	    		//option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
 				return true;
 			} else {
 				final JOptionPane option = new JOptionPane();
@@ -59,8 +59,8 @@ public class Gestor {
     
     public boolean comprobarDatosCambiarContraseña(String usuario, String pwd1, String pwd2) {
     	if (pwd1.equals(pwd2)== true) {
-    		final JOptionPane option = new JOptionPane();
-    		option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+    		//final JOptionPane option = new JOptionPane();
+    		//option.showMessageDialog(null, "La contraseña se ha cambiado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
 			return true;
 		} else {
 			final JOptionPane option = new JOptionPane();
@@ -69,8 +69,16 @@ public class Gestor {
 		} 
     }
 
-    private void registrarse(String usu, String email, String pwd1) {
-        
+    public void registrarse(String usu, String email, String pwd1) {
+    	GestorUsuario GU = new GestorUsuario();
+		if (GU.existeUsuario(usu)==true) {
+			final JOptionPane option = new JOptionPane();
+    		option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+			GU.registrarse(usu, email, pwd1);
+		} else {
+			final JOptionPane option = new JOptionPane();
+			option.showMessageDialog(null, "El usuario introducido ya existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private String identificarse(String usu, String pwd) {

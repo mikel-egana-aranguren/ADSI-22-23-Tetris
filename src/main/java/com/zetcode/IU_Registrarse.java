@@ -105,6 +105,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblUsuario, gbc_lblUsuario);
 		
 		txtUsuario = new JTextField();
+		txtUsuario.setText("unai");
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
@@ -122,6 +123,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblEmail, gbc_lblEmail);
 		
 		txtEmail = new JTextField();
+		txtEmail.setText("unai.solaun@gmail.com");
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
 		gbc_txtEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
@@ -139,6 +141,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblContrasea, gbc_lblContrasea);
 		
 		password = new JPasswordField();
+		password.setText("123");
 		GridBagConstraints gbc_password = new GridBagConstraints();
 		gbc_password.insets = new Insets(0, 0, 5, 5);
 		gbc_password.fill = GridBagConstraints.HORIZONTAL;
@@ -155,6 +158,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
 		passwordRepeat = new JPasswordField();
+		passwordRepeat.setText("123");
 		GridBagConstraints gbc_passwordRepeat = new GridBagConstraints();
 		gbc_passwordRepeat.insets = new Insets(0, 0, 0, 5);
 		gbc_passwordRepeat.fill = GridBagConstraints.HORIZONTAL;
@@ -214,6 +218,12 @@ public class IU_Registrarse extends JFrame {
 	
 	public void registrarse() {
 		Gestor GPrincipal = new Gestor();
-		GPrincipal.comprobarDatosRegistro(txtEmail.getText(),String.valueOf(password.getPassword()),String.valueOf(passwordRepeat.getPassword()));
+		boolean valido = GPrincipal.comprobarDatosRegistro(txtEmail.getText(),String.valueOf(password.getPassword()),String.valueOf(passwordRepeat.getPassword()));
+		if (valido) {
+			GPrincipal.registrarse(txtUsuario.getText(), txtEmail.getText(), String.valueOf(password.getPassword()));
+			IU_Identificacion iuIdentificacion= new IU_Identificacion();
+			iuIdentificacion.setVisible(true);
+			ocultar();
+		}
 	}
 }

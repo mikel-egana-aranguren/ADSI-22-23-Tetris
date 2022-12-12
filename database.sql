@@ -101,7 +101,7 @@ CREATE TABLE PERSONALIZACION(
     REFERENCES MUSICA(codNombreMusica)
 );
 
-INSERT INTO USUARIO VALUES(admin, admin, admin@gmail.com):
+INSERT INTO USUARIO VALUES('admin', 'admin', 'admin@gmail.com');
 
 --INSERT INTO DIFICULTAD VALUES("",,);
 --INSERT INTO PREMIO VALUES(...);
