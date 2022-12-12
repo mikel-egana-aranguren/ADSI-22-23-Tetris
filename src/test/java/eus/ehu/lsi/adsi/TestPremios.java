@@ -32,9 +32,9 @@ public class TestPremios {
         // 2. Abrir la ventana de los premios
         // 3. Imprimir un mensaje para que el tester compruebe que aparece como obtenido
         // 4. Borrar el progreso del premio
-        execSQL(
+        /* execSQL(
             "INSERT INTO Usuario(NombreUsuario) VALUES (TEST)"
-        )
+        ) */
         fail("Not yet implemented");
 	}
 
