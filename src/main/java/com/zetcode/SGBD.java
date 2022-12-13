@@ -33,6 +33,7 @@ public class SGBD {
     }
 
     private static void inicializar() {
+        inicializado = true;
         String JDBC_DRIVER = "org.h2.Driver";
         try {
             Class.forName(JDBC_DRIVER);
@@ -46,36 +47,40 @@ public class SGBD {
             System.err.println(e);
         }
     	
-    	conexion = SGBD.getConnection();
+        Boolean bdd_existe = false;
         try {
-        	ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PREMIO");
+            ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PREMIO");
             resultado.next();
             resultado.getString("nombre");
-            if (resultado != null) {
-            	inicializado = true;
-            }
+            bdd_existe = true;
         } catch (Exception e) {
-            System.err.println(e);
+            // La base de datos no existe, no hay que hacer nada porque bdd_existe ya es false
         }
-        
-        if (!inicializado) {
-        	try {
-        		ScriptRunner sr = new ScriptRunner(conexion);
-            	Reader reader = new BufferedReader(new FileReader("database.sql"));
-            	sr.runScript(reader);
-        	} catch (FileNotFoundException e) {
-        		System.err.println(e);
-        	}
+
+        if (!bdd_existe) {
+            try {
+                ScriptRunner sr = new ScriptRunner(conexion);
+                Reader reader = new BufferedReader(new FileReader("database.sql"));
+                sr.runScript(reader);
+            } catch (FileNotFoundException e) {
+                System.err.println(e);
+            }
         }
     }
     
     public static void execVoidSQL(String pConsulta) { //INSERT, UPDATE, DELETE
     	try {
+            if (conexion != null) {
+                conexion.close();
+            }
+            if (consulta != null) {
+                consulta.close();
+            }
+            conexion = SGBD.getConnection();
     		consulta = conexion.createStatement();
     		consulta.executeUpdate(pConsulta);
-    		consulta.close();
-        	conexion.close();
     	} catch (Exception e) {
+            e.printStackTrace();
     		System.err.println(e);
     	}
     }
@@ -83,11 +88,17 @@ public class SGBD {
     public static ResultSet execResultSQL(String pConsulta) { //SELECT
     	ResultSet resultado = null;
     	try {
+            if (conexion != null) {
+                conexion.close();
+            }
+            if (consulta != null) {
+                consulta.close();
+            }
+            conexion = SGBD.getConnection();
     		consulta = conexion.createStatement();
     		resultado = consulta.executeQuery(pConsulta);
-    		consulta.close();
-        	conexion.close();
     	} catch (Exception e) {
+            e.printStackTrace();
     		System.err.println(e);
     	}
     	return resultado;
