@@ -32,8 +32,8 @@ import java.awt.Cursor;
 public class IU_Identificacion extends JFrame {
 
 	private JPanel contentPane;
-	private JPasswordField passwordField;
-	private JTextField textField;
+	private JPasswordField pwdF;
+	private JTextField txtUsuario;
 
 	/**
 	 * Launch the application.
@@ -94,14 +94,14 @@ public class IU_Identificacion extends JFrame {
 		gbc_lblUsuario.gridy = 0;
 		panelCentral.add(lblUsuario, gbc_lblUsuario);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 0;
-		panelCentral.add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtUsuario = new JTextField();
+		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
+		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUsuario.gridx = 2;
+		gbc_txtUsuario.gridy = 0;
+		panelCentral.add(txtUsuario, gbc_txtUsuario);
+		txtUsuario.setColumns(10);
 		
 		JLabel lblContrasea = new JLabel("Contraseña");
 		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
@@ -111,13 +111,13 @@ public class IU_Identificacion extends JFrame {
 		gbc_lblContrasea.gridy = 1;
 		panelCentral.add(lblContrasea, gbc_lblContrasea);
 		
-		passwordField = new JPasswordField();
-		GridBagConstraints gbc_passwordField = new GridBagConstraints();
-		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordField.gridx = 2;
-		gbc_passwordField.gridy = 1;
-		panelCentral.add(passwordField, gbc_passwordField);
+		pwdF = new JPasswordField();
+		GridBagConstraints gbc_pwdF = new GridBagConstraints();
+		gbc_pwdF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pwdF.insets = new Insets(0, 0, 5, 5);
+		gbc_pwdF.gridx = 2;
+		gbc_pwdF.gridy = 1;
+		panelCentral.add(pwdF, gbc_pwdF);
 		
 		JButton btnNewButton = new JButton("Registrarse");
 		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -204,7 +204,21 @@ public class IU_Identificacion extends JFrame {
 	}
 	
 	public void iniciarSesion() {
-		
+		Gestor GestorPrincipal= new Gestor();
+		String nombreUsuario = txtUsuario.getText();
+		String pwd = String.valueOf(pwdF.getPassword());
+		boolean existe = GestorPrincipal.identificarse(nombreUsuario, pwd);
+		if (existe && (nombreUsuario.equals("admin"))) {
+			IU_MenuAdmin menuAdmin = new IU_MenuAdmin();
+			menuAdmin.setVisible(true);
+			ocultar();
+		} else if (!existe) {
+			
+		} else {
+			Menu menu = new Menu();
+			menu.setVisible(true);
+			ocultar();	
+		}
 	}
 	
 	public void cambiarContraseña() {

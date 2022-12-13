@@ -41,8 +41,8 @@ public class IU_Registrarse extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JTextField txtEmail;
-	private JPasswordField password;
-	private JPasswordField passwordRepeat;
+	private JPasswordField pwdF;
+	private JPasswordField pwdFRepeat;
 
 	/**
 	 * Launch the application.
@@ -70,7 +70,6 @@ public class IU_Registrarse extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
@@ -105,7 +104,6 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblUsuario, gbc_lblUsuario);
 		
 		txtUsuario = new JTextField();
-		txtUsuario.setText("unai");
 		GridBagConstraints gbc_txtUsuario = new GridBagConstraints();
 		gbc_txtUsuario.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtUsuario.insets = new Insets(0, 0, 5, 5);
@@ -123,7 +121,6 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblEmail, gbc_lblEmail);
 		
 		txtEmail = new JTextField();
-		txtEmail.setText("unai.solaun@gmail.com");
 		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
 		gbc_txtEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
@@ -140,14 +137,13 @@ public class IU_Registrarse extends JFrame {
 		gbc_lblContrasea.gridy = 3;
 		panelCentral.add(lblContrasea, gbc_lblContrasea);
 		
-		password = new JPasswordField();
-		password.setText("123");
-		GridBagConstraints gbc_password = new GridBagConstraints();
-		gbc_password.insets = new Insets(0, 0, 5, 5);
-		gbc_password.fill = GridBagConstraints.HORIZONTAL;
-		gbc_password.gridx = 2;
-		gbc_password.gridy = 3;
-		panelCentral.add(password, gbc_password);
+		pwdF = new JPasswordField();
+		GridBagConstraints gbc_pwdF = new GridBagConstraints();
+		gbc_pwdF.insets = new Insets(0, 0, 5, 5);
+		gbc_pwdF.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pwdF.gridx = 2;
+		gbc_pwdF.gridy = 3;
+		panelCentral.add(pwdF, gbc_pwdF);
 		
 		JLabel lblRepetirContrasea = new JLabel("Repetir Contraseña");
 		GridBagConstraints gbc_lblRepetirContrasea = new GridBagConstraints();
@@ -157,14 +153,13 @@ public class IU_Registrarse extends JFrame {
 		gbc_lblRepetirContrasea.gridy = 4;
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
-		passwordRepeat = new JPasswordField();
-		passwordRepeat.setText("123");
-		GridBagConstraints gbc_passwordRepeat = new GridBagConstraints();
-		gbc_passwordRepeat.insets = new Insets(0, 0, 0, 5);
-		gbc_passwordRepeat.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordRepeat.gridx = 2;
-		gbc_passwordRepeat.gridy = 4;
-		panelCentral.add(passwordRepeat, gbc_passwordRepeat);
+		pwdFRepeat = new JPasswordField();
+		GridBagConstraints gbc_pwdFRepeat = new GridBagConstraints();
+		gbc_pwdFRepeat.insets = new Insets(0, 0, 0, 5);
+		gbc_pwdFRepeat.fill = GridBagConstraints.HORIZONTAL;
+		gbc_pwdFRepeat.gridx = 2;
+		gbc_pwdFRepeat.gridy = 4;
+		panelCentral.add(pwdFRepeat, gbc_pwdFRepeat);
 		
 		//Panel INFERIOR
 		
@@ -218,12 +213,10 @@ public class IU_Registrarse extends JFrame {
 	
 	public void registrarse() {
 		Gestor GPrincipal = new Gestor();
-		boolean valido = GPrincipal.comprobarDatosRegistro(txtEmail.getText(),String.valueOf(password.getPassword()),String.valueOf(passwordRepeat.getPassword()));
-		if (valido) {
-			GPrincipal.registrarse(txtUsuario.getText(), txtEmail.getText(), String.valueOf(password.getPassword()));
-			IU_Identificacion iuIdentificacion= new IU_Identificacion();
-			iuIdentificacion.setVisible(true);
-			ocultar();
-		}
+		String usuario = txtUsuario.getText();
+		String email = txtEmail.getText();
+		String pwd1 = String.valueOf(pwdF.getPassword());
+		String pwd2 = String.valueOf(pwdFRepeat.getPassword());
+		GPrincipal.registrarse(usuario, email, pwd1, pwd2);
 	}
 }

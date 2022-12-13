@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Usuario {
     private String nombre;
     private Partida partida;
+    
+    public Usuario(String nombreUsuario) {
+    	this.nombre= nombreUsuario;
+    }
 
     private String getNombre() {
         // TODO

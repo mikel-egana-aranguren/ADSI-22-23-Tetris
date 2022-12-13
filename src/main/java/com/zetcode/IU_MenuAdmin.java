@@ -63,7 +63,7 @@ public class IU_MenuAdmin extends JFrame {
 		contentPane.add(panelSuperior, BorderLayout.NORTH);
 		panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JLabel lblTitulo = new JLabel("MENU ADMIN");
+		JLabel lblTitulo = new JLabel("TETRIX ADMIN");
 		lblTitulo.setFont(new Font("Dialog", Font.BOLD, 20));
 		panelSuperior.add(lblTitulo);
 		lblTitulo.setForeground(new Color(153, 0, 153));
