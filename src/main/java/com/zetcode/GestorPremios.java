@@ -1,9 +1,7 @@
 package com.zetcode;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
@@ -199,9 +197,6 @@ public class GestorPremios {
     private static void progresarPremio(Premio premio) {
         GestorUsuario gu = GestorUsuario.getGestor();
 
-        Connection conn = null;
-        Statement stmt = null;
-
         Usuario usuario = gu.obtenerUsuarioActual();
         String nusuario = gu.getNombreUsuario(usuario);
         String npremio = premio.getNombre();
@@ -229,6 +224,5 @@ public class GestorPremios {
             npremio,
             nusuario
         ));
-        // TODO
     }
 }

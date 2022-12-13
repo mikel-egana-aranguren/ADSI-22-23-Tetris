@@ -3,18 +3,18 @@ import java.sql.ResultSet;
 
 public class EjemploBDD {
     public static void main(String[] args) {
-        System.out.println("Creating table in given database..."); 
         String sql = null;
         boolean sin_inicializar = true;
         try {
-            sql = "CREATE TABLE   REGISTRATION " +
-            "(id INTEGER not NULL, " + 
-            " first VARCHAR(255), " +  
-            " last VARCHAR(255), " +  
-            " age INTEGER, " +  
-            " PRIMARY KEY ( id ))";  
+            System.out.println("Creating table in given database...");
+            sql = "CREATE TABLE REGISTRATION " +
+            "(id INTEGER not NULL, " +
+            " first VARCHAR(255), " +
+            " last VARCHAR(255), " +
+            " age INTEGER, " +
+            " PRIMARY KEY ( id ))";
             SGBD.execVoidSQL(sql);
-            System.out.println("Created table in given database...");     
+            System.out.println("Created table in given database...");
         } catch (Exception e) {
             sin_inicializar = false;
         }
