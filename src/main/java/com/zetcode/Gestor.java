@@ -150,6 +150,7 @@ public class Gestor {
 			GestorPartida.getGestorPartida().setIdPartida(partidaUsuario,pIdPartida);
 			GestorPartida.getGestorPartida().setPuntosPartida(partidaUsuario,puntos);
 			GestorPartida.getGestorPartida().setEstadoTablero(partidaUsuario,estadoTableroJson);
+			GestorUsuario.getGestorUsuario().
 		} catch (Exception e) {
 			Menu.getMenu().ponerMensaje("Error: " + e);
 		}
