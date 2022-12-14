@@ -34,7 +34,6 @@ import java.awt.Cursor;
 public class IU_EliminarUsuario extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 	private JTextField txtUsuario;
 	/**
 	 * Launch the application.
@@ -114,12 +113,12 @@ public class IU_EliminarUsuario extends JFrame {
 		btnGuardarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGuardarCambios.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				confirmar();
+				eliminar();
 			}
 		});
 		btnGuardarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				confirmar();
+				eliminar();
 			}
 		});
 		panelInferior.add(btnGuardarCambios);
@@ -135,12 +134,9 @@ public class IU_EliminarUsuario extends JFrame {
 		ocultar();
 	}
 	
-	public void confirmar() {
-		if (JOptionPane.showConfirmDialog(null, "¿Estás seguro?", "ATENCIÓN",
-		        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-		    // yes option
-		} else {
-		    // no option
-		}
+	public void eliminar() {
+		Gestor GPrincipal = new Gestor();
+		String txtNombreUsuario = txtUsuario.getText();
+		GPrincipal.eliminarUsuario(txtNombreUsuario);
 	}
 }

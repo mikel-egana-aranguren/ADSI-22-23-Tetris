@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+import javax.mail.*;
+
 import org.h2.engine.Session;
 
 //import javax.mail.*;
@@ -117,10 +119,13 @@ public class Gestor {
 		}
     }
 
-    public void registrarse(String usu, String email, String pwd1, String pwd2) {
+    public int registrarse(String usu, String email, String pwd1, String pwd2) {
     	GestorUsuario GU = new GestorUsuario();
     	if (comprobarDatosRegistro(usu, email, pwd1, pwd2)) {
     		GU.registrarse(usu, email, pwd1);
+    		return 1;
+		} else {
+			return 0;
 		}
     }
 
@@ -152,8 +157,18 @@ public class Gestor {
 		}
     }
 
-    private void eliminarUsuario(String usu) {
-        // TODO
+    public void eliminarUsuario(String usu) {
+    	JOptionPane option = new JOptionPane();
+        GestorUsuario GU = new GestorUsuario();
+        if (GU.existeUsuario(usu)) {
+        	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCIÓN", JOptionPane.YES_NO_OPTION);
+        	if (resp == 0) {
+				System.out.println("Usuario eliminado");
+				//GU.eliminarUsuario(usu);
+			}
+		} else {
+			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private int mostarDificultad(String nombreUsuario, int dificultad) {

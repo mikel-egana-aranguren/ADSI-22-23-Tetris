@@ -217,6 +217,13 @@ public class IU_Registrarse extends JFrame {
 		String email = txtEmail.getText();
 		String pwd1 = String.valueOf(pwdF.getPassword());
 		String pwd2 = String.valueOf(pwdFRepeat.getPassword());
-		GPrincipal.registrarse(usuario, email, pwd1, pwd2);
+		int exito = GPrincipal.registrarse(usuario, email, pwd1, pwd2);
+		if (exito == 1) {
+			IU_Identificacion iuId = new IU_Identificacion();
+			iuId.setVisible(true);
+			ocultar();
+		} else {
+			
+		}
 	}
 }
