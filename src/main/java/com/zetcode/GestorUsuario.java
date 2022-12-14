@@ -26,5 +26,9 @@ public class GestorUsuario {
 	public Partida obtenerPartidaUsuario(Usuario pUsuario) {
 		return pUsuario.obtenerPartida();
 	}
+	
+	public void setPartidaUsuario(Usuario pUsuario, Partida pPartida) {
+		pUsuario.setPartida(pPartida);
+	}
 
 }
