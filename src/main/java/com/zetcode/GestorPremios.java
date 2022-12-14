@@ -81,7 +81,7 @@ public class GestorPremios {
         return json;
     }
 
-    private static void comprobarProgresoPremios() {
+    public static void comprobarProgresoPremios() {
         ArrayList<Premio> premios = obtenerPremiosProgresados();
         guardarProgresoPremios(premios);
     }

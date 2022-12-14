@@ -74,4 +74,16 @@ public class Partida {
     private void anadirListaFichas(ArrayList<Ficha> listaFichas) {
         // TODO
     }
+
+    public void addFilas(int filas) {
+        filasEliminadas += filas;
+    }
+
+    public void addTetrises(int tetrises) {
+        tetrisHechos += tetrises;
+    }
+
+    public void contarFicha() {
+        fichasColocadas += 1;
+    }
 }

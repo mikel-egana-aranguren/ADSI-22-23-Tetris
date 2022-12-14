@@ -27,4 +27,16 @@ public class GestorPartida {
     public static Integer obtenerPuntos(Partida partida) {
         return partida.obtenerPuntos();
     }
+
+    public static void addFilas(Partida partida, int filas) {
+        partida.addFilas(filas);
+    }
+
+    public static void addTetrises(Partida partida, int tetrises) {
+        partida.addTetrises(tetrises);
+    }
+
+    public static void contarFicha(Partida partida) {
+        partida.contarFicha();
+    }
 }

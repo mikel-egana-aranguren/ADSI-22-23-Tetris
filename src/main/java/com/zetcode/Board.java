@@ -170,6 +170,10 @@ public class Board extends JPanel {
 
             newPiece();
         }
+
+        Gestor.contarFicha();
+
+        Gestor.comprobarProgresoPremios();
     }
 
     private void newPiece() {
@@ -247,6 +251,12 @@ public class Board extends JPanel {
         if (numFullLines > 0) {
 
             numLinesRemoved += numFullLines;
+
+            Gestor.addFilas(numFullLines);
+
+            if (numFullLines >= 4) {
+                Gestor.addTetrises(1);
+            }
 
             statusbar.setText(String.valueOf(numLinesRemoved));
             isFallingFinished = true;

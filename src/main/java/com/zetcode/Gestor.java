@@ -32,6 +32,10 @@ public class Gestor {
         return GestorPremios.obtenerDescripcionPremio(nombrePremio);
     }
 
+    public static void comprobarProgresoPremios() {
+        GestorPremios.comprobarProgresoPremios();
+    }
+
     private String getRankingGlobal() {
         // TODO
         return "";
@@ -122,5 +126,29 @@ public class Gestor {
     private String configurarMensaje(String nombreUsuario, int puntos, ArrayList<String> listNombresPrem) {
         // TODO
         return "";
+    }
+
+    public static void addFilas(int filas) {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+
+        GestorPartida.addFilas(partida, filas);
+    }
+
+    public static void addTetrises(int tetrises) {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+
+        GestorPartida.addTetrises(partida, tetrises);
+    }
+
+    public static void contarFicha() {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+
+        GestorPartida.contarFicha(partida);
     }
 }
