@@ -5,29 +5,26 @@ import java.util.ArrayList;
 public class Usuario {
     private String nombre;
     private Partida partida;
+    
+    public Usuario(String pNombre) {
+		this.nombre = pNombre;
+	}
+    
+    public String getNombre() {
+		return this.nombre;
+	}
 
-    private String getNombre() {
-        // TODO
-        return "";
-    }
+    public Partida obtenerPartida() {
+		return this.partida;
+	}
 
-    private Partida obtenerPartida(String st1) {
-        // TODO
-        return null;
-    }
-
-    private void setPartida(Partida p1) {
-        // TODO
+    public void setPartida(Partida pPartida) {
+        this.partida = pPartida;
     }
 
     private int obtPuntosPartida() {
         // TODO
         return 0;
-    }
-
-    private String getNomrbe() {
-        // TODO
-        return "";
     }
 
     private ArrayList<Premio> obtListaPremios() {
