@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Gestor {
-    private JSONArray obtenerPremios() {
+    public static JSONArray obtenerPremios() {
         GestorUsuario gu = GestorUsuario.getGestor();
         Usuario usuario = gu.obtenerUsuarioActual();
         String nombreUsuario = gu.getNombreUsuario(usuario);
@@ -18,14 +18,14 @@ public class Gestor {
                 JSONObject json = new JSONObject();
                 json.put("nombrePremio", premio.getNombre());
                 json.put("progreso", premio.getProgreso());
-                json.put("ProgresoMax", premio.getProgresoMax());
+                json.put("progresoMax", premio.getProgresoMax());
                 return json;
             }).collect(Collectors.toList()
         ));
         return premiosjson;
     }
 
-    private JSONObject obtenerDescripcionPremio(String nombrePremio) {
+    public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
         GestorUsuario gu = GestorUsuario.getGestor();
         Usuario usuario = gu.obtenerUsuarioActual();
         gu.getNombreUsuario(usuario);

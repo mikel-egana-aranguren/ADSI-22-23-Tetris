@@ -2,9 +2,9 @@ package com.zetcode;
 
 public class GestorDificultad {
 
-    public static Dificultad buscarDificultad(Usuario usuario) {
+    public static int buscarDificultad(Usuario usuario) {
         // TODO
-        return null;
+        return 0;
     }
     
 }

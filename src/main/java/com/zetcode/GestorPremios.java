@@ -33,7 +33,7 @@ public class GestorPremios {
         }
 
         resultado = SGBD.execResultSQL(""
-            + "SELECT nombrepremio, progresoMax "
+            + "SELECT nombre, progresoMax "
             + "FROM Premio");
         try {
             while (resultado.next()) {
@@ -57,16 +57,28 @@ public class GestorPremios {
         resultado = SGBD.execResultSQL(String.format(""
             + "SELECT descripcion, progreso, progresoMax "
             + "FROM Premio JOIN PremioObtenido "
-                + "ON PremioObtenido.nombrepremio=Premio.Nombre "
-            + "WHERE PremioObtenido.nombrepremio='%s'", nombrePremio));
+                + "ON PremioObtenido.nombrePremio=Premio.nombre "
+            + "WHERE PremioObtenido.nombrePremio='%s'", nombrePremio));
 
         String descripcion = null;
         Integer progreso = null;
         Integer progresoMax = null;
         try {
-            descripcion = resultado.getString("descripcion");
-            progreso = resultado.getInt("progreso");
-            progresoMax = resultado.getInt("progresoMax");
+            if (resultado.next()) {
+                descripcion = resultado.getString("descripcion");
+                progreso = resultado.getInt("progreso");
+                progresoMax = resultado.getInt("progresoMax");
+            } else {
+                resultado = SGBD.execResultSQL(String.format(""
+                    + "SELECT descripcion, progresoMax "
+                    + "FROM Premio "
+                    + "WHERE Premio.nombre='%s'", nombrePremio));
+                resultado.next();
+
+                descripcion = resultado.getString("descripcion");
+                progreso = 0;
+                progresoMax = resultado.getInt("progresoMax");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,7 +88,7 @@ public class GestorPremios {
         json.put("nombre", nombrePremio);
         json.put("descripcion", descripcion);
         json.put("progreso", progreso);
-        json.put("ProgresoMax", progresoMax);
+        json.put("progresoMax", progresoMax);
 
         return json;
     }
@@ -114,7 +126,9 @@ public class GestorPremios {
 
         Premio p = null;
         if (fichas > 0) {
-            p = new Premio("fichas colocadas", fichas, null);
+            p = new Premio("fichas colocadas 1", fichas, null);
+            p = new Premio("fichas colocadas 2", fichas, null);
+            p = new Premio("fichas colocadas 3", fichas, null);
         }
 
         return p;
@@ -129,7 +143,9 @@ public class GestorPremios {
 
         Premio p = null;
         if (filas > 0) {
-            p = new Premio("filas eliminadas", filas, null);
+            p = new Premio("filas eliminadas 1", filas, null);
+            p = new Premio("filas eliminadas 2", filas, null);
+            p = new Premio("filas eliminadas 3", filas, null);
         }
 
         return p;
@@ -144,7 +160,9 @@ public class GestorPremios {
 
         Premio p = null;
         if (tetrises > 0) {
-            p = new Premio("tetris hechos", tetrises, null);
+            p = new Premio("TETRISero", tetrises, null);
+            p = new Premio("Conocedor del TETRIS", tetrises, null);
+            p = new Premio("Maestro del TETRIS", tetrises, null);
         }
 
         return p;
@@ -181,16 +199,24 @@ public class GestorPremios {
 
     private static Premio obtenerPremioDificultad(Partida partida, Usuario usuario) {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
-        Dificultad dificultad = GestorDificultad.buscarDificultad(usuario);
+        int dificultad = GestorDificultad.buscarDificultad(usuario);
 
-        Premio p = new Premio("%dependiendo de la dificultad", puntos, null); // TODO
+        Premio p = null; // TODO
+        if (dificultad == 0 && puntos >= 5000) {
+            p = new Premio("Aprendiz", puntos, null);
+        } else if (dificultad == 1 && puntos >= 10000) {
+            p = new Premio("Veterano", puntos, null);
+        } else if (dificultad == 2 && puntos >= 30000) {
+            p = new Premio("Maestro", puntos, null);
+        }
+
         return p;
     }
 
     private static Premio obtenerPremioPuntos(Partida partida) {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
 
-        Premio p = new Premio("puntos totales obtenidos", puntos, null);
+        Premio p = new Premio("Puntuador extremo", puntos, null);
         return p;
     }
 
