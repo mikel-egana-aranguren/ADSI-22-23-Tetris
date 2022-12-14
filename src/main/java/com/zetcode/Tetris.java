@@ -21,18 +21,38 @@ Author: Jan Bodnar
 Website: https://zetcode.com
  */
 public class Tetris extends JFrame {
-	
-	private static final Logger logger = LogManager.getLogger(Tetris.class);
-
+    private static final Logger logger = LogManager.getLogger(Tetris.class);
     private JLabel statusbar;
+    private static Tetris miTetris = null;
+    
+    public static Tetris getTetris() {
+    	if (miTetris == null) {
+    		miTetris = new Tetris();
+    	}
+    	return miTetris;
+    }
+    
+    public void start() {
+        EventQueue.invokeLater(new Runnable() {
+	    public void run() {
+		try {
+		    miTetris.setVisible(true);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+	    }
+	});
+    }
+    
+    public void close() {
+    	miTetris.dispose();
+    }
 
-    public Tetris() {
-
+    private Tetris() {
         initUI();
     }
 
     private void initUI() {
-
         statusbar = new JLabel(" 0");
         add(statusbar, BorderLayout.SOUTH);
 
@@ -47,16 +67,6 @@ public class Tetris extends JFrame {
     }
 
     JLabel getStatusBar() {
-
         return statusbar;
-    }
-
-    public static void main(String[] args) {
-        logger.info("Playing");
-        EventQueue.invokeLater(() -> {
-
-            var game = new Tetris();
-            game.setVisible(true);
-        });
     }
 }
