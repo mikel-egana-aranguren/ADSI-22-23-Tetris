@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Gestor {
     private static Gestor miGestor = null;
+    
+    private Gestor() {
+    
+    }
 	
-	private Gestor() {
-		
-	}
-	
-	public static Gestor getGestor() {
-		if (miGestor == null) {
-			miGestor = new Gestor();
-		}
-		return miGestor;
-	}
+    public static Gestor getGestor() {
+	if (miGestor == null) {
+            miGestor = new Gestor();
+        }
+        return miGestor;
+    }
     
     private String obtenerPremios() {
         // TODO
