@@ -138,7 +138,6 @@ public class Gestor {
 			String estadoTableroString = resultado.getString("estadoTablero");
 			Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 			String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
-			Partida partidaUsuario = GestorUsuario.getGestorUsuario().obtenerPartidaUsuario(usuario);
 			String dificultad = resultado.getString("dificultad");
 			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE idPartida="+pIdPartida);
 			resultado.next();
@@ -147,10 +146,11 @@ public class Gestor {
 			Gson jsonParser = new Gson();
 			JSONObject estadoTableroJson = jsonParser.fromJson(estadoTableroString, JSONObject.class);
 			//Meter todos los datos en las clases
+			Partida partidaUsuario = new Partida();
 			GestorPartida.getGestorPartida().setIdPartida(partidaUsuario,pIdPartida);
 			GestorPartida.getGestorPartida().setPuntosPartida(partidaUsuario,puntos);
 			GestorPartida.getGestorPartida().setEstadoTablero(partidaUsuario,estadoTableroJson);
-			GestorUsuario.getGestorUsuario().
+			GestorUsuario.getGestorUsuario().setPartidaUsuario(usuario,partidaUsuario);
 		} catch (Exception e) {
 			Menu.getMenu().ponerMensaje("Error: " + e);
 		}
