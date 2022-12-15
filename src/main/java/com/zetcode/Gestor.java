@@ -36,6 +36,10 @@ public class Gestor {
         GestorPremios.comprobarProgresoPremios();
     }
 
+    public static void comprobarProgresoPremiosFinalPartida() {
+        GestorPremios.comprobarProgresoPremiosFinalPartida();
+    }
+
     private String getRankingGlobal() {
         // TODO
         return "";

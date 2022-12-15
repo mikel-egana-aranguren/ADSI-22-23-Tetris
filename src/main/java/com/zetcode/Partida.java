@@ -41,8 +41,8 @@ public class Partida {
         tetrisHechos = 0;
     }
 
-    public void anadirPremios(ArrayList<Premio> premios) {
-        // TODO
+    public void anadirPremios(ArrayList<Premio> pPremios) {
+        premios.addAll(pPremios);
     }
     
     public int obtenerPuntos() {

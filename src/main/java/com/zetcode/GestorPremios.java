@@ -176,7 +176,7 @@ public class GestorPremios {
         GestorPartida.anadirPremios(partida, premios);
     }
 
-    private static void comprobarProgresoPremiosFinalPartida() {
+    public static void comprobarProgresoPremiosFinalPartida() {
         ArrayList<Premio> premios = obtenerPremiosProgresadosFinalPartida();
         premios.forEach(premio -> progresarPremio(premio));
     }
