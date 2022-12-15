@@ -1,12 +1,15 @@
 package com.zetcode;
 
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.h2.engine.Session;
 
@@ -145,10 +148,48 @@ public class Gestor {
 		}
     }
 
-    private boolean recuperar(String textoIntroducido) {
-    	//Session session = new
-        return false;
-    }
+    private void recuperar(String destinatario, String nombreUsuario, String pwd) {
+    	String asunto = "Contraseña TETRIX";
+		String cuerpo = "La contraseña correspondiente al usuario " + nombreUsuario + "es: " + pwd;
+
+		String remitente = "";
+		String clave = "";
+
+		Properties props = System.getProperties();
+		props.setProperty("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
+		props.setProperty("mail.smtp.user", remitente); // Correo electronico desde donde se mandara el mensaje
+		props.setProperty("mail.smtp.clave", clave); // La clave de la cuenta
+		props.setProperty("mail.smtp.auth", "true"); // Usar autenticación mediante usuario y clave
+		props.setProperty("mail.smtp.starttls.enable", "true"); // Para conectar de manera segura al servidor SMTP
+		props.setProperty("mail.smtp.port", "587"); // El puerto SMTP seguro de Google
+		
+		javax.mail.Session session = javax.mail.Session.getDefaultInstance(props,null);
+		MimeMessage message = new MimeMessage(session);
+		
+		try {
+			message.setFrom(new InternetAddress(remitente));
+			message.addRecipients(Message.RecipientType.TO, destinatario);
+			message.setSubject(asunto);
+			message.setText(cuerpo);
+			Transport transport = session.getTransport("smtp");
+			transport.connect("smtp.gmail.com", remitente, clave);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		}
+	}
+
+	public boolean enviarEmail (String texto) {
+		GestorUsuario GU = new GestorUsuario();
+		String[] credenciales = GU.obtenerDatos(texto);
+		if (credenciales[0]!=null) {
+			recuperar(credenciales[0], credenciales[1], credenciales[2]);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
     public void cambiar(String usu, String pwdOld, String pwd1, String pwd2) {
         GestorUsuario GU = new GestorUsuario();

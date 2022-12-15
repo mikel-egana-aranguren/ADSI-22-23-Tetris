@@ -100,4 +100,25 @@ public class GestorUsuario {
     	String consulta = String.format(DELETE + FROM + "USUARIO" + WHERE + "nombreUsuario = '%s'", usu);
     	SGBD.execVoidSQL(consulta);
     }
+
+    public String[] obtenerDatos(String correo) {
+      String consulta = String.format(SELECT + "nombreUsuario, contrasena" + WHERE + "correo '%s'", correo);
+      ResultSet resultado = SGBD.execResultSQL(consulta);
+      String[] usu = null;
+
+      if (resultado!=null) {
+        usu = new String[3];
+        try {
+          while (resultado.next()) {
+            usu[0] = resultado.getString("email");
+            usu[1] = resultado.getString("nombreUsuario");
+            usu[2] = resultado.getString("contrasena");
+          }
+        } catch (Exception e) {
+          // TODO: handle exception
+          e.printStackTrace();
+        }
+      }
+      return usu;
+    }
 }
