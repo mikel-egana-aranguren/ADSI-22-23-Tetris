@@ -12,8 +12,6 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.h2.engine.Session;
-
 //import javax.mail.*;
 
 public class Gestor {
@@ -149,7 +147,7 @@ public class Gestor {
 		}
     }
 
-    private void recuperar(String destinatario, String nombreUsuario, String pwd) {
+    private void recuperar(String nombreUsuario, String pwd, String destinatario) {
     	String asunto = "Contraseña TETRIX";
 		String cuerpo = "La contraseña correspondiente al usuario " + nombreUsuario + "es: " + pwd;
 
@@ -181,17 +179,15 @@ public class Gestor {
 		}
 	}
 
-	public boolean enviarEmail (String texto) {
+	public void enviarEmail (String texto) {
 		GestorUsuario GU = new GestorUsuario();
 		String[] credenciales = GU.obtenerDatos(texto);
 		JOptionPane option = new JOptionPane();
 		if (credenciales[0]!=null) {
 			recuperar(credenciales[0], credenciales[1], credenciales[2]);
 			option.showMessageDialog(null, "Se han enviado los datos a su email", "DATOS ENVIADOS", JOptionPane.INFORMATION_MESSAGE);
-			return true;
 		} else {
 			option.showMessageDialog(null, "No se han podido enviar los datos a su email", "DATOS NO ENVIADOS", JOptionPane.ERROR_MESSAGE);
-			return false;
 		}
 	}
 

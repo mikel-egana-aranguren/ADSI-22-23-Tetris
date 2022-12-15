@@ -102,7 +102,7 @@ public class GestorUsuario {
     }
 
     public String[] obtenerDatos(String correo) {
-      String consulta = String.format(SELECT + "nombreUsuario, contrasena, email" + FROM + "USUARIO" + WHERE + "email = '%s'", correo);
+      String consulta = String.format(SELECT + "email, nombreUsuario, contrasena" + FROM + "USUARIO" + WHERE + "email = '%s'", correo);
       ResultSet resultado = SGBD.execResultSQL(consulta);
       String[] usu = null;
 

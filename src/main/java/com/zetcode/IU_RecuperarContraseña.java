@@ -87,6 +87,7 @@ public class IU_RecuperarContraseña extends JFrame {
 		panelCentral.add(lblIntroducirEtc, gbc_lblIntroducirEtc);
 		
 		txtEmail = new JTextField();
+		txtEmail.setText("unai.solaun@zaraobe.net");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
