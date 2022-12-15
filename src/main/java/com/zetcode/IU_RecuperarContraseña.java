@@ -25,7 +25,7 @@ import java.awt.event.KeyEvent;
 public class IU_RecuperarContraseña extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtEmail;
 
 	/**
 	 * Launch the application.
@@ -86,14 +86,14 @@ public class IU_RecuperarContraseña extends JFrame {
 		gbc_lblIntroducirEtc.gridy = 1;
 		panelCentral.add(lblIntroducirEtc, gbc_lblIntroducirEtc);
 		
-		textField = new JTextField();
+		txtEmail = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 2;
-		panelCentral.add(textField, gbc_textField);
-		textField.setColumns(10);
+		panelCentral.add(txtEmail, gbc_textField);
+		txtEmail.setColumns(10);
 		
 		//Panel INFERIOR
 		
@@ -141,6 +141,7 @@ public class IU_RecuperarContraseña extends JFrame {
 	}
 	
 	public void recuperarContraseña() {
-		
+		Gestor GPrincipal = new Gestor();
+		GPrincipal.enviarEmail(txtEmail.getText());
 	}
 }

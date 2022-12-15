@@ -1,5 +1,6 @@
 package com.zetcode;
 
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -152,8 +153,8 @@ public class Gestor {
     	String asunto = "Contraseña TETRIX";
 		String cuerpo = "La contraseña correspondiente al usuario " + nombreUsuario + "es: " + pwd;
 
-		String remitente = "";
-		String clave = "";
+		String remitente = "adsitetrix@gmail.com";
+		String clave = "tetrixsa22";
 
 		Properties props = System.getProperties();
 		props.setProperty("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
@@ -183,10 +184,13 @@ public class Gestor {
 	public boolean enviarEmail (String texto) {
 		GestorUsuario GU = new GestorUsuario();
 		String[] credenciales = GU.obtenerDatos(texto);
+		JOptionPane option = new JOptionPane();
 		if (credenciales[0]!=null) {
 			recuperar(credenciales[0], credenciales[1], credenciales[2]);
+			option.showMessageDialog(null, "Se han enviado los datos a su email", "DATOS ENVIADOS", JOptionPane.INFORMATION_MESSAGE);
 			return true;
 		} else {
+			option.showMessageDialog(null, "No se han podido enviar los datos a su email", "DATOS NO ENVIADOS", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 	}
