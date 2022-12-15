@@ -31,7 +31,7 @@ public class prueba {
 	
 	public static void eliminarUsuario() {
 		System.out.println("DELTING...");
-	    String eliminar =  String.format("DELETE FROM USUARIO WHERE contrasena = '12345'");
+	    String eliminar =  String.format("DELETE FROM USUARIO WHERE contrasena = '0413'");
 		SGBD.execVoidSQL(eliminar);
 		System.out.println("DELETED...");
 	}
