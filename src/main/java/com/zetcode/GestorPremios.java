@@ -201,7 +201,7 @@ public class GestorPremios {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
         int dificultad = GestorDificultad.buscarDificultad(usuario);
 
-        Premio p = null; // TODO
+        Premio p = null;
         if (dificultad == 0 && puntos >= 5000) {
             p = new Premio("Aprendiz", puntos, null);
         } else if (dificultad == 1 && puntos >= 10000) {
