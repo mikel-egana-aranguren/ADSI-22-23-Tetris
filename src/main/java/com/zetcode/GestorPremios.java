@@ -210,6 +210,8 @@ public class GestorPremios {
             p = new Premio("Veterano", puntos, null);
         } else if (dificultad == 2 && puntos >= 30000) {
             p = new Premio("Maestro", puntos, null);
+        } else if (dificultad == 3 && puntos >= 100000) {
+            p = new Premio("Maestro Maestro", puntos, null);
         }
 
         return p;

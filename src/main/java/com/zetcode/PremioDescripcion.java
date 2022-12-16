@@ -58,12 +58,21 @@ public class PremioDescripcion extends JFrame {
 		Integer progreso = json2.getInt("progreso");
 		Integer progresoMax = json2.getInt("progresoMax");
 
+		int progresoFinal = progreso * 100 / progresoMax;
+		if (progresoFinal > 100) {
+			progresoFinal = 100;
+		}
+
 		ByteBuffer buffer = StandardCharsets.ISO_8859_1.encode(descripcion); 
 		String descripcionUTF8 = StandardCharsets.UTF_8.decode(buffer).toString();
 
 		JLabel btnNewButton = new JLabel("");
-		btnNewButton.setIcon(new ImageIcon("a.jpg"));
-		btnNewButton.setBounds(12, 42, 195, 176);
+		if (progresoFinal == 100) {
+			btnNewButton.setIcon(new ImageIcon("resources/premio.png"));
+		} else {
+			btnNewButton.setIcon(new ImageIcon("resources/premio sin completar.png"));
+		}
+		btnNewButton.setBounds(50, 80, 96, 96);
 		contentPane.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel(nombrePremio);
@@ -90,7 +99,7 @@ public class PremioDescripcion extends JFrame {
 		contentPane.add(botonVolver);
 		
 		JProgressBar progressBar = new JProgressBar();
-		progressBar.setValue(75);
+		progressBar.setValue(progresoFinal);
 		progressBar.setBounds(22, 231, 146, 14);
 		contentPane.add(progressBar);
 	}
