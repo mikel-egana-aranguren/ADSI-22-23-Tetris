@@ -12,6 +12,7 @@ public class Partida {
     private int puntos;
     private int idPartida;
     private ArrayList<Ficha> listaFichas;
+    private String estadoTablero;
 
     public Partida() {
         premios = new ArrayList<Premio>();
@@ -67,16 +68,8 @@ public class Partida {
         return this.idPartida;
     }
 
-    public JSONObject obtenerEstadoTablero() {
-		JSONObject[] arrayDatosFichas = {};
-		for (Ficha pFicha : listaFichas) {
-			JSONObject datosFicha = pFicha.obtenerDatosFicha();
-			arrayDatosFichas[arrayDatosFichas.length] = datosFicha;
-		}
-		JSONObject datosFichas = new JSONObject();
-		datosFichas.put("estadoTablero", arrayDatosFichas);
-		return datosFichas;
-		
+    public String obtenerEstadoTablero() {
+		return this.estadoTablero;
 	}
 
     public void setPuntosPartida(int pPuntos) {
@@ -91,15 +84,8 @@ public class Partida {
         // TODO
     }
 
-    public void setEstadoTablero(JSONObject pEstadoTableroJson) {
-		JSONObject[] arrayFichasJson = (JSONObject[])pEstadoTableroJson.get("estadoTablero");
-		for (JSONObject fichaJson : arrayFichasJson) {
-			int posX = fichaJson.getInt("posX");
-			int posY = fichaJson.getInt("posY");
-			String color = fichaJson.getString("color"); 
-			Ficha ficha = new Ficha(posX, posY, color);
-			listaFichas.add(ficha);
-		}
+    public void setEstadoTablero(String pEstadoTablero) {
+		this.estadoTablero = pEstadoTablero;
 	}
 
     public void addFilas(int filas) {
@@ -112,5 +98,9 @@ public class Partida {
 
     public void contarFicha() {
         fichasColocadas += 1;
+    }
+	
+    public void anadirPremio(Premio pPremio) {
+        this.premios.add(pPremio);
     }
 }
