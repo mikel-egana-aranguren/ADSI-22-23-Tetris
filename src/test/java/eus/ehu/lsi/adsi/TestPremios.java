@@ -1,6 +1,16 @@
 package eus.ehu.lsi.adsi;
 
 import org.junit.Test;
+
+import com.zetcode.Gestor;
+import com.zetcode.GestorPartida;
+import com.zetcode.GestorUsuario;
+import com.zetcode.Partida;
+import com.zetcode.PremioDescripcion;
+import com.zetcode.SGBD;
+import com.zetcode.Tetris;
+import com.zetcode.Usuario;
+
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -9,13 +19,20 @@ import org.junit.Before;
 public class TestPremios {
 
     @Before  
-    public void setUp() {   
-        
+    public void setUp() {
+        SGBD.inicializarTest();
+        SGBD.execVoidSQL("INSERT INTO USUARIO(nombreUsuario,contrasena,email) VALUES ('usuariotest','contr','test@gmail.com')");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usu = new Usuario("test");
+        Partida par = new Partida();
+        usu.setPartida(par);
+        gu.setUsuario(usu);
     }
 
     @After  
-    public void tearDown() {   
-        
+    public void tearDown() {
+        SGBD.execVoidSQL("DELETE FROM PREMIOOBTENIDO WHERE nombreUsuario='usuariotest'");
+        SGBD.execVoidSQL("DELETE FROM USUARIO WHERE nombreUsuario='usuariotest'");
     }   
 
     /**
@@ -27,15 +44,13 @@ public class TestPremios {
      */
     @Test
 	public void CompletarDesafio() {
-        // Pasos:
-        // 1. execSQL para completar el premio
-        // 2. Abrir la ventana de los premios
-        // 3. Imprimir un mensaje para que el tester compruebe que aparece como obtenido
-        // 4. Borrar el progreso del premio
-        /* execSQL(
-            "INSERT INTO Usuario(NombreUsuario) VALUES (TEST)"
-        ) */
-        fail("Not yet implemented");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        GestorPartida.addFilas(par, 50);
+        Gestor.comprobarProgresoPremios();
+        Gestor.comprobarProgresoPremiosFinalPartida();
+
+        System.out.println("Comprube que el premio \"Eliminador de filas\" se ha completado (y ningun otro)");
 	}
 
     /**
@@ -47,12 +62,13 @@ public class TestPremios {
      */
     @Test
 	public void SinCompletarDesafio() {
-        // Pasos:
-        // 1. Empezar una nueva partida
-        // 2. Llenar el tablero de ladrillos para que acabe rápido
-        // 3. Imprimir un mensaje para que el tester no haga nada, simplemente pierda
-        // 4. Imprimir un mensaje para que el tester compruebe que en el mení de fin de partida no se muestre ningún premio obtenido
-        fail("Not yet implemented");
+        System.out.println("No hagas nada, espera a perder la partida");
+        System.out.println("Comprueba que el menu de fin de partida no menciona haber obtenido ningún premio");
+        System.out.println("Luego ve al menu de premios");
+        System.out.println("Comprueba que no hay progreso en ningún premio");
+
+        var game = new Tetris();
+        game.setVisible(true);
 	}
 
     /**
@@ -71,7 +87,10 @@ public class TestPremios {
         // 4. Imprimir un mensaje para que el tester no haga nada, simplemente pierda
         // 5. Imprimir un mensaje con los logros que se van a obtener
         // 5. Imprimir un mensaje para que el tester compruebe que se han completado los logros dichos anteriormente 
-        fail("Not yet implemented");
+
+        System.out.println("Para ejecutar este test lanza el programa con el argumento \"test1\"");
+
+        Tetris.main(null);
 	}
 
     /**

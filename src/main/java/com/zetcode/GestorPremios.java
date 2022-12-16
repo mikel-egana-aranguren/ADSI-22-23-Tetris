@@ -21,7 +21,7 @@ public class GestorPremios {
         ));
         try {
             while (resultado.next()) {
-                String nombre = resultado.getString("nombre");
+                String nombre = resultado.getString("nombrepremio");
                 Integer progreso = resultado.getInt("progreso");
                 Integer progresoMax = resultado.getInt("progresoMax");
                 Premio premio = new Premio(nombre, progreso, progresoMax);
@@ -134,9 +134,7 @@ public class GestorPremios {
 
         Premio p = null;
         if (fichas > 0) {
-            p = new Premio("fichas colocadas 1", fichas, null);
-            p = new Premio("fichas colocadas 2", fichas, null);
-            p = new Premio("fichas colocadas 3", fichas, null);
+            p = new Premio("Colocador de Fichas", fichas, null);
         }
 
         return p;
@@ -151,9 +149,7 @@ public class GestorPremios {
 
         Premio p = null;
         if (filas > 0) {
-            p = new Premio("filas eliminadas 1", filas, null);
-            p = new Premio("filas eliminadas 2", filas, null);
-            p = new Premio("filas eliminadas 3", filas, null);
+            p = new Premio("Eliminador de Filas", filas, null);
         }
 
         return p;
@@ -168,8 +164,6 @@ public class GestorPremios {
 
         Premio p = null;
         if (tetrises > 0) {
-            p = new Premio("TETRISero", tetrises, null);
-            p = new Premio("Conocedor del TETRIS", tetrises, null);
             p = new Premio("Maestro del TETRIS", tetrises, null);
         }
 
@@ -235,28 +229,34 @@ public class GestorPremios {
         String nusuario = gu.getNombreUsuario(usuario);
         String npremio = premio.getNombre();
         Integer progreso = premio.getProgreso();
-        SGBD.execVoidSQL(String.format(""
-            + "INSERT INTO PremioObtenido(nombrepremio, nombreusuario, progreso "
-            + "VALUES ('%s', '%s', 0) "
-            + "WHERE '%s' NOT IN "
-                + "(SELECT nombrepremio "
-                + "FROM PremioObtenido "
-                + "WHERE nombreusuario='%s')",
-            npremio, nusuario,
-            npremio,
-
-
-            nusuario
-        ));
-
-        SGBD.execVoidSQL(String.format(""
-            + "UPDATE PremioObtenido "
-            + "SET progreso=progreso+%s "
-            + "WHERE nombrepremio='%s' "
+        ResultSet result = SGBD.execResultSQL(String.format(""
+            + "SELECT nombrePremio FROM PremioObtenido "
+            + "WHERE nombrePremio='%s' "
                 + "AND nombreusuario='%s'",
-            progreso,
             npremio,
             nusuario
         ));
+
+        try {
+            if (result.next()) {
+                SGBD.execVoidSQL(String.format(""
+                    + "UPDATE PremioObtenido "
+                    + "SET progreso=progreso+%s "
+                    + "WHERE nombrepremio='%s' "
+                        + "AND nombreusuario='%s'",
+                    progreso,
+                    npremio,
+                    nusuario
+                ));
+            } else {
+                SGBD.execVoidSQL(String.format(""
+                + "INSERT INTO PremioObtenido(nombrepremio, nombreusuario, progreso) "
+                    + "VALUES ('%s', '%s', %s) ",
+                    npremio, nusuario, progreso
+                ));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
