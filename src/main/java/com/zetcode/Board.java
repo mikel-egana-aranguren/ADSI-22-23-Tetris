@@ -61,16 +61,89 @@ public class Board extends JPanel {
         return board[(y * BOARD_WIDTH) + x];
     }
 
-    void start() {
+    public void start(String pEstadoPartida) {
 
-        curPiece = new Shape();
-        board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
-
-        clearBoard();
+    	curPiece = new Ficha();
+    	
+        if(pEstadoPartida != null) {
+            board = this.convertirStringABoard(pEstadoPartida);
+        }
+        else {
+            board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
+            clearBoard();
+        }
+        
         newPiece();
 
         timer = new Timer(PERIOD_INTERVAL, new GameCycle());
         timer.start();
+    }
+    
+    private String convertirBoardAString()
+    /** Convierte el Board Tetrominoe[] al String estadoPartida **/
+    {
+        String s = "";
+        for(int i=0; i<board.length; i++)
+        {
+            Tetrominoe te = board[i];
+            if(i != board.length-1)
+            {
+                s = s + te + " ";
+            }
+            else
+            {
+                s = s + te;
+            }
+        }
+
+        //System.out.println(s);
+        return s;
+    }
+    
+    private Tetrominoe[] convertirStringABoard(String pEstadoPartida)
+    /** Convierte el String estadoPartida al Board Tetrominoe[] **/
+    {
+        String[] textoSeparado = pEstadoPartida.split(" ");     //Devuelve un array de String por cada palabra separada por un espacio
+
+        Tetrominoe[] resultado = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
+        for(int i=0; i< textoSeparado.length; i++)
+        {
+            String s = textoSeparado[i];
+            if(s.equals("NoShape"))
+            {
+                resultado[i] = Tetrominoe.NoShape;
+            }
+            else if(s.equals("ZShape"))
+            {
+                resultado[i] = Tetrominoe.ZShape;
+            }
+            else if(s.equals("SShape"))
+            {
+                resultado[i] = Tetrominoe.SShape;
+            }
+            else if(s.equals("LineShape"))
+            {
+                resultado[i] = Tetrominoe.LineShape;
+            }
+            else if(s.equals("TShape"))
+            {
+                resultado[i] = Tetrominoe.TShape;
+            }
+            else if(s.equals("SquareShape"))
+            {
+                resultado[i] = Tetrominoe.SquareShape;
+            }
+            else if(s.equals("LShape"))
+            {
+                resultado[i] = Tetrominoe.LShape;
+            }
+            else if(s.equals("MirroredLShape"))
+            {
+                resultado[i] = Tetrominoe.MirroredLShape;
+            }
+        }
+
+        return resultado;
     }
 
     private void pause() {
@@ -85,8 +158,7 @@ public class Board extends JPanel {
     				
     				@Override
     				public void actionPerformed(ActionEvent e) {
-    					System.out.println("Guardar Partida");
-    					Gestor.guardarPartida();
+    					Gestor.getGestor().guardarPartida(convertirBoardAString());
     					Tetris.getTetris().close();
     					Menu.getMenu().start();
     					
