@@ -1,5 +1,6 @@
 package com.zetcode;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -191,7 +192,7 @@ public class Gestor {
     }
 
     public static void addFilas(int filas) {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
 
@@ -199,7 +200,7 @@ public class Gestor {
     }
 
     public static void addTetrises(int tetrises) {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
 
@@ -207,7 +208,7 @@ public class Gestor {
     }
 
     public static void contarFicha() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
 
