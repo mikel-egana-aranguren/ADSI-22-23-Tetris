@@ -30,10 +30,11 @@ public class Tetris extends JFrame {
     	return miTetris;
     }
     
-    public void start() {
+    public void start(String pEstadoTablero) {
         EventQueue.invokeLater(new Runnable() {
 	    public void run() {
 		try {
+		    miTetris.initUI(pEstadoTablero);
 		    miTetris.setVisible(true);
 		} catch (Exception e) {
 		    e.printStackTrace();
@@ -47,16 +48,16 @@ public class Tetris extends JFrame {
     }
 
     private Tetris() {
-        initUI();
+        
     }
 
-    private void initUI() {
+    private void initUI(String pEstadoTablero) {
         statusbar = new JLabel(" 0");
         add(statusbar, BorderLayout.SOUTH);
 
         var board = new Board(this);
         add(board);
-        board.start();
+        board.start(pEstadoTablero);
 
         setTitle("Tetris");
         setSize(200, 400);
