@@ -14,9 +14,9 @@ public class GestorPartida {
         return pPartida.obtenerPuntos();
     }
     
-    public static JSONObject obtenerEstadoTablero(Partida pPartida) {
-        return pPartida.obtenerEstadoTablero();
-    }
+    public static String obtenerEstadoTablero(Partida pPartida) {
+		return pPartida.obtenerEstadoTablero();
+	}
     
     public static void setIdPartida(Partida pPartida, int pIdPartida) {
         pPartida.setIdPartida(pIdPartida);
@@ -26,9 +26,9 @@ public class GestorPartida {
         pPartida.setPuntosPartida(pPuntos);
     }
     
-    public static void setEstadoTablero(Partida pPartida, JSONObject pEstadoTableroJson) {
-        pPartida.setEstadoTablero(pEstadoTableroJson);
-    }
+    public static void setEstadoTablero(Partida pPartida, String pEstadoTablero) {
+		pPartida.setEstadoTablero(pEstadoTablero);
+	}
 
     public static Integer fichasColocadas(Partida partida) {
         return partida.fichasColocadas();
