@@ -76,7 +76,7 @@ public class Tetris extends JFrame {
 
             SGBD.inicializarTest();
             SGBD.execVoidSQL("INSERT INTO USUARIO(nombreUsuario,contrasena,email) VALUES ('usuariotest','contr','test@gmail.com')");
-            GestorUsuario gu = GestorUsuario.getGestor();
+            GestorUsuario gu = GestorUsuario.getGestorUsuario();
             Usuario usu = new Usuario("usuariotest");
             Partida par = new Partida();
             usu.setPartida(par);

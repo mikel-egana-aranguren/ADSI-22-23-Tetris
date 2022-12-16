@@ -22,7 +22,7 @@ public class TestPremios {
     public void setUp() {
         SGBD.inicializarTest();
         SGBD.execVoidSQL("INSERT INTO USUARIO(nombreUsuario,contrasena,email) VALUES ('usuariotest','contr','test@gmail.com')");
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usu = new Usuario("test");
         Partida par = new Partida();
         usu.setPartida(par);
@@ -44,7 +44,7 @@ public class TestPremios {
      */
     @Test
 	public void CompletarDesafio() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addFilas(par, 50);
         Gestor.comprobarProgresoPremios();
@@ -67,8 +67,8 @@ public class TestPremios {
         System.out.println("Luego ve al menu de premios");
         System.out.println("Comprueba que no hay progreso en ningún premio");
 
-        var game = new Tetris();
-        game.setVisible(true);
+        /* var game = new Tetris();
+        game.setVisible(true); */
 	}
 
     /**

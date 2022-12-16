@@ -138,7 +138,7 @@ public class Menu extends JFrame {
 						if (!listaIds.contains(idSeleccionado)) {
 							ponerMensaje("EL id de partida no existe");
 						} else {
-							Gestor.getGestor().cargarPartida(idSeleccionado);
+							Gestor.cargarPartida(idSeleccionado);
 							Menu.getMenu().close();
 							Tetris.getTetris().start();
 						}

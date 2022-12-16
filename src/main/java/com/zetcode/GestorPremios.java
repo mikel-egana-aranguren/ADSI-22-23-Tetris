@@ -51,7 +51,7 @@ public class GestorPremios {
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
         String nombreUsuario = gu.getNombreUsuario(usuario);
 
@@ -126,7 +126,7 @@ public class GestorPremios {
     }
 
     private static Premio obtenerPremioColocarFichas() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
@@ -141,7 +141,7 @@ public class GestorPremios {
     }
 
     private static Premio obtenerPremioEliminarFilas() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
@@ -156,7 +156,7 @@ public class GestorPremios {
     }
 
     private static Premio obtenerPremioHacerTetris() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
@@ -171,7 +171,7 @@ public class GestorPremios {
     }
 
     private static void guardarProgresoPremios(ArrayList<Premio> premios) {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
@@ -189,7 +189,7 @@ public class GestorPremios {
     }
 
     private static ArrayList<Premio> obtenerPremiosProgresadosFinalPartida() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
@@ -225,7 +225,7 @@ public class GestorPremios {
     }
 
     private static void progresarPremio(Premio premio) {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
         Usuario usuario = gu.obtenerUsuarioActual();
         String nusuario = gu.getNombreUsuario(usuario);

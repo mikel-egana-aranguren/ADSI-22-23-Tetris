@@ -6,27 +6,27 @@ import java.util.ArrayList;
 
 public class GestorPartida {
 
-    public int obtenerIdPartida(Partida pPartida) {
+    public static int obtenerIdPartida(Partida pPartida) {
         return pPartida.obtenerId();
     }
     
-    public int obtenerPuntos(Partida pPartida) {
+    public static int obtenerPuntos(Partida pPartida) {
         return pPartida.obtenerPuntos();
     }
     
-    public JSONObject obtenerEstadoTablero(Partida pPartida) {
+    public static JSONObject obtenerEstadoTablero(Partida pPartida) {
         return pPartida.obtenerEstadoTablero();
     }
     
-    public void setIdPartida(Partida pPartida, int pIdPartida) {
+    public static void setIdPartida(Partida pPartida, int pIdPartida) {
         pPartida.setIdPartida(pIdPartida);
     }
     
-    public void setPuntosPartida(Partida pPartida, int pPuntos) {
+    public static void setPuntosPartida(Partida pPartida, int pPuntos) {
         pPartida.setPuntosPartida(pPuntos);
     }
     
-    public void setEstadoTablero(Partida pPartida, JSONObject pEstadoTableroJson) {
+    public static void setEstadoTablero(Partida pPartida, JSONObject pEstadoTableroJson) {
         pPartida.setEstadoTablero(pEstadoTableroJson);
     }
 

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class Gestor {
     public static JSONArray obtenerPremios() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
         String nombreUsuario = gu.getNombreUsuario(usuario);
         ArrayList<Premio> premios = GestorPremios.obtenerPremios(nombreUsuario);
@@ -26,7 +26,7 @@ public class Gestor {
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
         gu.getNombreUsuario(usuario);
         return GestorPremios.obtenerDescripcionPremio(nombrePremio);
@@ -41,7 +41,7 @@ public class Gestor {
     }
 
 	public static void addPuntos(int puntos) {
-		GestorUsuario gu = GestorUsuario.getGestor();
+		GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
 		Partida par = gu.obtenerPartidaUsuario(usuario);
 		GestorPartida.addPuntos(par, puntos);
@@ -118,17 +118,17 @@ public class Gestor {
         return "";
     }
 
-    public void guardarPartida() {
+    public static void guardarPartida() {
 		ResultSet resultado;
 		//Obtener los datos necesarios
 		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
 		Partida partidaUsuario = GestorUsuario.getGestorUsuario().obtenerPartidaUsuario(usuario);
-		int idPartida = GestorPartida.getGestorPartida().obtenerIdPartida(partidaUsuario);
-		int puntos = GestorPartida.getGestorPartida().obtenerPuntos(partidaUsuario);
-		JSONObject estadoTableroJSON = GestorPartida.getGestorPartida().obtenerEstadoTablero(partidaUsuario); //Guardar el JSON como un string en la base de datos y luego parsear al cargar
+		int idPartida = GestorPartida.obtenerIdPartida(partidaUsuario);
+		int puntos = GestorPartida.obtenerPuntos(partidaUsuario);
+		JSONObject estadoTableroJSON = GestorPartida.obtenerEstadoTablero(partidaUsuario); //Guardar el JSON como un string en la base de datos y luego parsear al cargar
 		String estadoTableroString = estadoTableroJSON.toString();
-		String dificultad = GestorDificultad.getGestorDificultad().buscarDificultad(usuario).getNombre();
+		String dificultad = GestorDificultad.buscarDificultad(usuario).getNombre();
 		GestorPremios.comprobarProgresoPremios(); //Comprobar el progreso de los premios
 		ArrayList<Premio> listaPremios = GestorPremios.obtenerPremios(nombreUsuario);
 		resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
@@ -149,7 +149,7 @@ public class Gestor {
 		}
 	}
 	
-	public void cargarPartida(int pIdPartida) {
+	public static void cargarPartida(int pIdPartida) {
 		ResultSet resultado;
 		try {
 			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id="+pIdPartida);
@@ -168,9 +168,9 @@ public class Gestor {
 			JSONObject estadoTableroJson = jsonParser.fromJson(estadoTableroString, JSONObject.class);
 			//Meter todos los datos en las clases
 			Partida partidaUsuario = new Partida();
-			GestorPartida.getGestorPartida().setIdPartida(partidaUsuario,pIdPartida);
-			GestorPartida.getGestorPartida().setPuntosPartida(partidaUsuario,puntos);
-			GestorPartida.getGestorPartida().setEstadoTablero(partidaUsuario,estadoTableroJson);
+			GestorPartida.setIdPartida(partidaUsuario,pIdPartida);
+			GestorPartida.setPuntosPartida(partidaUsuario,puntos);
+			GestorPartida.setEstadoTablero(partidaUsuario,estadoTableroJson);
 			GestorUsuario.getGestorUsuario().setPartidaUsuario(usuario,partidaUsuario);
 		} catch (Exception e) {
 			Menu.getMenu().ponerMensaje("Error: " + e);

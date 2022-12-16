@@ -86,7 +86,7 @@ public class Board extends JPanel {
     				@Override
     				public void actionPerformed(ActionEvent e) {
     					System.out.println("Guardar Partida");
-    					Gestor.getGestor().guardarPartida();
+    					Gestor.guardarPartida();
     					Tetris.getTetris().close();
     					Menu.getMenu().start();
     					
