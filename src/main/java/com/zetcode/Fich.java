@@ -2,7 +2,7 @@ package com.zetcode;
 
 import java.util.Random;
 
-public class Shape {
+public class Ficha {
 
     protected enum Tetrominoe { NoShape, ZShape, SShape, LineShape,
         TShape, SquareShape, LShape, MirroredLShape }
@@ -12,7 +12,7 @@ public class Shape {
     private int[][][] coordsTable;
 
 
-    public Shape() {
+    public Ficha() {
 
         initShape();
     }
@@ -88,14 +88,14 @@ public class Shape {
         return m;
     }
 
-    public Shape rotateLeft() {
+    public Ficha rotateLeft() {
 
         if (pieceShape == Tetrominoe.SquareShape) {
 
             return this;
         }
 
-        var result = new Shape();
+        var result = new Ficha();
         result.pieceShape = pieceShape;
 
         for (int i = 0; i < 4; ++i) {
@@ -107,14 +107,14 @@ public class Shape {
         return result;
     }
 
-    public Shape rotateRight() {
+    public Ficha rotateRight() {
 
         if (pieceShape == Tetrominoe.SquareShape) {
 
             return this;
         }
 
-        var result = new Shape();
+        var result = new Ficha();
         result.pieceShape = pieceShape;
 
         for (int i = 0; i < 4; ++i) {
