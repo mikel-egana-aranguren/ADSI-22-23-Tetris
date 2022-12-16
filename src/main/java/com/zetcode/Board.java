@@ -1,6 +1,6 @@
 package com.zetcode;
 
-import com.zetcode.Shape.Tetrominoe;
+import com.zetcode.Ficha.Tetrominoe;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,7 +29,7 @@ public class Board extends JPanel {
     private int curX = 0;
     private int curY = 0;
     private JLabel statusbar;
-    private Shape curPiece;
+    private Ficha curPiece;
     private Tetrominoe[] board;
     JButton guardarPartida = null;
     JButton cancelar = null;
@@ -299,7 +299,7 @@ public class Board extends JPanel {
         }
     }
 
-    private boolean tryMove(Shape newPiece, int newX, int newY) {
+    private boolean tryMove(Ficha newPiece, int newX, int newY) {
 
         for (int i = 0; i < 4; i++) {
 
