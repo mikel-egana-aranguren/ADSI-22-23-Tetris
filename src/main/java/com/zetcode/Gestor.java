@@ -1,30 +1,51 @@
 package com.zetcode;
 
 import java.util.ArrayList;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Gestor {
-    private static Gestor miGestor = null;
-    
-    private Gestor() {
-    
-    }
-	
-    public static Gestor getGestor() {
-	if (miGestor == null) {
-            miGestor = new Gestor();
-        }
-        return miGestor;
-    }
-    
-    private String obtenerPremios() {
-        // TODO
-        return "";
+    public static JSONArray obtenerPremios() {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        String nombreUsuario = gu.getNombreUsuario(usuario);
+        ArrayList<Premio> premios = GestorPremios.obtenerPremios(nombreUsuario);
+        JSONArray premiosjson = new JSONArray(premios.stream().map(
+            premio -> {
+                JSONObject json = new JSONObject();
+                json.put("nombrePremio", premio.getNombre());
+                json.put("progreso", premio.getProgreso());
+                json.put("progresoMax", premio.getProgresoMax());
+                return json;
+            }).collect(Collectors.toList()
+        ));
+        return premiosjson;
     }
 
-    private String obtenerDescripcionPremio(String st1) {
-        // TODO
-        return "";
+    public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        gu.getNombreUsuario(usuario);
+        return GestorPremios.obtenerDescripcionPremio(nombrePremio);
     }
+
+    public static void comprobarProgresoPremios() {
+        GestorPremios.comprobarProgresoPremios();
+    }
+
+    public static void comprobarProgresoPremiosFinalPartida() {
+        GestorPremios.comprobarProgresoPremiosFinalPartida();
+    }
+
+	public static void addPuntos(int puntos) {
+		GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+		Partida par = gu.obtenerPartidaUsuario(usuario);
+		GestorPartida.addPuntos(par, puntos);
+	}
 
     private String getRankingGlobal() {
         // TODO
@@ -167,5 +188,29 @@ public class Gestor {
     private String configurarMensaje(String nombreUsuario, int puntos, ArrayList<String> listNombresPrem) {
         // TODO
         return "";
+    }
+
+    public static void addFilas(int filas) {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+
+        GestorPartida.addFilas(partida, filas);
+    }
+
+    public static void addTetrises(int tetrises) {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+
+        GestorPartida.addTetrises(partida, tetrises);
+    }
+
+    public static void contarFicha() {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        Partida partida = gu.obtenerPartidaUsuario(usuario);
+
+        GestorPartida.contarFicha(partida);
     }
 }

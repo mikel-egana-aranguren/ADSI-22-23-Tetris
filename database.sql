@@ -104,6 +104,15 @@ CREATE TABLE PERSONALIZACION(
 
 --INSERT INTO DIFICULTAD VALUES("",,);
 --INSERT INTO PREMIO VALUES(...);
-INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('test', 'este premio es un test', 100);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Colocador de Fichas', '<html>Coloca 1000 fichas<br>para obtener este premio!</html>', 1000);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Eliminador de Filas', '<html>Elimina 50 filas<br>para obtener este premio!</html>', 50);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro del TETRIS', '<html>Serás nombrado<br>"Maestro del TETRIS"<br>tras realizar 15 tetris.<br>Un tetris se consigue al eliminar<br>4 filas con una sola ficha</html>', 15);
+
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Aprendiz', '<html>Consigue más de<br>5000 puntos en una partida<br>de dificultad fácil<br>para ser aprendiz</html>', 1);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Veterano', '<html>Consigue más de<br>10000 puntos en una partida<br>de dificultad media<br>para ser veterano</html>', 1);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro', '<html>Consigue más de<br>30000 puntos en una partida<br>de dificultad difícil<br>para ser maestro</html>', 1);
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro Maestro', '<html>Consigue más de<br>100000 puntos en una partida<br>de dificultad difícil<br>para ser maestro maestro</html>', 1);
+
+INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Puntuador Extremo', '<html>Para completar este logro<br>debes obtener 1 millón de puntos.', 1000000);
 
 --Añadir en el diagrama ER la dificultad de partida

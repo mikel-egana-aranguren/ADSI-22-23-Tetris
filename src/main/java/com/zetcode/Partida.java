@@ -2,6 +2,8 @@ package com.zetcode;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 public class Partida {
     private int fichasColocadas;
     private int filasEliminadas;
@@ -10,52 +12,58 @@ public class Partida {
     private int puntos;
     private int idPartida;
     private ArrayList<Ficha> listaFichas;
-    
+
     public Partida() {
-    
+        premios = new ArrayList<Premio>();
     }
 
-    private int fichasColocadas() {
-        // TODO
-        return 0;
+    public int fichasColocadas() {
+        int fichas = fichasColocadas;
+        resetearContadorFichas();
+        return fichas;
     }
 
     private void resetearContadorFichas() {
-        // TODO
+        fichasColocadas = 0;
     }
 
-    private int filasEliminadas() {
-        // TODO
-        return 0;
+    public int filasEliminadas() {
+        int filas = filasEliminadas;
+        resetearContadorFilas();
+        return filas;
     }
 
     private void resetearContadorFilas() {
-        // TODO
+        filasEliminadas = 0;
     }
 
-    private int tetrisHechos() {
-        // TODO
-        return 0;
+    public int tetrisHechos() {
+        int tetrises = tetrisHechos;
+        resetearContadorTetris();
+        return tetrises;
     }
 
     private void resetearContadorTetris() {
-        // TODO
+        tetrisHechos = 0;
     }
 
-    private void anadirPremios(ArrayList<Premio> premios) {
-        // TODO
+    public void anadirPremios(ArrayList<Premio> pPremios) {
+        premios.addAll(pPremios);
     }
     
     public int obtenerPuntos() {
-        return this.puntos;
+        return puntos;
     }
 
-    private ArrayList<Premio> obtenerPremios() {
-        // TODO
-        return null;
+    public void addPuntos(int pPuntos) {
+        puntos += pPuntos;
     }
 
-    prublic int obtenerId() {
+    public ArrayList<Premio> obtenerPremios() {
+        return premios;
+    }
+
+    public int obtenerId() {
         return this.idPartida;
     }
 
@@ -82,7 +90,7 @@ public class Partida {
     private void anadirListaFichas(ArrayList<Ficha> listaFichas) {
         // TODO
     }
-    
+
     public void setEstadoTablero(JSONObject pEstadoTableroJson) {
 		JSONObject[] arrayFichasJson = (JSONObject[])pEstadoTableroJson.get("estadoTablero");
 		for (JSONObject fichaJson : arrayFichasJson) {
@@ -93,4 +101,16 @@ public class Partida {
 			listaFichas.add(ficha);
 		}
 	}
+
+    public void addFilas(int filas) {
+        filasEliminadas += filas;
+    }
+
+    public void addTetrises(int tetrises) {
+        tetrisHechos += tetrises;
+    }
+
+    public void contarFicha() {
+        fichasColocadas += 1;
+    }
 }

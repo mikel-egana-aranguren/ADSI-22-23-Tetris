@@ -204,6 +204,10 @@ public class Board extends JPanel {
 
             newPiece();
         }
+
+        Gestor.contarFicha();
+
+        Gestor.comprobarProgresoPremios();
     }
 
     private void newPiece() {
@@ -219,6 +223,7 @@ public class Board extends JPanel {
 
             var msg = String.format("Game over. Score: %d", numLinesRemoved);
             statusbar.setText(msg);
+            Gestor.comprobarProgresoPremiosFinalPartida();
         }
     }
 
@@ -281,6 +286,21 @@ public class Board extends JPanel {
         if (numFullLines > 0) {
 
             numLinesRemoved += numFullLines;
+
+            Gestor.addFilas(numFullLines);
+
+            if (numFullLines >= 4) {
+                Gestor.addTetrises(1);
+                if (numFullLines == 1) {
+                    Gestor.addPuntos(10);
+                } else if (numFullLines == 2) {
+                    Gestor.addPuntos(50);
+                } else if (numFullLines == 3) {
+                    Gestor.addPuntos(150);
+                } else {
+                    Gestor.addPuntos(300);
+                }
+            }
 
             statusbar.setText(String.valueOf(numLinesRemoved));
             isFallingFinished = true;

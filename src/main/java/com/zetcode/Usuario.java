@@ -9,17 +9,17 @@ public class Usuario {
     public Usuario(String pNombre) {
 		this.nombre = pNombre;
 	}
-    
-    public String getNombre() {
-		return this.nombre;
-	}
-
-    public Partida obtenerPartida() {
-		return this.partida;
-	}
 
     public void setPartida(Partida pPartida) {
         this.partida = pPartida;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Partida obtenerPartida() {
+        return partida;
     }
 
     private int obtPuntosPartida() {
