@@ -111,7 +111,6 @@ INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro del TETRIS
 INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Aprendiz', '<html>Consigue más de<br>5000 puntos en una partida<br>de dificultad fácil<br>para ser aprendiz</html>', 1);
 INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Veterano', '<html>Consigue más de<br>10000 puntos en una partida<br>de dificultad media<br>para ser veterano</html>', 1);
 INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro', '<html>Consigue más de<br>30000 puntos en una partida<br>de dificultad difícil<br>para ser maestro</html>', 1);
-INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro Maestro', '<html>Consigue más de<br>100000 puntos en una partida<br>de dificultad difícil<br>para ser maestro maestro</html>', 1);
 
 INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Puntuador Extremo', '<html>Para completar este logro<br>debes obtener 1 millón de puntos.', 1000000);
 
