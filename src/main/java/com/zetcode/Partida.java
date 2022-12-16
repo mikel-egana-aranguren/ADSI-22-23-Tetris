@@ -2,8 +2,6 @@ package com.zetcode;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
-
 public class Partida {
     private int fichasColocadas;
     private int filasEliminadas;
