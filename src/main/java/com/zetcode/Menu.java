@@ -112,18 +112,14 @@ public class Menu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setContentPane(contentPane);
-		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
-		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
 		ArrayList<Integer> listaIds = new ArrayList<Integer>();
 		try {
-			ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE nombreUsuario ="+nombreUsuario);
-			boolean hayPartida = resultado.next();
-			while (hayPartida) {
-				int id = resultado.getInt("idPartida");
-				int puntos = resultado.getInt("puntos");
-				listaIds.add(id);
+			JSONObject[] partidasUsuario = (JSONObject[])Gestor.getGestor().obtenerPartidasUsuarioActual().get("listaPartidas");
+			for (JSONObject partida : partidasUsuario) {
+				int id = partida.getInt("id");
+				int puntos = partida.getInt("puntos");
 				contentPane.add(new JLabel("id: "+ id + ", puntos: " + puntos));
-				hayPartida = resultado.next();
+				listaIds.add(id);
 			}
 			contentPane.add(new JLabel("Selecciona el id de la partida que desear cargar: "));
 			JTextField textField = new JTextField(20);
@@ -134,13 +130,19 @@ public class Menu extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						int idSeleccionado = Integer.parseInt(textField.getText().trim());
-						if (!listaIds.contains(idSeleccionado)) {
+						Integer idSeleccionado = Integer.parseInt(textField.getText().trim());
+						boolean esta = false;
+						int pos = 0;
+						while (!esta && pos < listaIds.size()) {
+							esta = listaIds.get(pos) == idSeleccionado;
+							pos += 1;
+							
+						}
+						if (!esta) {
 							ponerMensaje("EL id de partida no existe");
 						} else {
-							Gestor.cargarPartida(idSeleccionado);
 							Menu.getMenu().close();
-							Tetris.getTetris().start();
+							Gestor.getGestor().cargarPartida(idSeleccionado);
 						}
 					} catch (Exception ex) {
 						ponerMensaje("El id debe ser un numero");
