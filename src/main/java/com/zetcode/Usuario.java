@@ -6,18 +6,20 @@ public class Usuario {
     private String nombre;
     private Partida partida;
 
-    private String getNombre() {
-        // TODO
-        return "";
+    public Usuario(String pNombre) {
+        nombre = pNombre;
     }
 
-    private Partida obtenerPartida(String st1) {
-        // TODO
-        return null;
+    public String getNombre() {
+        return nombre;
     }
 
-    private void setPartida(Partida p1) {
-        // TODO
+    public Partida obtenerPartida() {
+        return partida;
+    }
+
+    public void setPartida(Partida pPartida) {
+        partida = pPartida;
     }
 
     private int obtPuntosPartida() {

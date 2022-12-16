@@ -17,17 +17,20 @@ public class GestorUsuario {
     }
 
     public Usuario obtenerUsuarioActual() {
-        // TODO
-        return null;
+        return usuarioActual;
     }
 
     public String getNombreUsuario(Usuario a1) {
         //TODO
-        return "";
+        return a1.getNombre();
     }
 
     public Partida obtenerPartidaUsuario(Usuario a1) {
-        // TODO
-        return null;
+        return a1.obtenerPartida();
+    }
+
+    public void setUsuario(Usuario usu) {
+      // TODO: Esto lo he puesto para un test
+      usuarioActual = usu;
     }
 }

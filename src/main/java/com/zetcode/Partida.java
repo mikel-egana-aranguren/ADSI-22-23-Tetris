@@ -11,6 +11,10 @@ public class Partida {
     private int idPartida;
     private ArrayList<Ficha> listaFichas;
 
+    public Partida() {
+        premios = new ArrayList<Premio>();
+    }
+
     public int fichasColocadas() {
         int fichas = fichasColocadas;
         resetearContadorFichas();
@@ -47,6 +51,10 @@ public class Partida {
     
     public int obtenerPuntos() {
         return puntos;
+    }
+
+    public void addPuntos(int pPuntos) {
+        puntos += pPuntos;
     }
 
     public ArrayList<Premio> obtenerPremios() {

@@ -17,7 +17,7 @@ public class GestorPremios {
         + "FROM Premio JOIN PremioObtenido "
         + "ON PremioObtenido.nombrepremio=Premio.Nombre "
         + "WHERE PremioObtenido.nombreusuario='%s'",
-        nombreUsuario
+            nombreUsuario
         ));
         try {
             while (resultado.next()) {
@@ -51,6 +51,10 @@ public class GestorPremios {
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+        String nombreUsuario = gu.getNombreUsuario(usuario);
+
         ResultSet resultado;
         JSONObject json = null;
 
@@ -58,7 +62,11 @@ public class GestorPremios {
             + "SELECT descripcion, progreso, progresoMax "
             + "FROM Premio JOIN PremioObtenido "
                 + "ON PremioObtenido.nombrePremio=Premio.nombre "
-            + "WHERE PremioObtenido.nombrePremio='%s'", nombrePremio));
+            + "WHERE PremioObtenido.nombrePremio='%s' "
+            + "AND nombreUsuario='%s'",
+                nombrePremio,
+                nombreUsuario
+            ));
 
         String descripcion = null;
         Integer progreso = null;

@@ -40,6 +40,13 @@ public class Gestor {
         GestorPremios.comprobarProgresoPremiosFinalPartida();
     }
 
+	public static void addPuntos(int puntos) {
+		GestorUsuario gu = GestorUsuario.getGestor();
+        Usuario usuario = gu.obtenerUsuarioActual();
+		Partida par = gu.obtenerPartidaUsuario(usuario);
+		GestorPartida.addPuntos(par, puntos);
+	}
+
     private String getRankingGlobal() {
         // TODO
         return "";

@@ -39,4 +39,8 @@ public class GestorPartida {
     public static void contarFicha(Partida partida) {
         partida.contarFicha();
     }
+
+    public static void addPuntos(Partida partida, int puntos) {
+        partida.addPuntos(puntos);
+    }
 }
