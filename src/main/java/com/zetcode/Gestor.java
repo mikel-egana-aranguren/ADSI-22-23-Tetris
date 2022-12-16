@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.core.pattern.RelativeTimePatternConverter;
+
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -156,16 +158,20 @@ public class Gestor {
 
 		Properties props = System.getProperties();
 		props.setProperty("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
-		props.setProperty("mail.smtp.user", remitente); // Correo electronico desde donde se mandara el mensaje
-		props.setProperty("mail.smtp.clave", clave); // La clave de la cuenta
+		//props.setProperty("mail.smtp.user", remitente); // Correo electronico desde donde se mandara el mensaje
+		//props.setProperty("mail.smtp.clave", clave); // La clave de la cuenta
 		props.setProperty("mail.smtp.auth", "true"); // Usar autenticación mediante usuario y clave
 		props.setProperty("mail.smtp.starttls.enable", "true"); // Para conectar de manera segura al servidor SMTP
 		props.setProperty("mail.smtp.port", "587"); // El puerto SMTP seguro de Google
 		
-		javax.mail.Session session = javax.mail.Session.getDefaultInstance(props,null);
-		MimeMessage message = new MimeMessage(session);
+		javax.mail.Session session = javax.mail.Session.getInstance(props,new javax.mail.Authenticator() {
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(remitente, clave);
+			}
+		});
 		
 		try {
+			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(remitente));
 			message.addRecipients(Message.RecipientType.TO, destinatario);
 			message.setSubject(asunto);

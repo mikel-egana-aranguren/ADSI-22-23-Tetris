@@ -44,6 +44,7 @@ public class Tetris extends JFrame {
         
         JButton guardarPartida = new JButton("Pausar Partida");
         add(guardarPartida, BorderLayout.NORTH);
+        guardarPartida.setFocusable(false);
 
         setTitle("Tetris");
         setSize(200, 400);
