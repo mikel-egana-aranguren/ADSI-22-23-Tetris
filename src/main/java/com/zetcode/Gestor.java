@@ -119,24 +119,23 @@ public class Gestor {
         return "";
     }
 
-    public static void guardarPartida() {
+    public static void guardarPartida(String pEstadoTablero) {
 		ResultSet resultado;
 		//Obtener los datos necesarios
-		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
-		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
-		Partida partidaUsuario = GestorUsuario.getGestorUsuario().obtenerPartidaUsuario(usuario);
+		Usuario usuario = GestorUsuario.obtenerUsuarioActual();
+		String nombreUsuario = GestorUsuario.getNombreUsuario(usuario);
+		Partida partidaUsuario = GestorUsuario.obtenerPartidaUsuario(usuario);
 		int idPartida = GestorPartida.obtenerIdPartida(partidaUsuario);
 		int puntos = GestorPartida.obtenerPuntos(partidaUsuario);
-		JSONObject estadoTableroJSON = GestorPartida.obtenerEstadoTablero(partidaUsuario); //Guardar el JSON como un string en la base de datos y luego parsear al cargar
-		String estadoTableroString = estadoTableroJSON.toString();
+		String estadoTablero = pEstadoTablero;
 		String dificultad = GestorDificultad.buscarDificultad(usuario).getNombre();
 		GestorPremios.comprobarProgresoPremios(); //Comprobar el progreso de los premios
 		ArrayList<Premio> listaPremios = GestorPremios.obtenerPremios(nombreUsuario);
 		resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
 		if (resultado == null) { //INSERT
-			SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%s)",idPartida,puntos,estadoTableroString,nombreUsuario,dificultad));
+			SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%s)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
 		} else { //UPDATE
-			SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTableroString,idPartida));
+			SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
 		}
 		for (Premio premio : listaPremios) {
 			String nombrePremio = premio.getNombre();
@@ -148,34 +147,72 @@ public class Gestor {
 				SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
 			}
 		}
+		resultado.close();
 	}
 	
 	public static void cargarPartida(int pIdPartida) {
 		ResultSet resultado;
+		Usuario usuario = GestorUsuario.obtenerUsuarioActual();
+		Partida partidaUsuario = new Partida();
+		String estadoTablero = null;
 		try {
+			//Cargar los datos de PARTIDA
 			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id="+pIdPartida);
-			resultado.next();
-			int id = pIdPartida;
-			int puntos = resultado.getInt("puntos");
-			String estadoTableroString = resultado.getString("estadoTablero");
-			Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
-			String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
-			String dificultad = resultado.getString("dificultad");
+			if (resultado.next()) {
+				int id = pIdPartida;
+				int puntos = resultado.getInt("puntos");
+				estadoTablero = resultado.getString("estadoTablero");
+				String nombreUsuario = GestorUsuario.getNombreUsuario(usuario);
+				String dificultad = resultado.getString("dificultad");
+				GestorPartida.setIdPartida(partidaUsuario,pIdPartida);
+				GestorPartida.setPuntosPartida(partidaUsuario,puntos);
+				GestorPartida.setEstadoTablero(partidaUsuario,estadoTablero);
+				GestorUsuario.setPartidaUsuario(usuario,partidaUsuario);
+				GestorDificultad.cambiarDificultad(dificultad);
+			}
+			resultado.close();
+			
+			//Cargar datos de PREMIOS EN PARTIDA
 			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE idPartida="+pIdPartida);
-			resultado.next();
-			String nombrePremio = resultado.getString("nombrePremio");
-			int progreso = resultado.getInt("progreso");
-			Gson jsonParser = new Gson();
-			JSONObject estadoTableroJson = jsonParser.fromJson(estadoTableroString, JSONObject.class);
-			//Meter todos los datos en las clases
-			Partida partidaUsuario = new Partida();
-			GestorPartida.setIdPartida(partidaUsuario,pIdPartida);
-			GestorPartida.setPuntosPartida(partidaUsuario,puntos);
-			GestorPartida.setEstadoTablero(partidaUsuario,estadoTableroJson);
-			GestorUsuario.getGestorUsuario().setPartidaUsuario(usuario,partidaUsuario);
+			while (resultado.next()) {
+				String nombrePremio = resultado.getString("nombrePremio");
+				int progreso = resultado.getInt("progreso");
+				Premio premio = new Premio(nombrePremio,progreso,null);
+				GestorPartida.anadirPremioPartida(partidaUsuario, premio);
+			}
+			resultado.close();
+			Tetris.getTetris().start(estadoTablero);
 		} catch (Exception e) {
 			Menu.getMenu().ponerMensaje("Error: " + e);
 		}
+	}
+	
+	public static JSONObject obtenerPartidasUsuarioActual() {
+		Usuario usuario = GestorUsuario.obtenerUsuarioActual();
+		String nombreUsuario = GestorUsuario.getNombreUsuario(usuario);
+		JSONObject[] arrayPartidas = {};
+		JSONObject partida;
+		try {
+			ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE nombreUsuario ="+nombreUsuario);
+			while (resultado.next()) {
+				int id = resultado.getInt("idPartida");
+				int puntos = resultado.getInt("puntos");
+				partida = new JSONObject();
+				partida.put("id", id);
+				partida.put("puntos", puntos);
+				arrayPartidas[arrayPartidas.length] = partida;
+			}
+			resultado.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		JSONObject listaPartidas = new JSONObject();
+		listaPartidas.put("listaPartidas", arrayPartidas);
+		return listaPartidas;
+	}
+	
+	public void nuevaPartida() {
+		Tetris.getTetris().start(null);
 	}
 
     private void gestionarEvento(String evento) {
