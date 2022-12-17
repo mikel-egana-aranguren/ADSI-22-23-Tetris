@@ -248,7 +248,7 @@ public class Gestor {
         Integer puntosUsu = GestorPartida.obtenerPuntos(partidaAct);
         ArrayList<Premio> listaPremiosUsu = GestorPartida.obtenerPremios(partidaAct);
         ArrayList<String> listaNombresPrem = GestorPremios.obtenerPremiosCompletados(nombreUsu, listaPremiosUsu);
-        String msgCompartir = this.configurarMensaje(nombreUsu, puntosUsu, listaNombresPrem, pBoton);
+        String msgCompartir = configurarMensaje(nombreUsu, puntosUsu, listaNombresPrem, pBoton);
         if (pBoton.equals("Twitter"))
         {
             msgCompartir = "https://twitter.com/intent/tweet?text="+msgCompartir;
