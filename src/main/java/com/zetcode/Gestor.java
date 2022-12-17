@@ -122,9 +122,9 @@ public class Gestor {
     public static void guardarPartida(String pEstadoTablero) {
 		ResultSet resultado;
 		//Obtener los datos necesarios
-		Usuario usuario = GestorUsuario.obtenerUsuarioActual();
-		String nombreUsuario = GestorUsuario.getNombreUsuario(usuario);
-		Partida partidaUsuario = GestorUsuario.obtenerPartidaUsuario(usuario);
+		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
+		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
+		Partida partidaUsuario = GestorUsuario.getGestorUsuario().obtenerPartidaUsuario(usuario);
 		int idPartida = GestorPartida.obtenerIdPartida(partidaUsuario);
 		int puntos = GestorPartida.obtenerPuntos(partidaUsuario);
 		String estadoTablero = pEstadoTablero;
@@ -152,7 +152,7 @@ public class Gestor {
 	
 	public static void cargarPartida(int pIdPartida) {
 		ResultSet resultado;
-		Usuario usuario = GestorUsuario.obtenerUsuarioActual();
+		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 		Partida partidaUsuario = new Partida();
 		String estadoTablero = null;
 		try {
@@ -162,12 +162,12 @@ public class Gestor {
 				int id = pIdPartida;
 				int puntos = resultado.getInt("puntos");
 				estadoTablero = resultado.getString("estadoTablero");
-				String nombreUsuario = GestorUsuario.getNombreUsuario(usuario);
+				String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
 				String dificultad = resultado.getString("dificultad");
 				GestorPartida.setIdPartida(partidaUsuario,pIdPartida);
 				GestorPartida.setPuntosPartida(partidaUsuario,puntos);
 				GestorPartida.setEstadoTablero(partidaUsuario,estadoTablero);
-				GestorUsuario.setPartidaUsuario(usuario,partidaUsuario);
+				GestorUsuario.getGestorUsuario().setPartidaUsuario(usuario,partidaUsuario);
 				GestorDificultad.cambiarDificultad(dificultad);
 			}
 			resultado.close();
@@ -188,8 +188,8 @@ public class Gestor {
 	}
 	
 	public static JSONObject obtenerPartidasUsuarioActual() {
-		Usuario usuario = GestorUsuario.obtenerUsuarioActual();
-		String nombreUsuario = GestorUsuario.getNombreUsuario(usuario);
+		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
+		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
 		JSONObject[] arrayPartidas = {};
 		JSONObject partida;
 		try {

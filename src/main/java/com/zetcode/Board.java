@@ -159,7 +159,7 @@ public class Board extends JPanel {
     				
     				@Override
     				public void actionPerformed(ActionEvent e) {
-    					Gestor.getGestor().guardarPartida(convertirBoardAString());
+    					Gestor.guardarPartida(convertirBoardAString());
     					Tetris.getTetris().close();
     					Menu.getMenu().start();
     					

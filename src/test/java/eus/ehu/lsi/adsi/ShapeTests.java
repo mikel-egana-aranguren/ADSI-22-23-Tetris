@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
-import com.zetcode.Shape;
+import com.zetcode.Ficha;
 
 public class ShapeTests {
 
@@ -15,7 +15,7 @@ public class ShapeTests {
 	@Test
 	public void testShape() {
 		logger.info("Test Shape creation");
-		Shape shape = new Shape();
+		Ficha shape = new Ficha();
 		assertTrue(shape.minX() == 0);
 	}
 
