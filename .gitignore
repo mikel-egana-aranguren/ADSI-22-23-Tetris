@@ -28,5 +28,15 @@ hs_err_pid*
 test.mv.db
 test.trace.db
 
+ignore/
+
+target/
+
+.classpath
+.project
+org.eclipse.jdt.core.prefs
+pom.xml
+log4j2.xml
+
 tetrisSASL.mv.db
 tetrisSASL.trace.db

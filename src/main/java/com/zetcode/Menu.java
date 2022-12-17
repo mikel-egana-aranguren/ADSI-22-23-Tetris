@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,6 +23,9 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+
+import org.json.JSONObject;
+
 import javax.swing.BorderFactory;
 
 public class Menu extends JFrame {
@@ -28,14 +33,16 @@ public class Menu extends JFrame {
 	private JPanel contentPane;
 	private static Menu miMenu = null;
 	JLabel mensaje = null;
+	private JButton personalizarMapa;
 
 	/**
 	 * Launch the application.
 	 */
-	public void start() {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Menu miMenu = new Menu();
 					miMenu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,10 +72,14 @@ public class Menu extends JFrame {
 	public void panelMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setContentPane(contentPane);
+
 		JLabel titulo = new JLabel("Tetrix");
 		titulo.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(titulo);
@@ -89,7 +100,14 @@ public class Menu extends JFrame {
 		});
 		contentPane.add(cargarPartida);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
-		JButton personalizarMapa = new JButton("Personalizar Mapa");
+		JButton personalizarMapa = new JButton("Personalizacion");
+		personalizarMapa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Personalizar abrirPersonalizacion = Personalizar.getPersonalizar();
+				abrirPersonalizacion.setVisible(true);
+				Menu.this.dispose();
+			}
+		});
 		personalizarMapa.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(personalizarMapa);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -114,7 +132,7 @@ public class Menu extends JFrame {
 		setContentPane(contentPane);
 		ArrayList<Integer> listaIds = new ArrayList<Integer>();
 		try {
-			JSONObject[] partidasUsuario = (JSONObject[])Gestor.getGestor().obtenerPartidasUsuarioActual().get("listaPartidas");
+			JSONObject[] partidasUsuario = (JSONObject[])Gestor.obtenerPartidasUsuarioActual().get("listaPartidas");
 			for (JSONObject partida : partidasUsuario) {
 				int id = partida.getInt("id");
 				int puntos = partida.getInt("puntos");
@@ -142,7 +160,7 @@ public class Menu extends JFrame {
 							ponerMensaje("EL id de partida no existe");
 						} else {
 							Menu.getMenu().close();
-							Gestor.getGestor().cargarPartida(idSeleccionado);
+							Gestor.cargarPartida(idSeleccionado);
 						}
 					} catch (Exception ex) {
 						ponerMensaje("El id debe ser un numero");
