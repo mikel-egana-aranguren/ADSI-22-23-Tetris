@@ -165,7 +165,10 @@ public class Menu extends JFrame {
 							ponerMensaje("EL id de partida no existe");
 						} else {
 							Menu.getMenu().close();
-							Gestor.cargarPartida(idSeleccionado);
+							boolean errorCargar = Gestor.cargarPartida(idSeleccionado);
+							if (errorCargar) {
+								ponerMensaje("Error al cargar partida");
+							}
 						}
 					} catch (Exception ex) {
 						ponerMensaje("El id debe ser un numero");
