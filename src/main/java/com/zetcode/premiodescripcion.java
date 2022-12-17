@@ -6,13 +6,23 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.json.JSONObject;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JProgressBar;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
-public class premiodescripcion extends JFrame {
+import javax.swing.JProgressBar;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+
+public class PremioDescripcion extends JFrame {
 
 	private JPanel contentPane;
 
@@ -23,7 +33,7 @@ public class premiodescripcion extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					premiodescripcion frame = new premiodescripcion();
+					PremioDescripcion frame = new PremioDescripcion("Placeholder");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,40 +45,61 @@ public class premiodescripcion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public premiodescripcion() {
+	public PremioDescripcion(String nombrePremio) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 594, 361);
+		setBounds(100, 100, 650, 361);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon("documentacion/funcionalidad 6/premio.png"));
-		btnNewButton.setBounds(12, 42, 195, 176);
+
+		JSONObject json2 = Gestor.obtenerDescripcionPremio(nombrePremio);
+		String descripcion = json2.getString("descripcion");
+		Integer progreso = json2.getInt("progreso");
+		Integer progresoMax = json2.getInt("progresoMax");
+
+		int progresoFinal = progreso * 100 / progresoMax;
+		if (progresoFinal > 100) {
+			progresoFinal = 100;
+		}
+
+		ByteBuffer buffer = StandardCharsets.ISO_8859_1.encode(descripcion); 
+		String descripcionUTF8 = StandardCharsets.UTF_8.decode(buffer).toString();
+
+		JLabel btnNewButton = new JLabel("");
+		if (progresoFinal == 100) {
+			btnNewButton.setIcon(new ImageIcon("resources/premio.png"));
+		} else {
+			btnNewButton.setIcon(new ImageIcon("resources/premio sin completar.png"));
+		}
+		btnNewButton.setBounds(50, 80, 96, 96);
 		contentPane.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("Premio #4");
+		JLabel lblNewLabel = new JLabel(nombrePremio);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 33));
-		lblNewLabel.setBounds(289, 60, 221, 77);
+		lblNewLabel.setBounds(289, 60, 500, 77);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Aguanta 3 minutos");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 27));
-		lblNewLabel_1.setBounds(250, 165, 260, 37);
-		contentPane.add(lblNewLabel_1);
+		JLabel txtpnAa = new JLabel();
+		txtpnAa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtpnAa.setText(descripcionUTF8);
+		txtpnAa.setBounds(243, 129, 298, 106);
+		contentPane.add(txtpnAa);
 		
-		JLabel lblNewLabel_2 = new JLabel("en 10 partidas seguidas");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 27));
-		lblNewLabel_2.setBounds(250, 204, 312, 33);
-		contentPane.add(lblNewLabel_2);
-		
-		JButton btnNewButton_1 = new JButton("Volver");
-		btnNewButton_1.setBounds(465, 276, 97, 25);
-		contentPane.add(btnNewButton_1);
+		JButton botonVolver = new JButton("Volver");
+		botonVolver.setBounds(465, 276, 97, 25);
+		botonVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPremios premios = new MenuPremios();
+				premios.setLocationRelativeTo(null);;
+				premios.setVisible(true);
+				dispose();
+			}
+		});
+		contentPane.add(botonVolver);
 		
 		JProgressBar progressBar = new JProgressBar();
-		progressBar.setValue(75);
+		progressBar.setValue(progresoFinal);
 		progressBar.setBounds(22, 231, 146, 14);
 		contentPane.add(progressBar);
 	}
