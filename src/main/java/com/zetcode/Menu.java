@@ -33,6 +33,7 @@ public class Menu extends JFrame {
 	private JPanel contentPane;
 	private static Menu miMenu = null;
 	JLabel mensaje = null;
+	private JButton nuevaPartida;
 	private JButton personalizarMapa;
 
 	/**
@@ -80,6 +81,12 @@ public class Menu extends JFrame {
 		contentPane.add(titulo);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 20)));
 		JButton nuevaPartida = new JButton("Nueva Partida");
+		nuevaPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuDificultad abrirDificultad = new MenuDificultad();
+				Menu.this.dispose();
+			}
+		});
 		nuevaPartida.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(nuevaPartida);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
