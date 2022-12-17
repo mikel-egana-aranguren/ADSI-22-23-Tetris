@@ -81,7 +81,8 @@ public class Personalizar extends JFrame {
 		return musica;
 	}
 	
-	private Personalizar() {
+	public Personalizar() {
+		this.setVisible(true);
 		setBackground(new Color(221, 160, 221));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 459, 258);
@@ -160,36 +161,19 @@ public class Personalizar extends JFrame {
 		if (Volver == null) {
 			Volver = new JPanel();
 			Volver.setBackground(new Color(153, 153, 153));
-			
-			JButton volver = new JButton("volver");
-			volver.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					Menu volverMenu = new Menu();
-					volverMenu.setVisible(true);
-					Personalizar.this.dispose();
-				
-					
-				}
-			});
-			volver.setForeground(Color.WHITE);
-			volver.setBackground(Color.BLACK);
 			GroupLayout gl_Volver = new GroupLayout(Volver);
 			gl_Volver.setHorizontalGroup(
 				gl_Volver.createParallelGroup(Alignment.LEADING)
 					.addGroup(gl_Volver.createSequentialGroup()
-						.addGap(106)
-						.addComponent(volver, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-						.addGap(40)
+						.addGap(164)
 						.addComponent(getConfirmar(), GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(93, Short.MAX_VALUE))
+						.addContainerGap(180, Short.MAX_VALUE))
 			);
 			gl_Volver.setVerticalGroup(
 				gl_Volver.createParallelGroup(Alignment.TRAILING)
 					.addGroup(gl_Volver.createSequentialGroup()
 						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(gl_Volver.createParallelGroup(Alignment.BASELINE)
-							.addComponent(getConfirmar())
-							.addComponent(volver))
+						.addComponent(getConfirmar())
 						.addContainerGap())
 			);
 			Volver.setLayout(gl_Volver);
@@ -313,7 +297,7 @@ public class Personalizar extends JFrame {
 	private JButton getBtnSonido() {
 		if (btnSonido == null) 
 		{
-			btnSonido = new JButton("STOPED			");
+			btnSonido = new JButton("STOPED");
 			btnSonido.addMouseListener(new MouseAdapter() 
 			{				
 				public void mouseClicked(MouseEvent e) 

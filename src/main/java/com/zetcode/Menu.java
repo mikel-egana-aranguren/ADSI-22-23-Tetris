@@ -78,7 +78,7 @@ public class Menu extends JFrame {
 		personalizarMapa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Personalizar abrirPersonalizacion = Personalizar.getPersonalizar();
-				abrirPersonalizacion.setVisible(true);
+				//abrirPersonalizacion.setVisible(true);
 				Menu.this.dispose();
 			}
 		});
