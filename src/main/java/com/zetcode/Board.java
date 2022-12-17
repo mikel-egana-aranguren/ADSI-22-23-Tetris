@@ -161,8 +161,8 @@ public class Board extends JPanel {
     				public void actionPerformed(ActionEvent e) {
     					Gestor.guardarPartida(convertirBoardAString());
     					Tetris.getTetris().close();
-    					Menu.getMenu().start();
-    					
+                        Menu menu = new Menu();
+                        menu.setVisible(true);
     				}
     			});
             	this.add(guardarPartida, BorderLayout.NORTH);

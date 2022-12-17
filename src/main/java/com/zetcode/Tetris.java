@@ -26,7 +26,7 @@ public class Tetris extends JFrame {
     
     public static Tetris getTetris() {
     	if (miTetris == null) {
-    		miTetris = new Tetris();
+    		miTetris = new Tetris(false);
     	}
     	return miTetris;
     }
@@ -48,8 +48,12 @@ public class Tetris extends JFrame {
     	miTetris.dispose();
     }
 
-    private Tetris() {
+    private Tetris(boolean p) {
         
+    }
+
+    public Tetris() {
+        initUI(null);
     }
 
     private void initUI(String pEstadoTablero) {

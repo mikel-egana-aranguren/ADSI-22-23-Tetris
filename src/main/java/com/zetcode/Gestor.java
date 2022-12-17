@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -187,8 +188,8 @@ public class Gestor {
 			}
 			resultado.close();
 			Tetris.getTetris().start(estadoTablero);
-		} catch (Exception e) {
-			Menu.getMenu().ponerMensaje("Error: " + e);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	
