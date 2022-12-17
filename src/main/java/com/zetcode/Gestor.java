@@ -10,6 +10,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.awt.datatransfer.*;
 import java.awt.Toolkit;
+import org.json.JSONException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
