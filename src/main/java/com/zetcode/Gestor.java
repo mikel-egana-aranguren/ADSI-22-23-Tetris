@@ -1,9 +1,14 @@
 package com.zetcode;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.awt.datatransfer.*;
+import java.awt.Toolkit;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -211,7 +216,10 @@ public class Gestor {
 		return listaPartidas;
 	}
 	
-	public void nuevaPartida() {
+	public static void nuevaPartida() {
+        Partida partidaNv = new Partida();
+        Usuario usuAct = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
+        GestorUsuario.getGestorUsuario().setPartidaUsuario(usuAct,partidaNv);
 		Tetris.getTetris().start(null);
 	}
 
@@ -219,13 +227,92 @@ public class Gestor {
         // TODO
     }
 
-    private void publicarResultados(String st1) {
-        // TODO
+    private static String encodeValue(String value) 
+    {
+        try 
+        {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } 
+        catch (UnsupportedEncodingException ex) 
+        {
+            throw new RuntimeException(ex.getCause());
+        }
     }
 
-    private String configurarMensaje(String nombreUsuario, int puntos, ArrayList<String> listNombresPrem) {
-        // TODO
-        return "";
+    public static void publicarResultados(String pBoton)
+    {
+        GestorUsuario gestorUsu = GestorUsuario.getGestorUsuario();
+        Usuario usuActivo = gestorUsu.obtenerUsuarioActual();
+        String nombreUsu = gestorUsu.getNombreUsuario(usuActivo);
+        Partida partidaAct = gestorUsu.obtenerPartidaUsuario(usuActivo);
+        Integer puntosUsu = GestorPartida.obtenerPuntos(partidaAct);
+        ArrayList<Premio> listaPremiosUsu = GestorPartida.obtenerPremios(partidaAct);
+        ArrayList<String> listaNombresPrem = GestorPremios.obtenerPremiosCompletados(nombreUsu, listaPremiosUsu);
+        String msgCompartir = this.configurarMensaje(nombreUsu, puntosUsu, listaNombresPrem, pBoton);
+        if (pBoton.equals("Twitter"))
+        {
+            msgCompartir = "https://twitter.com/intent/tweet?text="+msgCompartir;
+
+        }
+        else if (pBoton.equals("Facebook"))
+        {
+            String copiaMsg = msgCompartir;
+            StringSelection stringSelection = new StringSelection(copiaMsg);
+            Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clpbrd.setContents(stringSelection, null);
+            msgCompartir = "https://www.facebook.com/";
+        }
+        else if (pBoton.equals("Instagram"))
+        {
+            String copiaMsg = msgCompartir;
+            StringSelection stringSelection = new StringSelection(copiaMsg);
+            Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clpbrd.setContents(stringSelection, null);
+            msgCompartir = "https://www.instagram.com/";
+        }
+        try 
+        {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(msgCompartir));
+        } 
+        catch (java.io.IOException e) 
+        {
+            System.out.println(e.getMessage());
+        }
+    }    
+
+    private String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios, String pDirec)
+    {
+        nomUsu = encodeValue(nomUsu);
+        String msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido los siguientes premios: ";
+        int t = 0;
+        if (pDirec.equals("Twitter"))
+        {
+            msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20los%20siguientes%20premios:%20";
+            int n = 0;
+            while (n<listaPremios.size() && msgFinal.length()<=300)
+            {
+                msgFinal = msgFinal+listaPremios.get(n)+",%20";
+                n++;
+            }
+            if (msgFinal.length()>280)
+            {
+                msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20"+listaPremios.size()+"%20premios!";
+            }   
+        }
+        else
+        {
+            while (t<listaPremios.size() && msgFinal.length()<=280)
+            {
+                msgFinal = msgFinal+listaPremios.get(t)+", ";
+                t++;
+            }
+            if (msgFinal.length()>280)
+            {
+                msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido "+listaPremios.size()+" premios!";
+            }
+        }
+        
+        return msgFinal;
     }
 
     public static void addFilas(int filas) {

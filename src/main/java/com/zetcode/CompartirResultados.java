@@ -18,6 +18,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class CompartirResultados extends JFrame {
@@ -47,6 +48,13 @@ public class CompartirResultados extends JFrame {
 	 * Create the frame.
 	 */
 	public CompartirResultados() {
+		GestorUsuario gestorUsu = GestorUsuario.getGestorUsuario();
+        Usuario usuActivo = gestorUsu.obtenerUsuarioActual();
+        String nombreUsu = gestorUsu.getNombreUsuario(usuActivo);
+        Partida partidaAct = gestorUsu.obtenerPartidaUsuario(usuActivo);
+        Integer puntosUsu = GestorPartida.obtenerPuntos(partidaAct);
+        ArrayList<Premio> listaPremiosUsu = GestorPartida.obtenerPremios(partidaAct);
+        ArrayList<String> listaNombresPrem = GestorPremios.obtenerPremiosCompletados(nombreUsu, listaPremiosUsu);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 426, 504);
 		contentPane = new JPanel();
@@ -96,17 +104,19 @@ public class CompartirResultados extends JFrame {
 		Box verticalBox = Box.createVerticalBox();
 		panel_2.add(verticalBox, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel_3 = new JLabel("Premio #3");
-		verticalBox.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_4 = new JLabel("Premio #5");
-		verticalBox.add(lblNewLabel_4);
+		int cont = 0;
+		while (cont<listaNombresPrem.size())
+		{
+			JLabel lblNewLabel_Premio = new JLabel(listaNombresPrem.get(cont));
+			verticalBox.add(lblNewLabel_Premio);
+			cont++;
+		}
 		
 		JPanel panel_5 = new JPanel();
 		panel_2.add(panel_5, BorderLayout.NORTH);
 		panel_5.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JLabel lblNewLabel_1 = new JLabel("Puntuaci\u00F3n: 80000");
+		JLabel lblNewLabel_1 = new JLabel("Puntuaci\u00F3n: "+puntosUsu);
 		panel_5.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Premios obtenidos:");
@@ -134,12 +144,31 @@ public class CompartirResultados extends JFrame {
 		panel_4.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JButton btnNewButton_2 = new JButton("Twitter");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Gestor.publicarResultados("Twitter");
+			}
+		});
 		panel_4.add(btnNewButton_2);
 		
+		
 		JButton btnNewButton_3 = new JButton("Facebook");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Gestor.publicarResultados("Facebook");
+			}
+		});
 		panel_4.add(btnNewButton_3);
 		
 		JButton btnNewButton_4 = new JButton("Instagram");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Gestor.publicarResultados("Instagram");
+			}
+		});
 		panel_4.add(btnNewButton_4);
 		
 		JPanel panel = new JPanel();
@@ -150,14 +179,22 @@ public class CompartirResultados extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, contentPane);
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JButton btnNewButton_1 = new JButton("Volver a jugar");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton btnNewButton_Volver = new JButton("Volver a jugar");
+		btnNewButton_Volver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				Gestor.nuevaPartida();
 			}
 		});
-		panel.add(btnNewButton_1);
+		panel.add(btnNewButton_Volver);
 		
-		JButton btnNewButton = new JButton("Salir del juego");
-		panel.add(btnNewButton);
+		JButton btnNewButton_Salir = new JButton("Salir del juego");
+		btnNewButton_Salir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				System.exit(0);
+			}
+		});
+		panel.add(btnNewButton_Salir);
 	}
 }
