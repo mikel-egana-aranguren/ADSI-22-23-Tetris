@@ -154,7 +154,7 @@ public class Gestor {
 		String cuerpo = "La contrasena correspondiente al usuario " + nombreUsuario + " es: " + pwd;
 
 		String remitente = "adsitetrix@gmail.com";
-		String clave = "dkpqjoxdejaouwdq"; // tetrixsa22
+		String clave = "ekqvmcmitqihyddj"; // tetrixsa22
 		Properties props = System.getProperties();
 		props.setProperty("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
 		//props.setProperty("mail.smtp.user", remitente); // Correo electronico desde donde se mandara el mensaje
@@ -166,7 +166,6 @@ public class Gestor {
 		
 		Session session = Session.getInstance(props,new javax.mail.Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {
-				
 				return new PasswordAuthentication(remitente, clave);
 			}
 		});
@@ -195,7 +194,7 @@ public class Gestor {
 			option.showMessageDialog(null, "Se han enviado los datos a su email", "DATOS ENVIADOS", JOptionPane.INFORMATION_MESSAGE);
 			return 1;
 		} else {
-			option.showMessageDialog(null, "No se han podido enviar los datos a su email", "DATOS NO ENVIADOS", JOptionPane.ERROR_MESSAGE);
+			option.showMessageDialog(null, "Email introducido incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return 0;
 		}
 	}

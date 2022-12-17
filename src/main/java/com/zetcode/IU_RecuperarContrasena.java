@@ -79,8 +79,9 @@ public class IU_RecuperarContrasena extends JFrame {
 		gbl_panelCentral.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelCentral.setLayout(gbl_panelCentral);
 		
-		JLabel lblIntroducirEtc = new JLabel("Introduzca el email o nombre de usuario");
+		JLabel lblIntroducirEtc = new JLabel("<html>Introduzca el email para recuperar su contrasena<html>");
 		GridBagConstraints gbc_lblIntroducirEtc = new GridBagConstraints();
+		gbc_lblIntroducirEtc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblIntroducirEtc.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIntroducirEtc.gridx = 1;
 		gbc_lblIntroducirEtc.gridy = 1;
