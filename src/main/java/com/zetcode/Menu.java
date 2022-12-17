@@ -23,6 +23,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+import org.json.JSONException;
+import java.sql.SQLException;
 
 import org.json.JSONObject;
 
@@ -193,14 +195,15 @@ public class Menu extends JFrame {
 	class verClasificacion implements ActionListener{
 		public void actionPerformed(ActionEvent a) {
 			Clasificacion frame;
-				try {
-					frame = new Clasificacion();
-					frame.setVisible(true);
-					Menu.this.dispose();
-				} catch (JSONException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}	
+			try {
+				frame = new Clasificacion();
+				frame.setVisible(true);
+				Menu.this.dispose();
+			} catch (JSONException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 	}
 }
