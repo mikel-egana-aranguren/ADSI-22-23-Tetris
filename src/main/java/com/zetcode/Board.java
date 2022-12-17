@@ -293,7 +293,10 @@ public class Board extends JPanel {
 
             curPiece.setShape(Tetrominoe.NoShape);
             timer.stop();
-
+	    String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()); //Para saber la fecha
+            Gestor g=new Gestor();
+            int difi=g.getDificultad();
+            g.setNuevaPuntuacion(/*Puntuacion*/GestorUsuario.getGestor().obtenerPartidaUsuario(GestorUsuario.getGestor().obtenerUsuarioActual()).obtenerPuntos(),/*Nombre*/ g.getNombreUsuario(), timeStamp, /*Dificultad*/ difi);
             var msg = String.format("Game over. Score: %d", numLinesRemoved);
             statusbar.setText(msg);
             Gestor.comprobarProgresoPremiosFinalPartida();
