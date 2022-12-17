@@ -18,9 +18,9 @@ import java.awt.event.KeyEvent;
 
 public class Board extends JPanel {
 
-    private final int BOARD_WIDTH = 10;
-    private final int BOARD_HEIGHT = 22;
-    private final int PERIOD_INTERVAL = 300;
+    private final int BOARD_WIDTH = Dificultad.getBOARD_WIDTH();
+    private final int BOARD_HEIGHT = Dificultad.getBOARD_HEIGHT();
+    private final int PERIOD_INTERVAL = Dificultad.getPERIOD_INTERVAL();
 
     private Timer timer;
     private boolean isFallingFinished = false;
@@ -35,7 +35,7 @@ public class Board extends JPanel {
     JButton cancelar = null;
 
     public Board(Tetris parent) {
-
+	GestorDificultad.actualizarDificultad();
         initBoard(parent);
     }
 
