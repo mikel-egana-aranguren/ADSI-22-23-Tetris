@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import org.json.JSONException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Gestor {
@@ -91,7 +92,7 @@ public class Gestor {
     }
     
 
-    private boolean comprobarContraseña(String pwd1, String pwd2) {
+    private boolean comprobarContrasena(String pwd1, String pwd2) {
         // TODO
         return false;
     }
@@ -151,29 +152,34 @@ public class Gestor {
 		int idPartida = GestorPartida.obtenerIdPartida(partidaUsuario);
 		int puntos = GestorPartida.obtenerPuntos(partidaUsuario);
 		String estadoTablero = pEstadoTablero;
-		String dificultad = GestorDificultad.buscarDificultad(usuario).getNombre();
+		int dificultad = GestorDificultad.getDificultad();
 		GestorPremios.comprobarProgresoPremios(); //Comprobar el progreso de los premios
 		ArrayList<Premio> listaPremios = GestorPremios.obtenerPremios(nombreUsuario);
-		resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
-		if (resultado == null) { //INSERT
-			SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%s)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
-		} else { //UPDATE
-			SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
-		}
-		for (Premio premio : listaPremios) {
-			String nombrePremio = premio.getNombre();
-			int progreso = premio.getProgreso();
-			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE id =="+idPartida+"nombrePremio="+nombrePremio);
+		try {
+			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
 			if (resultado == null) { //INSERT
-				SGBD.execVoidSQL(String.format("INSERT INTO PREMIOSENPARTIDA VALUES(%d,'%s',%d)",idPartida,nombrePremio,progreso));
+				SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%d)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
 			} else { //UPDATE
-				SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
+				SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
 			}
+			for (Premio premio : listaPremios) {
+				String nombrePremio = premio.getNombre();
+				int progreso = premio.getProgreso();
+				resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE id =="+idPartida+"nombrePremio="+nombrePremio);
+				if (resultado == null) { //INSERT
+					SGBD.execVoidSQL(String.format("INSERT INTO PREMIOSENPARTIDA VALUES(%d,'%s',%d)",idPartida,nombrePremio,progreso));
+				} else { //UPDATE
+					SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
+				}
+			}
+			resultado.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		resultado.close();
+		
 	}
 	
-	public static void cargarPartida(int pIdPartida) {
+	public static boolean cargarPartida(int pIdPartida) {
 		ResultSet resultado;
 		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 		Partida partidaUsuario = new Partida();
@@ -191,7 +197,7 @@ public class Gestor {
 				GestorPartida.setPuntosPartida(partidaUsuario,puntos);
 				GestorPartida.setEstadoTablero(partidaUsuario,estadoTablero);
 				GestorUsuario.getGestorUsuario().setPartidaUsuario(usuario,partidaUsuario);
-				GestorDificultad.cambiarDificultad(dificultad);
+				GestorDificultad.actualizarDificultad();
 			}
 			resultado.close();
 			
@@ -205,8 +211,10 @@ public class Gestor {
 			}
 			resultado.close();
 			Tetris.getTetris().start(estadoTablero);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -298,7 +306,7 @@ public class Gestor {
         }
     }    
 
-    private String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios, String pDirec)
+    private static String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios, String pDirec)
     {
         nomUsu = encodeValue(nomUsu);
         String msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido los siguientes premios: ";
