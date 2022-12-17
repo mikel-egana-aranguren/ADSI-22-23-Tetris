@@ -65,6 +65,7 @@ public class Menu extends JFrame {
 	 */
 	public Menu() {
 		panelMenu();
+		Menu.getMenu().start();
 	}
 	
 	public void panelMenu() {
