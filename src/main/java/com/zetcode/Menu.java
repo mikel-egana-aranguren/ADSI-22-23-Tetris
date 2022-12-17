@@ -116,6 +116,7 @@ public class Menu extends JFrame {
 		JButton verRanking = new JButton("Ver Ranking");
 		verRanking.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(verRanking);
+		verRanking.addActionListener(new verClasificacion());
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton verPremios = new JButton("Ver Premios");
 		verPremios.setAlignmentX(CENTER_ALIGNMENT);
@@ -187,5 +188,19 @@ public class Menu extends JFrame {
 		contentPane.add(mensaje);
 		contentPane.revalidate();
 		contentPane.repaint();
+	}
+	
+	class verClasificacion implements ActionListener{
+		public void actionPerformed(ActionEvent a) {
+			Clasificacion frame;
+				try {
+					frame = new Clasificacion();
+					frame.setVisible(true);
+					Menu.this.dispose();
+				} catch (JSONException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}	
 	}
 }
