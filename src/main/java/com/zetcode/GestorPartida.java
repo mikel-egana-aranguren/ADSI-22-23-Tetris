@@ -46,7 +46,7 @@ public class GestorPartida {
         partida.anadirPremios(premios);
     }
 	
-    public static void anadirPremios(Partida pPartida, Premio premios) {
+    public static void anadirPremioPartida(Partida pPartida, Premio premios) {
         pPartida.anadirPremio(premios);
     }
 
