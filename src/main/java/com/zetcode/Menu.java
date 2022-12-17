@@ -49,6 +49,7 @@ public class Menu extends JFrame {
 	public Menu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -63,13 +64,20 @@ public class Menu extends JFrame {
 		contentPane.add(nuevaPartida);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton cargarPartida = new JButton("Cargar Partida");
+		cargarPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tetris abrirPartida = new Tetris();
+				abrirPartida.setVisible(true);
+				Menu.this.dispose();
+			}
+		});
 		cargarPartida.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(cargarPartida);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton personalizarMapa = new JButton("Personalizacion");
 		personalizarMapa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Personalizacion abrirPersonalizacion = new Personalizacion();
+				Personalizar abrirPersonalizacion = Personalizar.getPersonalizar();
 				abrirPersonalizacion.setVisible(true);
 				Menu.this.dispose();
 			}

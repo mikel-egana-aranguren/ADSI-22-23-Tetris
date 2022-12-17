@@ -34,9 +34,10 @@ public class Board extends JPanel {
     }
 
     private void initBoard(Tetris parent) {
-
+    	setBackground(Personalizar.getPersonalizar().getColorFondo());
         setFocusable(true);
         statusbar = parent.getStatusBar();
+        Audio.getAudio().Musica();
         addKeyListener(new TAdapter());
     }
 
@@ -103,7 +104,7 @@ public class Board extends JPanel {
                 if (shape != Tetrominoe.NoShape) {
 
                     drawSquare(g, j * squareWidth(),
-                            boardTop + i * squareHeight(), shape);
+                            boardTop + i * squareHeight(), shape, Personalizar.getPersonalizar().getColorLadrillo() );
                 }
             }
         }
@@ -117,7 +118,7 @@ public class Board extends JPanel {
 
                 drawSquare(g, x * squareWidth(),
                         boardTop + (BOARD_HEIGHT - y - 1) * squareHeight(),
-                        curPiece.getShape());
+                        curPiece.getShape(), Personalizar.getPersonalizar().getColorLadrillo());
             }
         }
     }
@@ -254,24 +255,18 @@ public class Board extends JPanel {
         }
     }
 
-    private void drawSquare(Graphics g, int x, int y, Tetrominoe shape) {
+    private void drawSquare(Graphics g, int x, int y, Tetrominoe shape, Color pColor) {
 
-        Color colors[] = {new Color(0, 0, 0), new Color(204, 102, 102),
-                new Color(102, 204, 102), new Color(102, 102, 204),
-                new Color(204, 204, 102), new Color(204, 102, 204),
-                new Color(102, 204, 204), new Color(218, 170, 0)
-        };
+        
 
-        var color = colors[shape.ordinal()];
-
-        g.setColor(color);
+        g.setColor(pColor);
         g.fillRect(x + 1, y + 1, squareWidth() - 2, squareHeight() - 2);
 
-        g.setColor(color.brighter());
+        g.setColor(pColor.brighter());
         g.drawLine(x, y + squareHeight() - 1, x, y);
         g.drawLine(x, y, x + squareWidth() - 1, y);
 
-        g.setColor(color.darker());
+        g.setColor(pColor.darker());
         g.drawLine(x + 1, y + squareHeight() - 1,
                 x + squareWidth() - 1, y + squareHeight() - 1);
         g.drawLine(x + squareWidth() - 1, y + squareHeight() - 1,
