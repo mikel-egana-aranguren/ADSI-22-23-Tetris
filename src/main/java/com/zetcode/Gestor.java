@@ -54,24 +54,47 @@ public class Gestor {
 		GestorPartida.addPuntos(par, puntos);
 	}
 
-    private String getRankingGlobal() {
+     public JSONArray getRankingGlobal() throws JSONException, SQLException {
         // TODO
-        return "";
+    	return new GestorRanking().getRankingGlobal();
+    	
     }
 
-    private String getRankingGlobalFiltrado(int i1) {
+    public JSONArray getRankingGlobalFiltrado(int difi) throws SQLException, JSONException {
         // TODO
-        return "";
+        return new GestorRanking().getRankingGlobalFiltrado(difi);
     }
 
-    private String getRankingPersonal(String st1) {
+    public JSONArray getRankingPersonal(String nombreUsuario) throws SQLException, JSONException {
         // TODO
-        return "";
+        return new GestorRanking().getRankingPersonal(nombreUsuario);
     }
 
-    private String getRankingPersonalFiltrado(int i1, String st1) {
+    public JSONArray getRankingPersonalFiltrado(int difi, String nombreUsuario) throws SQLException, JSONException {
         // TODO
-        return "";
+        return new GestorRanking().getRankingPersonalFiltrado(difi, nombreUsuario);
+    }
+    
+    public void setNuevaPuntuacion(int punt, String nom, String time, int difi) {
+    	GestorRanking g=new GestorRanking();
+    	g.setNuevaPuntuacion(punt, nom, time, difi);
+    }
+	
+    public String getNombreUsuario() {
+    	
+    	return GestorUsuario.getGestor().getNombreUsuario();
+    }
+    
+    public int getDificultad() {
+    	return GestorDificultad.getDificultad();
+    }
+    
+    public String getNombreUsuario() {
+    	return GestorUsuario.getGestor().getNombreUsuario();
+    }
+    
+    public int getDificultad() {
+    	return GestorDificultad.getDificultad();
     }
 
     private boolean comprobarContraseña(String pwd1, String pwd2) {
