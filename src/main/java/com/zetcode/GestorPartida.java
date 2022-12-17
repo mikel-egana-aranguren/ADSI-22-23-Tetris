@@ -45,6 +45,10 @@ public class GestorPartida {
     public static void anadirPremios(Partida partida, ArrayList<Premio> premios) {
         partida.anadirPremios(premios);
     }
+	
+    public static void anadirPremios(Partida pPartida, Premio premios) {
+        pPartida.anadirPremio(premios);
+    }
 
     public static ArrayList<Premio> obtenerPremios(Partida partida) {
         return partida.obtenerPremios();
