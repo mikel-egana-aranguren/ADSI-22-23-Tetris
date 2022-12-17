@@ -161,12 +161,12 @@ public class IU_Identificacion extends JFrame {
 		btnCambiarContrasea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCambiarContrasea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				cambiarContraseña();
+				cambiarContrasena();
 			}
 		});
 		btnCambiarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cambiarContraseña();
+				cambiarContrasena();
 			}
 		});
 		panelInferior.add(btnCambiarContrasea);
@@ -175,12 +175,12 @@ public class IU_Identificacion extends JFrame {
 		btnRecuperarContrasea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRecuperarContrasea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				recuperarContraseña();
+				recuperarContrasena();
 			}
 		});
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				recuperarContraseña();
+				recuperarContrasena();
 			}
 		});
 		panelInferior.add(btnRecuperarContrasea);
@@ -216,13 +216,13 @@ public class IU_Identificacion extends JFrame {
 		}
 	}
 	
-	public void cambiarContraseña() {
+	public void cambiarContrasena() {
 		IU_CambiarContraseña iuCambiarContraseña = new IU_CambiarContraseña();
 		iuCambiarContraseña.setVisible(true);
 		ocultar();
 	}
 	
-	public void recuperarContraseña() {
+	public void recuperarContrasena() {
 		IU_RecuperarContraseña iuRecuperarContraseña = new IU_RecuperarContraseña();
 		iuRecuperarContraseña.setVisible(true);
 		ocultar();
