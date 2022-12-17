@@ -84,7 +84,7 @@ public class Gestor {
 	
     public String getNombreUsuario() {
     	
-    	return GestorUsuario.getGestor().getNombreUsuario();
+    	return GestorUsuario.getGestorUsuario().getNombreUsuario();
     }
     
     public int getDificultad() {
