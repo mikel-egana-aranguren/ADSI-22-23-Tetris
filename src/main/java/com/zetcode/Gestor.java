@@ -33,8 +33,9 @@ public class Gestor {
         ));
         return premiosjson;
     }
+	
     public void setUsuarioActual(Usuario nom) {
-    	GestorUsuario.getGestor().setUsuario(nom);
+    	GestorUsuario.getGestorUsuario().setUsuario(nom);
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
