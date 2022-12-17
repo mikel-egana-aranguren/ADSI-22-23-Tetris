@@ -90,13 +90,6 @@ public class Gestor {
     	return GestorDificultad.getDificultad();
     }
     
-    public String getNombreUsuario() {
-    	return GestorUsuario.getGestor().getNombreUsuario();
-    }
-    
-    public int getDificultad() {
-    	return GestorDificultad.getDificultad();
-    }
 
     private boolean comprobarContraseña(String pwd1, String pwd2) {
         // TODO
