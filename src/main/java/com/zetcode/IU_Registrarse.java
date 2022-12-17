@@ -116,7 +116,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 		
-		JLabel lblContrasea = new JLabel("Contraseña");
+		JLabel lblContrasea = new JLabel("Contrasena");
 		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
 		gbc_lblContrasea.anchor = GridBagConstraints.EAST;
 		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
@@ -132,7 +132,7 @@ public class IU_Registrarse extends JFrame {
 		gbc_pwdF.gridy = 3;
 		panelCentral.add(pwdF, gbc_pwdF);
 		
-		JLabel lblRepetirContrasea = new JLabel("Repetir Contraseña");
+		JLabel lblRepetirContrasea = new JLabel("Repetir Contrasena");
 		GridBagConstraints gbc_lblRepetirContrasea = new GridBagConstraints();
 		gbc_lblRepetirContrasea.anchor = GridBagConstraints.EAST;
 		gbc_lblRepetirContrasea.insets = new Insets(0, 0, 0, 5);
@@ -141,6 +141,13 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
 		pwdFRepeat = new JPasswordField();
+		pwdFRepeat.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					registrarse();
+				}
+			}
+		});
 		GridBagConstraints gbc_pwdFRepeat = new GridBagConstraints();
 		gbc_pwdFRepeat.insets = new Insets(0, 0, 0, 5);
 		gbc_pwdFRepeat.fill = GridBagConstraints.HORIZONTAL;
@@ -194,8 +201,8 @@ public class IU_Registrarse extends JFrame {
 	
 	public void volver() {
 		IU_Identificacion iuIdentificacion = new IU_Identificacion();
-		iuIdentificacion.setVisible(true);
 		ocultar();
+		iuIdentificacion.setVisible(true);
 	}
 	
 	public void registrarse() {
@@ -207,10 +214,8 @@ public class IU_Registrarse extends JFrame {
 		int exito = GPrincipal.registrarse(usuario, email, pwd1, pwd2);
 		if (exito == 1) {
 			IU_Identificacion iuId = new IU_Identificacion();
-			iuId.setVisible(true);
 			ocultar();
-		} else {
-			
+			iuId.setVisible(true);
 		}
 	}
 }

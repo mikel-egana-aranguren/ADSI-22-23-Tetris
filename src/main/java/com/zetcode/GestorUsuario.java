@@ -91,7 +91,7 @@ public class GestorUsuario {
 		}
     }
     
-    public void cambiarContraseña(String usu, String pwd1) {
+    public void cambiarContrasena(String usu, String pwd1) {
     	String consulta =  String.format(UPDATE + "USUARIO" + SET + "contrasena = '%s'" + WHERE + "nombreUsuario = '%s'", pwd1,usu);
 		SGBD.execVoidSQL(consulta);
     }
@@ -102,7 +102,7 @@ public class GestorUsuario {
     }
 
     public String[] obtenerDatos(String correo) {
-      String consulta = String.format(SELECT + "email, nombreUsuario, contrasena" + FROM + "USUARIO" + WHERE + "email = '%s'", correo);
+      String consulta = String.format(SELECT + "nombreUsuario, contrasena, email" + FROM + "USUARIO" + WHERE + "email = '%s'", correo);
       ResultSet resultado = SGBD.execResultSQL(consulta);
       String[] usu = null;
 
@@ -110,9 +110,9 @@ public class GestorUsuario {
         usu = new String[3];
         try {
           while (resultado.next()) {
-            usu[0] = resultado.getString("email");
-            usu[1] = resultado.getString("nombreUsuario");
-            usu[2] = resultado.getString("contrasena");
+            usu[0] = resultado.getString("nombreUsuario");
+            usu[1] = resultado.getString("contrasena");
+            usu[2] = resultado.getString("email");
           }
         } catch (Exception e) {
           // TODO: handle exception

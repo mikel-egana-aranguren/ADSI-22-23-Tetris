@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class IU_CambiarContraseña extends JFrame {
+public class IU_CambiarContrasena extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUsuario;
@@ -38,7 +38,7 @@ public class IU_CambiarContraseña extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_CambiarContraseña frame = new IU_CambiarContraseña();
+					IU_CambiarContrasena frame = new IU_CambiarContrasena();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class IU_CambiarContraseña extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_CambiarContraseña() {
+	public IU_CambiarContrasena() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 430, 290);
@@ -67,7 +67,7 @@ public class IU_CambiarContraseña extends JFrame {
 		contentPane.add(panelSuperior, BorderLayout.NORTH);
 		panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 4));
 		
-		JLabel lblTitulo = new JLabel("CAMBIAR CONTRASEÑA");
+		JLabel lblTitulo = new JLabel("CAMBIAR CONTRASENA");
 		panelSuperior.add(lblTitulo);
 		lblTitulo.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblTitulo.setForeground(new Color(153, 0, 153));
@@ -100,7 +100,7 @@ public class IU_CambiarContraseña extends JFrame {
 		panelCentral.add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(5);
 		
-		JLabel lblEmail = new JLabel("Contraseña Actual");
+		JLabel lblEmail = new JLabel("Contrasena Actual");
 		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
 		gbc_lblEmail.anchor = GridBagConstraints.EAST;
 		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
@@ -116,7 +116,7 @@ public class IU_CambiarContraseña extends JFrame {
 		gbc_pwdFOld.gridy = 2;
 		panelCentral.add(pwdFOld, gbc_pwdFOld);
 		
-		JLabel lblContrasea = new JLabel("Nueva contraseña");
+		JLabel lblContrasea = new JLabel("Nueva contrasena");
 		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
 		gbc_lblContrasea.anchor = GridBagConstraints.EAST;
 		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
@@ -132,7 +132,7 @@ public class IU_CambiarContraseña extends JFrame {
 		gbc_pwdF.gridy = 3;
 		panelCentral.add(pwdF, gbc_pwdF);
 		
-		JLabel lblRepetirContrasea = new JLabel("Repetir nueva contraseña");
+		JLabel lblRepetirContrasea = new JLabel("Repetir nueva contrasena");
 		GridBagConstraints gbc_lblRepetirContrasea = new GridBagConstraints();
 		gbc_lblRepetirContrasea.anchor = GridBagConstraints.EAST;
 		gbc_lblRepetirContrasea.insets = new Insets(0, 0, 0, 5);
@@ -141,6 +141,13 @@ public class IU_CambiarContraseña extends JFrame {
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
 		pwdFRepeat = new JPasswordField();
+		pwdFRepeat.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					cambiarContrasena();
+				}
+			}
+		});
 		GridBagConstraints gbc_pwdFRepeat = new GridBagConstraints();
 		gbc_pwdFRepeat.insets = new Insets(0, 0, 0, 5);
 		gbc_pwdFRepeat.fill = GridBagConstraints.HORIZONTAL;
@@ -169,12 +176,12 @@ public class IU_CambiarContraseña extends JFrame {
 		JButton btnCambiar = new JButton("Cambiar");
 		btnCambiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cambiarContraseña();
+				cambiarContrasena();
 			}
 		});
 		btnCambiar.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				cambiarContraseña();
+				cambiarContrasena();
 			}
 		});
 		btnCambiar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -189,16 +196,20 @@ public class IU_CambiarContraseña extends JFrame {
 	
 	public void volver() {
 		IU_Identificacion iuIdentificacion = new IU_Identificacion();
-		iuIdentificacion.setVisible(true);
 		ocultar();
+		iuIdentificacion.setVisible(true);
 	}
 	
-	public void cambiarContraseña() {
+	public void cambiarContrasena() {
 		Gestor GPrincipal = new Gestor();
 		String nombreUsuario = txtUsuario.getText();
 		String pwdOld = String.valueOf(pwdFOld.getPassword());
 		String pwd = String.valueOf(pwdF.getPassword());
 		String pwdRepeat = String.valueOf(pwdFRepeat.getPassword());
-		GPrincipal.cambiar(nombreUsuario, pwdOld, pwd, pwdRepeat);
+		if (GPrincipal.cambiar(nombreUsuario, pwdOld, pwd, pwdRepeat) == 1) {
+			IU_Identificacion iuId = new IU_Identificacion();
+			ocultar();
+			iuId.setVisible(true);
+		}
 	}
 }

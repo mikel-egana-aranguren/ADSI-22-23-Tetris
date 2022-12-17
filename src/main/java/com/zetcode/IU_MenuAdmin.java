@@ -213,7 +213,7 @@ public class IU_MenuAdmin extends JFrame {
 	
 	public void elimiarUsuario() {
 		IU_EliminarUsuario iuEliminarUsuario = new IU_EliminarUsuario();
-		iuEliminarUsuario.setVisible(true);
 		ocultar();
+		iuEliminarUsuario.setVisible(true);
 	}
 }

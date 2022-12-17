@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class IU_RecuperarContraseña extends JFrame {
+public class IU_RecuperarContrasena extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtEmail;
@@ -34,7 +34,7 @@ public class IU_RecuperarContraseña extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IU_RecuperarContraseña frame = new IU_RecuperarContraseña();
+					IU_RecuperarContrasena frame = new IU_RecuperarContrasena();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +46,7 @@ public class IU_RecuperarContraseña extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IU_RecuperarContraseña() {
+	public IU_RecuperarContrasena() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 430, 224);
@@ -63,7 +63,7 @@ public class IU_RecuperarContraseña extends JFrame {
 		contentPane.add(panelSuperior, BorderLayout.NORTH);
 		panelSuperior.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 4));
 		
-		JLabel lblTitulo = new JLabel("RECUPERAR CONTRASEÑA");
+		JLabel lblTitulo = new JLabel("RECUPERAR CONTRASENA");
 		panelSuperior.add(lblTitulo);
 		lblTitulo.setFont(new Font("Dialog", Font.BOLD, 20));
 		lblTitulo.setForeground(new Color(153, 0, 153));
@@ -87,7 +87,13 @@ public class IU_RecuperarContraseña extends JFrame {
 		panelCentral.add(lblIntroducirEtc, gbc_lblIntroducirEtc);
 		
 		txtEmail = new JTextField();
-		txtEmail.setText("unai.solaun@zaraobe.net");
+		txtEmail.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					recuperarContrasena();
+				}
+			}
+		});
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 0, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -117,12 +123,12 @@ public class IU_RecuperarContraseña extends JFrame {
 		JButton btnRegistrarse = new JButton("Recuperar");
 		btnRegistrarse.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				recuperarContraseña();
+				recuperarContrasena();
 			}
 		});
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				recuperarContraseña();
+				recuperarContrasena();
 			}
 		});
 		btnRegistrarse.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -137,12 +143,16 @@ public class IU_RecuperarContraseña extends JFrame {
 	
 	public void volver() {
 		IU_Identificacion iuIdentificacion = new IU_Identificacion();
-		iuIdentificacion.setVisible(true);
 		ocultar();
+		iuIdentificacion.setVisible(true);
 	}
 	
-	public void recuperarContraseña() {
+	public void recuperarContrasena() {
 		Gestor GPrincipal = new Gestor();
-		GPrincipal.enviarEmail(txtEmail.getText());
+		if (GPrincipal.enviarEmail(txtEmail.getText()) == 1) {
+			IU_Identificacion iuId = new IU_Identificacion();
+			ocultar();
+			iuId.setVisible(true);
+		}
 	}
 }
