@@ -36,4 +36,9 @@ public class GestorUsuario {
       // TODO: Esto lo he puesto para un test
       usuarioActual = usu;
     }
+    
+    public String getNombreUsuario() {
+        
+        return usuarioActual.getNombre();
+    }
 }
