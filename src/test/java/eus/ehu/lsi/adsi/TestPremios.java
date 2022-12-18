@@ -29,9 +29,10 @@ public class TestPremios {
         SGBD.execVoidSQL("INSERT INTO USUARIO(nombreUsuario,contrasena,email) VALUES ('usuariotest','contr','test@gmail.com')");
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
+        Usuario usu = new Usuario("usuariotest");
         Partida par = new Partida();
-        gu.setUsuario("usuariotest");
-        gu.obtenerUsuarioActual().setPartida(par);
+        usu.setPartida(par);
+        gu.setUsuario(usu);
     }
 
     @After  
