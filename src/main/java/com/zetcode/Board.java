@@ -297,6 +297,7 @@ public class Board extends JPanel {
             Gestor g=new Gestor();
             int difi=g.getDificultad();
             int punt=GestorUsuario.getGestor().obtenerPartidaUsuario(GestorUsuario.getGestor().obtenerUsuarioActual()).obtenerPuntos();
+	    g.setNuevaPuntuacion(/*Puntuacion*/punt,/*Nombre*/ g.getNombreUsuario(), timeStamp, /*Dificultad*/ difi);
             var msg = String.format("Game over. Score: %d", numLinesRemoved);
             statusbar.setText(msg);
             Gestor.comprobarProgresoPremiosFinalPartida();
