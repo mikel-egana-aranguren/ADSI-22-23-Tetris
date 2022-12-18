@@ -91,6 +91,22 @@ public class GestorUsuario {
 		}
     }
     
+    public String getContrasena(String usuario) {
+    	String existe = String.format(SELECT + "contrasena" + FROM + "USUARIO" + WHERE + "nombreUsuario = '%s'", usuario);
+	    ResultSet result = SGBD.execResultSQL(existe);
+	    try {
+	    	if (result.next()) {
+	    		System.out.println(result.getString("contrasena"));
+	    		return result.getString("contrasena");
+	    	} else {
+				return null;
+			}
+    	} catch (Exception e) {
+			System.exit(1);
+			return null;
+		}
+    }
+    
     public void cambiarContrasena(String usu, String pwd1) {
     	String consulta =  String.format(UPDATE + "USUARIO" + SET + "contrasena = '%s'" + WHERE + "nombreUsuario = '%s'", pwd1,usu);
 		SGBD.execVoidSQL(consulta);

@@ -58,18 +58,18 @@ public class Gestor {
         				if (matcher.find()==true) {
         					GestorUsuario GU = new GestorUsuario();
         					if (GU.existeUsuario(usuario) == false && GU.existeEmail(pEmail) == false) {
-        						option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+        						option.showMessageDialog(null, "Te has registrado correctamente", "EXITO", JOptionPane.INFORMATION_MESSAGE);
         						return true;
         					} else {
         						option.showMessageDialog(null, "El usuario introducido ya existe", "ERROR",JOptionPane.ERROR_MESSAGE);
         						return false;
         					}
         				} else {
-        					option.showMessageDialog(null, "El email introducido no es válido", "ERROR",JOptionPane.ERROR_MESSAGE);
+        					option.showMessageDialog(null, "El email introducido no es valido", "ERROR",JOptionPane.ERROR_MESSAGE);
         					return false;
         				}
         			} else {
-        				option.showMessageDialog(null, "Las contrasenas no son iguales", "ERROR",JOptionPane.ERROR_MESSAGE);
+        				option.showMessageDialog(null, "Las contrasenas no coinciden", "ERROR",JOptionPane.ERROR_MESSAGE);
         				return false;
         			} 
     			} else {
@@ -89,36 +89,42 @@ public class Gestor {
     public boolean comprobarDatosCambiarContrasena(String usuario, String pwdOld, String pwd1, String pwd2) {
     	JOptionPane option = new JOptionPane();
     	GestorUsuario GU = new GestorUsuario();
-    	if (usuario !="admin") {
-    		if (usuario.length()!=0 || pwdOld.length()!=0 || pwd1.length()!=0 || pwd2.length()!=0) {
-        		if (GU.existeUsuario(usuario)) {
-            		if (!pwdOld.equals(pwd1) && !pwdOld.equals(pwd2)) {
-                		if (pwd1.length()>3 && pwd2.length()>3) {
-                    		if (pwd1.equals(pwd2)== true) {
-                        		option.showMessageDialog(null, "La contrasena se ha cambiado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
-                    			return true;
+    	String[] credenciales = GU.obtenerDatos(usuario);
+    	if(GU.getContrasena(usuario).equals(pwdOld)) {
+    		if (usuario !="tetrixadmin") {
+        		if (usuario.length()!=0 || pwdOld.length()!=0 || pwd1.length()!=0 || pwd2.length()!=0) {
+            		if (GU.existeUsuario(usuario)) {
+                		if (!pwdOld.equals(pwd1) && !pwdOld.equals(pwd2)) {
+                    		if (pwd1.length()>3 && pwd2.length()>3) {
+                        		if (pwd1.equals(pwd2)== true) {
+                            		option.showMessageDialog(null, "La contrasena se ha cambiado correctamente", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+                        			return true;
+                        		} else {
+                        			option.showMessageDialog(null, "Las contrasenas no coinciden", "ERROR",JOptionPane.ERROR_MESSAGE);
+                        			return false;
+                        		} 
                     		} else {
-                    			option.showMessageDialog(null, "Las contrasenas no son iguales", "ERROR",JOptionPane.ERROR_MESSAGE);
+                    			option.showMessageDialog(null, "La contrasena introducida debe contener al menos 4 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
                     			return false;
-                    		} 
+                    		}
                 		} else {
-                			option.showMessageDialog(null, "La contrasena introducida debe contener al menos 4 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+                			option.showMessageDialog(null, "La nueva contrasena debe ser diferente a la anterior", "ERROR",JOptionPane.ERROR_MESSAGE);
                 			return false;
                 		}
             		} else {
-            			option.showMessageDialog(null, "La nueva contrasena debe ser diferente a la anterior", "ERROR",JOptionPane.ERROR_MESSAGE);
+            			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
             			return false;
             		}
         		} else {
-        			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+        			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
         			return false;
         		}
     		} else {
-    			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			option.showMessageDialog(null, "No seas pillo, la del admin no se puede cambiar bobi", "ERROR",JOptionPane.ERROR_MESSAGE);
     			return false;
     		}
 		} else {
-			option.showMessageDialog(null, "No seas pillo, la del admin no se puede cambiar bobi", "ERROR",JOptionPane.ERROR_MESSAGE);
+			option.showMessageDialog(null, "La contrasena actual introducida no es correcta", "ERROR",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
     }
@@ -185,16 +191,23 @@ public class Gestor {
 		}
 	}
 
-	public int enviarEmail (String texto) {
+	public int enviarEmail (String email) {
 		GestorUsuario GU = new GestorUsuario();
-		String[] credenciales = GU.obtenerDatos(texto);
+		String[] credenciales = GU.obtenerDatos(email);
 		JOptionPane option = new JOptionPane();
-		if (credenciales[0]!=null) {
-			recuperar(credenciales[0], credenciales[1], credenciales[2]);
-			option.showMessageDialog(null, "Se han enviado los datos a su email", "DATOS ENVIADOS", JOptionPane.INFORMATION_MESSAGE);
-			return 1;
+		Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		Matcher matcher = emailPat.matcher(email);
+		if (matcher.find()==true) {
+			if (credenciales[0]!=null) {
+				recuperar(credenciales[0], credenciales[1], credenciales[2]);
+				option.showMessageDialog(null, "Se han enviado los datos a su email", "CONTRASENA ENVIADA", JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+			} else {
+				option.showMessageDialog(null, "Email introducido incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
+				return 0;
+			}
 		} else {
-			option.showMessageDialog(null, "Email introducido incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
+			option.showMessageDialog(null, "El email introducido no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
 			return 0;
 		}
 	}
@@ -213,9 +226,10 @@ public class Gestor {
     	JOptionPane option = new JOptionPane();
         GestorUsuario GU = new GestorUsuario();
         if (GU.existeUsuario(usu)) {
-        	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCIÓN", JOptionPane.YES_NO_OPTION);
+        	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCION", JOptionPane.YES_NO_OPTION);
         	if (resp == 0) {
 				GU.eliminarUsuario(usu);
+        		option.showMessageDialog(null, "Usuario eliminado correctamente", "EXITO", JOptionPane.INFORMATION_MESSAGE);
 				return 1;
 			} else {
 				return 0;
