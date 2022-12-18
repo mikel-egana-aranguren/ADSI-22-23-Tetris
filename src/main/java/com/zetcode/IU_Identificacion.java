@@ -97,7 +97,7 @@ public class IU_Identificacion extends JFrame {
 		panelCentral.add(txtUsuario, gbc_txtUsuario);
 		txtUsuario.setColumns(10);
 		
-		JLabel lblContrasea = new JLabel("Contraseña");
+		JLabel lblContrasea = new JLabel("Contrasena");
 		GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
 		gbc_lblContrasea.anchor = GridBagConstraints.EAST;
 		gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
@@ -106,6 +106,14 @@ public class IU_Identificacion extends JFrame {
 		panelCentral.add(lblContrasea, gbc_lblContrasea);
 		
 		pwdF = new JPasswordField();
+		pwdF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					iniciarSesion();
+				}
+			}
+		});
 		GridBagConstraints gbc_pwdF = new GridBagConstraints();
 		gbc_pwdF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_pwdF.insets = new Insets(0, 0, 5, 5);
@@ -157,30 +165,30 @@ public class IU_Identificacion extends JFrame {
 		contentPane.add(panelInferior, BorderLayout.SOUTH);
 		panelInferior.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 15));
 		
-		JButton btnCambiarContrasea = new JButton("Cambiar contraseña");
+		JButton btnCambiarContrasea = new JButton("Cambiar contrasena");
 		btnCambiarContrasea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCambiarContrasea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				cambiarContraseña();
+				cambiarContrasena();
 			}
 		});
 		btnCambiarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cambiarContraseña();
+				cambiarContrasena();
 			}
 		});
 		panelInferior.add(btnCambiarContrasea);
 		
-		JButton btnRecuperarContrasea = new JButton("Recuperar contraseña");
+		JButton btnRecuperarContrasea = new JButton("Recuperar contrasena");
 		btnRecuperarContrasea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRecuperarContrasea.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				recuperarContraseña();
+				recuperarContrasena();
 			}
 		});
 		btnRecuperarContrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				recuperarContraseña();
+				recuperarContrasena();
 			}
 		});
 		panelInferior.add(btnRecuperarContrasea);
@@ -192,8 +200,8 @@ public class IU_Identificacion extends JFrame {
 	
 	public void registrarse() {
 		IU_Registrarse iuRegistrarse = new IU_Registrarse();
-		iuRegistrarse.setVisible(true);
 		ocultar();
+		iuRegistrarse.setVisible(true);
 		
 	}
 	
@@ -204,27 +212,26 @@ public class IU_Identificacion extends JFrame {
 		boolean existe = GestorPrincipal.identificarse(nombreUsuario, pwd);
 		if (existe && (nombreUsuario.equals("admin"))) {
 			IU_MenuAdmin menuAdmin = new IU_MenuAdmin();
-			menuAdmin.setVisible(true);
 			ocultar();
+			menuAdmin.setVisible(true);
 		} else if (!existe) {
 			
 		} else {
-			//Para saber que usuario es, he creado un metodo setUsuario
-			GestorPrincipal.setUsuarioActual(txtUsuario.getText());
-			Menu.getMenu().setVisible(true);
+			Menu menu = new Menu();
 			ocultar();	
+			menu.setVisible(true);
 		}
 	}
 	
-	public void cambiarContraseña() {
-		IU_CambiarContraseña iuCambiarContraseña = new IU_CambiarContraseña();
-		iuCambiarContraseña.setVisible(true);
+	public void cambiarContrasena() {
+		IU_CambiarContrasena iuCambiarContrasena = new IU_CambiarContrasena();
 		ocultar();
+		iuCambiarContrasena.setVisible(true);
 	}
 	
-	public void recuperarContraseña() {
-		IU_RecuperarContraseña iuRecuperarContraseña = new IU_RecuperarContraseña();
-		iuRecuperarContraseña.setVisible(true);
+	public void recuperarContrasena() {
+		IU_RecuperarContrasena iuRecuperarContrasena = new IU_RecuperarContrasena();
 		ocultar();
+		iuRecuperarContrasena.setVisible(true);
 	}
 }

@@ -10,9 +10,26 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.awt.datatransfer.*;
 import java.awt.Toolkit;
+import org.json.JSONException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import java.lang.StackWalker.Option;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
+
+import org.apache.logging.log4j.core.pattern.RelativeTimePatternConverter;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+//import javax.mail.*;
 
 public class Gestor {
     public static JSONArray obtenerPremios() {
@@ -30,6 +47,10 @@ public class Gestor {
             }).collect(Collectors.toList()
         ));
         return premiosjson;
+    }
+	
+    public void setUsuarioActual(Usuario nom) {
+    	GestorUsuario.getGestorUsuario().setUsuario(nom);
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
@@ -79,51 +100,381 @@ public class Gestor {
 	
     public String getNombreUsuario() {
     	
-    	return GestorUsuario.getGestor().getNombreUsuario();
+    	return GestorUsuario.getGestorUsuario().getNombreUsuario();
     }
     
     public int getDificultad() {
     	return GestorDificultad.getDificultad();
     }
     
-    public String getNombreUsuario() {
-    	return GestorUsuario.getGestor().getNombreUsuario();
+
+    public boolean comprobarDatosRegistro(String usuario, String pEmail, String pwd1, String pwd2) {
+    	JOptionPane option = new JOptionPane();
+    	if (usuario.length()!=0 || pEmail.length()!=0 || pwd1.length()!=0 || pwd2.length()!=0) {
+    		if (usuario.length()>2) {
+        		if (pwd1.length()>3 && pwd2.length()>3) {
+        			if (pwd1.equals(pwd2)== true) {
+        				Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        				Matcher matcher = emailPat.matcher(pEmail);
+        				if (matcher.find()==true) {
+        					GestorUsuario GU = new GestorUsuario();
+        					if (GU.existeUsuario(usuario) == false && GU.existeEmail(pEmail) == false) {
+        						option.showMessageDialog(null, "Te has registrado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+        						return true;
+        					} else {
+        						option.showMessageDialog(null, "El usuario introducido ya existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+        						return false;
+        					}
+        				} else {
+        					option.showMessageDialog(null, "El email introducido no es válido", "ERROR",JOptionPane.ERROR_MESSAGE);
+        					return false;
+        				}
+        			} else {
+        				option.showMessageDialog(null, "Las contraseñas no son iguales", "ERROR",JOptionPane.ERROR_MESSAGE);
+        				return false;
+        			} 
+    			} else {
+    				option.showMessageDialog(null, "La contraseña introducida debe contener al menos 4 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+    				return false;
+    			}
+    		} else {
+    			option.showMessageDialog(null, "El nombre de usuario debe contener al menos 3 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			return false;
+    		}
+		} else {
+			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
     }
     
-    public int getDificultad() {
-    	return GestorDificultad.getDificultad();
+    public boolean comprobarDatosCambiarContraseña(String usuario, String pwdOld, String pwd1, String pwd2) {
+    	JOptionPane option = new JOptionPane();
+    	GestorUsuario GU = new GestorUsuario();
+    	if (usuario !="admin") {
+    		if (usuario.length()!=0 || pwdOld.length()!=0 || pwd1.length()!=0 || pwd2.length()!=0) {
+        		if (GU.existeUsuario(usuario)) {
+            		if (!pwdOld.equals(pwd1) && !pwdOld.equals(pwd2)) {
+                		if (pwd1.length()>3 && pwd2.length()>3) {
+                    		if (pwd1.equals(pwd2)== true) {
+                        		option.showMessageDialog(null, "La contraseña se ha cambiado correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
+                    			return true;
+                    		} else {
+                    			option.showMessageDialog(null, "Las contraseñas no son iguales", "ERROR",JOptionPane.ERROR_MESSAGE);
+                    			return false;
+                    		} 
+                		} else {
+                			option.showMessageDialog(null, "La contraseña introducida debe contener al menos 4 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+                			return false;
+                		}
+            		} else {
+            			option.showMessageDialog(null, "La nueva contraseña debe ser diferente a la anterior", "ERROR",JOptionPane.ERROR_MESSAGE);
+            			return false;
+            		}
+        		} else {
+        			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+        			return false;
+        		}
+    		} else {
+    			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			return false;
+    		}
+		} else {
+			option.showMessageDialog(null, "No seas pillo, la del admin no se puede cambiar bobi", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
     }
 
-    private boolean comprobarContraseña(String pwd1, String pwd2) {
-        // TODO
-        return false;
+    public int registrarse(String usu, String email, String pwd1, String pwd2) {
+    	GestorUsuario GU = new GestorUsuario();
+    	if (comprobarDatosRegistro(usu, email, pwd1, pwd2)) {
+    		GU.registrarse(usu, email, pwd1);
+    		return 1;
+		} else {
+			return 0;
+		}
     }
 
-    private void registrarse(String usu, String email, String pwd1) {
-        // TODO
+    public boolean identificarse(String usu, String pwd) {
+    	JOptionPane option = new JOptionPane();
+    	GestorUsuario GU = new GestorUsuario();
+        if (usu.length()!=0 || pwd.length()!=0) {
+        	if (GU.existeUsuario(usu, pwd)) {
+            	return true;
+            } else {
+    			option.showMessageDialog(null, "Las credenciales introducidas no son correctas \nVuelve a intentarlo", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			return false;
+    		}
+		} else {
+			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
     }
 
-    private String identificarse(String usu, String pwd) {
-        // TODO
-        return "";
-    }
+    private void recuperar(String nombreUsuario, String pwd, String destinatario) {
+    	String asunto = "Contraseña TETRIX";
+		String cuerpo = "La contraseña correspondiente al usuario " + nombreUsuario + "es: " + pwd;
 
-    private boolean recuperar(String textoIntroducido) {
-        // TODO
-        return false;
-    }
+		String remitente = "adsitetrix@gmail.com";
+		String clave = "tetrixsa22";
+
+		Properties props = System.getProperties();
+		props.setProperty("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
+		//props.setProperty("mail.smtp.user", remitente); // Correo electronico desde donde se mandara el mensaje
+		//props.setProperty("mail.smtp.clave", clave); // La clave de la cuenta
+		props.setProperty("mail.smtp.auth", "true"); // Usar autenticación mediante usuario y clave
+		props.setProperty("mail.smtp.starttls.enable", "true"); // Para conectar de manera segura al servidor SMTP
+		props.setProperty("mail.smtp.port", "587"); // El puerto SMTP seguro de Google
+		
+		javax.mail.Session session = javax.mail.Session.getInstance(props,new javax.mail.Authenticator() {
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(remitente, clave);
+			}
+		});
+		
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(remitente));
+			message.addRecipients(Message.RecipientType.TO, destinatario);
+			message.setSubject(asunto);
+			message.setText(cuerpo);
+			Transport transport = session.getTransport("smtp");
+			transport.connect("smtp.gmail.com", remitente, clave);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		}
+	}
+
+	public void enviarEmail (String texto) {
+		GestorUsuario GU = new GestorUsuario();
+		String[] credenciales = GU.obtenerDatos(texto);
+		JOptionPane option = new JOptionPane();
+		if (credenciales[0]!=null) {
+			recuperar(credenciales[0], credenciales[1], credenciales[2]);
+			option.showMessageDialog(null, "Se han enviado los datos a su email", "DATOS ENVIADOS", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			option.showMessageDialog(null, "No se han podido enviar los datos a su email", "DATOS NO ENVIADOS", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 
     private boolean comprobar(String usu, String pwdVieja, String pwd1, String pwd2) {
         // TODO
         return false;
     }
 
-    private void cambiar(String usu, String pwdVieja, String pwd) {
-        // TODO
+    public void cambiar(String usu, String pwdOld, String pwd1, String pwd2) {
+        GestorUsuario GU = new GestorUsuario();
+        if (comprobarDatosCambiarContraseña(usu, pwdOld, pwd1, pwd2)) {
+			GU.cambiarContraseña(usu, pwd1);
+		}
     }
 
-    private void eliminarUsuario(String usu) {
-        // TODO
+ 	public void eliminarUsuario(String usu) {
+    	JOptionPane option = new JOptionPane();
+        GestorUsuario GU = new GestorUsuario();
+        if (GU.existeUsuario(usu)) {
+        	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCIÓN", JOptionPane.YES_NO_OPTION);
+        	if (resp == 0) {
+				System.out.println("Usuario eliminado");
+				//GU.eliminarUsuario(usu);
+			}
+		} else {
+			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+		}
+ 	}
+    public boolean comprobarDatosRegistro(String usuario, String pEmail, String pwd1, String pwd2) {
+    	JOptionPane option = new JOptionPane();
+    	if (usuario.length()!=0 || pEmail.length()!=0 || pwd1.length()!=0 || pwd2.length()!=0) {
+    		if (usuario.length()>2) {
+        		if (pwd1.length()>3 && pwd2.length()>3) {
+        			if (pwd1.equals(pwd2)== true) {
+        				Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+        				Matcher matcher = emailPat.matcher(pEmail);
+        				if (matcher.find()==true) {
+        					GestorUsuario GU = new GestorUsuario();
+        					if (GU.existeUsuario(usuario) == false && GU.existeEmail(pEmail) == false) {
+        						option.showMessageDialog(null, "Te has registrado correctamente", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+        						return true;
+        					} else {
+        						option.showMessageDialog(null, "El usuario introducido ya existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+        						return false;
+        					}
+        				} else {
+        					option.showMessageDialog(null, "El email introducido no es valido", "ERROR",JOptionPane.ERROR_MESSAGE);
+        					return false;
+        				}
+        			} else {
+        				option.showMessageDialog(null, "Las contrasenas no coinciden", "ERROR",JOptionPane.ERROR_MESSAGE);
+        				return false;
+        			} 
+    			} else {
+    				option.showMessageDialog(null, "La contrasena introducida debe contener al menos 4 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+    				return false;
+    			}
+    		} else {
+    			option.showMessageDialog(null, "El nombre de usuario debe contener al menos 3 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			return false;
+    		}
+		} else {
+			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+    }
+    
+    public boolean comprobarDatosCambiarContrasena(String usuario, String pwdOld, String pwd1, String pwd2) {
+    	JOptionPane option = new JOptionPane();
+    	GestorUsuario GU = new GestorUsuario();
+    	String[] credenciales = GU.obtenerDatos(usuario);
+    	if(GU.getContrasena(usuario).equals(pwdOld)) {
+    		if (usuario !="tetrixadmin") {
+        		if (usuario.length()!=0 || pwdOld.length()!=0 || pwd1.length()!=0 || pwd2.length()!=0) {
+            		if (GU.existeUsuario(usuario)) {
+                		if (!pwdOld.equals(pwd1) && !pwdOld.equals(pwd2)) {
+                    		if (pwd1.length()>3 && pwd2.length()>3) {
+                        		if (pwd1.equals(pwd2)== true) {
+                            		option.showMessageDialog(null, "La contrasena se ha cambiado correctamente", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+                        			return true;
+                        		} else {
+                        			option.showMessageDialog(null, "Las contrasenas no coinciden", "ERROR",JOptionPane.ERROR_MESSAGE);
+                        			return false;
+                        		} 
+                    		} else {
+                    			option.showMessageDialog(null, "La contrasena introducida debe contener al menos 4 caracteres", "ERROR",JOptionPane.ERROR_MESSAGE);
+                    			return false;
+                    		}
+                		} else {
+                			option.showMessageDialog(null, "La nueva contrasena debe ser diferente a la anterior", "ERROR",JOptionPane.ERROR_MESSAGE);
+                			return false;
+                		}
+            		} else {
+            			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+            			return false;
+            		}
+        		} else {
+        			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+        			return false;
+        		}
+    		} else {
+    			option.showMessageDialog(null, "No seas pillo, la del admin no se puede cambiar bobi", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			return false;
+    		}
+		} else {
+			option.showMessageDialog(null, "La contrasena actual introducida no es correcta", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+    }
+
+    public int registrarse(String usu, String email, String pwd1, String pwd2) {
+    	GestorUsuario GU = new GestorUsuario();
+    	if (comprobarDatosRegistro(usu, email, pwd1, pwd2)) {
+    		GU.registrarse(usu, email, pwd1);
+    		return 1;
+		} else {
+			return 0;
+		}
+    }
+
+    public boolean identificarse(String usu, String pwd) {
+    	JOptionPane option = new JOptionPane();
+    	GestorUsuario GU = new GestorUsuario();
+        if (usu.length()!=0 || pwd.length()!=0) {
+        	if (GU.existeUsuario(usu, pwd)) {
+            	return true;
+            } else {
+    			option.showMessageDialog(null, "Las credenciales introducidas no son correctas \nVuelve a intentarlo", "ERROR",JOptionPane.ERROR_MESSAGE);
+    			return false;
+    		}
+		} else {
+			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+    }
+
+    private void recuperar(String nombreUsuario, String pwd, String destinatario) {
+    	String asunto = "Contrasena TETRIX";
+		String cuerpo = "La contrasena correspondiente al usuario " + nombreUsuario + " es: " + pwd;
+
+		String remitente = "adsitetrix@gmail.com";
+		String clave = "ekqvmcmitqihyddj"; // tetrixsa22
+		Properties props = System.getProperties();
+		props.setProperty("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP de Google
+		//props.setProperty("mail.smtp.user", remitente); // Correo electronico desde donde se mandara el mensaje
+		//props.setProperty("mail.smtp.clave", clave); // La clave de la cuenta
+		props.setProperty("mail.smtp.auth", "true"); // Usar autenticación mediante usuario y clave
+		props.setProperty("mail.smtp.starttls.enable", "true"); // Para conectar de manera segura al servidor SMTP
+		props.setProperty("mail.smtp.port", "587"); // El puerto SMTP seguro de Google 587
+		
+		
+		Session session = Session.getInstance(props,new javax.mail.Authenticator() {
+			public PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(remitente, clave);
+			}
+		});
+		
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(remitente));
+			message.addRecipients(Message.RecipientType.TO, destinatario);
+			message.setSubject(asunto);
+			message.setText(cuerpo);
+			Transport transport = session.getTransport("smtp");
+			transport.connect("smtp.gmail.com", remitente, clave);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+		} catch (MessagingException me) {
+			me.printStackTrace();
+		}
+	}
+
+	public int enviarEmail (String email) {
+		GestorUsuario GU = new GestorUsuario();
+		String[] credenciales = GU.obtenerDatos(email);
+		JOptionPane option = new JOptionPane();
+		Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		Matcher matcher = emailPat.matcher(email);
+		if (matcher.find()==true) {
+			if (credenciales[0]!=null) {
+				recuperar(credenciales[0], credenciales[1], credenciales[2]);
+				option.showMessageDialog(null, "Se han enviado los datos a su email", "CONTRASENA ENVIADA", JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+			} else {
+				option.showMessageDialog(null, "Email introducido incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
+				return 0;
+			}
+		} else {
+			option.showMessageDialog(null, "El email introducido no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+			return 0;
+		}
+	}
+
+    public int cambiar(String usu, String pwdOld, String pwd1, String pwd2) {
+        GestorUsuario GU = new GestorUsuario();
+        if (comprobarDatosCambiarContrasena(usu, pwdOld, pwd1, pwd2)) {
+			GU.cambiarContrasena(usu, pwd1);
+			return 1;
+		} else {
+			return 0;
+		}
+    }
+
+    public int eliminarUsuario(String usu) {
+    	JOptionPane option = new JOptionPane();
+        GestorUsuario GU = new GestorUsuario();
+        if (GU.existeUsuario(usu)) {
+        	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCION", JOptionPane.YES_NO_OPTION);
+        	if (resp == 0) {
+				GU.eliminarUsuario(usu);
+        		option.showMessageDialog(null, "Usuario eliminado correctamente", "EXITO", JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
+			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
+			return 0;
+		}
     }
 
     private int mostarDificultad(String nombreUsuario, int dificultad) {
@@ -154,29 +505,34 @@ public class Gestor {
 		int idPartida = GestorPartida.obtenerIdPartida(partidaUsuario);
 		int puntos = GestorPartida.obtenerPuntos(partidaUsuario);
 		String estadoTablero = pEstadoTablero;
-		String dificultad = GestorDificultad.buscarDificultad(usuario).getNombre();
+		int dificultad = GestorDificultad.getDificultad();
 		GestorPremios.comprobarProgresoPremios(); //Comprobar el progreso de los premios
 		ArrayList<Premio> listaPremios = GestorPremios.obtenerPremios(nombreUsuario);
-		resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
-		if (resultado == null) { //INSERT
-			SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%s)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
-		} else { //UPDATE
-			SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
-		}
-		for (Premio premio : listaPremios) {
-			String nombrePremio = premio.getNombre();
-			int progreso = premio.getProgreso();
-			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE id =="+idPartida+"nombrePremio="+nombrePremio);
+		try {
+			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
 			if (resultado == null) { //INSERT
-				SGBD.execVoidSQL(String.format("INSERT INTO PREMIOSENPARTIDA VALUES(%d,'%s',%d)",idPartida,nombrePremio,progreso));
+				SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%d)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
 			} else { //UPDATE
-				SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
+				SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
 			}
+			for (Premio premio : listaPremios) {
+				String nombrePremio = premio.getNombre();
+				int progreso = premio.getProgreso();
+				resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE id =="+idPartida+"nombrePremio="+nombrePremio);
+				if (resultado == null) { //INSERT
+					SGBD.execVoidSQL(String.format("INSERT INTO PREMIOSENPARTIDA VALUES(%d,'%s',%d)",idPartida,nombrePremio,progreso));
+				} else { //UPDATE
+					SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
+				}
+			}
+			resultado.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		resultado.close();
+		
 	}
 	
-	public static void cargarPartida(int pIdPartida) {
+	public static boolean cargarPartida(int pIdPartida) {
 		ResultSet resultado;
 		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 		Partida partidaUsuario = new Partida();
@@ -194,7 +550,7 @@ public class Gestor {
 				GestorPartida.setPuntosPartida(partidaUsuario,puntos);
 				GestorPartida.setEstadoTablero(partidaUsuario,estadoTablero);
 				GestorUsuario.getGestorUsuario().setPartidaUsuario(usuario,partidaUsuario);
-				GestorDificultad.cambiarDificultad(dificultad);
+				GestorDificultad.actualizarDificultad();
 			}
 			resultado.close();
 			
@@ -208,8 +564,10 @@ public class Gestor {
 			}
 			resultado.close();
 			Tetris.getTetris().start(estadoTablero);
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -301,7 +659,7 @@ public class Gestor {
         }
     }    
 
-    private String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios, String pDirec)
+    private static String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios, String pDirec)
     {
         nomUsu = encodeValue(nomUsu);
         String msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido los siguientes premios: ";

@@ -23,10 +23,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+import org.json.JSONException;
+import java.sql.SQLException;
 
 import org.json.JSONObject;
 
 import javax.swing.BorderFactory;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
 
 public class Menu extends JFrame {
 
@@ -63,17 +68,15 @@ public class Menu extends JFrame {
 	 */
 	public Menu() {
 		panelMenu();
+		Menu.getMenu().start();
 	}
 	
 	public void panelMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(0, 0, 450, 350);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setContentPane(contentPane);
 
 		JLabel titulo = new JLabel("Tetrix");
@@ -116,6 +119,7 @@ public class Menu extends JFrame {
 		JButton verRanking = new JButton("Ver Ranking");
 		verRanking.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(verRanking);
+		verRanking.addActionListener(new verClasificacion());
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton verPremios = new JButton("Ver Premios");
 		verPremios.setAlignmentX(CENTER_ALIGNMENT);
@@ -162,7 +166,10 @@ public class Menu extends JFrame {
 							ponerMensaje("EL id de partida no existe");
 						} else {
 							Menu.getMenu().close();
-							Gestor.cargarPartida(idSeleccionado);
+							boolean errorCargar = Gestor.cargarPartida(idSeleccionado);
+							if (errorCargar) {
+								ponerMensaje("Error al cargar partida");
+							}
 						}
 					} catch (Exception ex) {
 						ponerMensaje("El id debe ser un numero");
@@ -187,5 +194,20 @@ public class Menu extends JFrame {
 		contentPane.add(mensaje);
 		contentPane.revalidate();
 		contentPane.repaint();
+	}
+	
+	class verClasificacion implements ActionListener{
+		public void actionPerformed(ActionEvent a) {
+			Clasificacion frame;
+			try {
+				frame = new Clasificacion();
+				frame.setVisible(true);
+				Menu.this.dispose();
+			} catch (JSONException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 	}
 }
