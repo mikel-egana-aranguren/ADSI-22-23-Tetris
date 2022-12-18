@@ -64,10 +64,6 @@ public class Tetris extends JFrame {
         var board = new Board(this);
         add(board);
         board.start(pEstadoTablero);
-        
-        JButton guardarPartida = new JButton("Pausar Partida");
-        add(guardarPartida, BorderLayout.NORTH);
-        guardarPartida.setFocusable(false);
 
         setTitle("Tetris");
         setSize(200, 400);
