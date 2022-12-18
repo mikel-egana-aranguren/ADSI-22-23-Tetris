@@ -23,10 +23,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
+
 import org.json.JSONException;
 import java.sql.SQLException;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import javax.swing.BorderFactory;
 import java.awt.GridBagLayout;
@@ -58,7 +60,6 @@ public class Menu extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setContentPane(contentPane);
 
 		JLabel titulo = new JLabel("Tetrix");
@@ -128,8 +129,9 @@ public class Menu extends JFrame {
 		setContentPane(contentPane);
 		ArrayList<Integer> listaIds = new ArrayList<Integer>();
 		try {
-			JSONObject[] partidasUsuario = (JSONObject[])Gestor.obtenerPartidasUsuarioActual().get("listaPartidas");
-			for (JSONObject partida : partidasUsuario) {
+			JSONArray partidasUsuario = Gestor.obtenerPartidasUsuarioActual();
+			for (int i = 0 ; i < partidasUsuario.length(); i++) {
+				JSONObject partida = partidasUsuario.getJSONObject(i);
 				int id = partida.getInt("id");
 				int puntos = partida.getInt("puntos");
 				contentPane.add(new JLabel("id: "+ id + ", puntos: " + puntos));
@@ -203,6 +205,7 @@ public class Menu extends JFrame {
 				frame.setVisible(true);
 				Menu.this.dispose();
 			} catch (JSONException | SQLException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
