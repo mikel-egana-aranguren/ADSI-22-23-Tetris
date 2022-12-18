@@ -69,6 +69,7 @@ public class Board extends JPanel {
                 pause();
             }
         });
+	this.pausarPartida.setFocusable(false);
         this.add(pausarPartida, BorderLayout.NORTH);
 
     	curPiece = new Ficha();
@@ -185,6 +186,7 @@ public class Board extends JPanel {
                 this.add(cancelar, BorderLayout.NORTH);
             }
         } else {
+	    this.pausarPartida.setFocusable(false);
 	    this.add(pausarPartida, BorderLayout.NORTH);
             remove(this.guardarPartida);
 	    remove(this.cancelar);
