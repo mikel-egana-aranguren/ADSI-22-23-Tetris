@@ -203,7 +203,6 @@ public class Menu extends JFrame {
 				frame.setVisible(true);
 				Menu.this.dispose();
 			} catch (JSONException | SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

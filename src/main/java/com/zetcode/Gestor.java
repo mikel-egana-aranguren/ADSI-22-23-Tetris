@@ -89,23 +89,19 @@ public class Gestor {
 	}
 
      public JSONArray getRankingGlobal() throws JSONException, SQLException {
-        // TODO
     	return new GestorRanking().getRankingGlobal();
     	
     }
 
     public JSONArray getRankingGlobalFiltrado(int difi) throws SQLException, JSONException {
-        // TODO
         return new GestorRanking().getRankingGlobalFiltrado(difi);
     }
 
     public JSONArray getRankingPersonal(String nombreUsuario) throws SQLException, JSONException {
-        // TODO
         return new GestorRanking().getRankingPersonal(nombreUsuario);
     }
 
     public JSONArray getRankingPersonalFiltrado(int difi, String nombreUsuario) throws SQLException, JSONException {
-        // TODO
         return new GestorRanking().getRankingPersonalFiltrado(difi, nombreUsuario);
     }
     
@@ -270,7 +266,6 @@ public class Gestor {
     }
 
 	public void setUsuario(String usu) {
-        // TODO: Esto lo he puesto para un test
         Usuario usuarioActual = new Usuario(usu);
 		GestorUsuario.getGestorUsuario().setUsuario(usuarioActual);
     }
@@ -358,25 +353,6 @@ public class Gestor {
 			option.showMessageDialog(null, "El usuario introducido no existe", "ERROR",JOptionPane.ERROR_MESSAGE);
 			return 0;
 		}
-    }
-
-    private int mostarDificultad(String nombreUsuario, int dificultad) {
-        // TODO
-        return 0;
-    }
-
-    private void actualizarDificultad(String nombreUsuario, int dificultad) {
-        // TODO
-    }
-
-    private String mostrarPersonalizacion(String nombreUsuario) {
-        // TODO
-        return "";
-    }
-
-    private String actualizarPersonalizacion(String nombreUsuario) {
-        // TODO
-        return "";
     }
 
     public static void guardarPartida(String pEstadoTablero) {
@@ -484,10 +460,6 @@ public class Gestor {
         GestorUsuario.getGestorUsuario().setPartidaUsuario(usuAct,partidaNv);
 		Tetris.getTetris().start(null);
 	}
-
-    private void gestionarEvento(String evento) {
-        // TODO
-    }
 
     private static String encodeValue(String value) 
     {
