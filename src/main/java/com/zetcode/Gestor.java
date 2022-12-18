@@ -283,7 +283,7 @@ public class Gestor {
     }
 
     public void cambiar(String usu, String pwdOld, String pwd1, String pwd2) {
-        GestorUsuario GU = new GestorUsuario();
+        GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (comprobarDatosCambiarContraseña(usu, pwdOld, pwd1, pwd2)) {
 			GU.cambiarContraseña(usu, pwd1);
 		}
@@ -291,7 +291,7 @@ public class Gestor {
 
  	public void eliminarUsuario(String usu) {
     	JOptionPane option = new JOptionPane();
-        GestorUsuario GU = new GestorUsuario();
+        GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (GU.existeUsuario(usu)) {
         	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCIÓN", JOptionPane.YES_NO_OPTION);
         	if (resp == 0) {
@@ -343,7 +343,7 @@ public class Gestor {
     
     public boolean comprobarDatosCambiarContrasena(String usuario, String pwdOld, String pwd1, String pwd2) {
     	JOptionPane option = new JOptionPane();
-    	GestorUsuario GU = new GestorUsuario();
+    	GestorUsuario GU = GestorUsuario.getGestorUsuario();
     	String[] credenciales = GU.obtenerDatos(usuario);
     	if(GU.getContrasena(usuario).equals(pwdOld)) {
     		if (usuario !="tetrixadmin") {
@@ -385,7 +385,7 @@ public class Gestor {
     }
 
     public int registrarse(String usu, String email, String pwd1, String pwd2) {
-    	GestorUsuario GU = new GestorUsuario();
+    	GestorUsuario GU = GestorUsuario.getGestorUsuario();
     	if (comprobarDatosRegistro(usu, email, pwd1, pwd2)) {
     		GU.registrarse(usu, email, pwd1);
     		return 1;
@@ -396,7 +396,7 @@ public class Gestor {
 
     public boolean identificarse(String usu, String pwd) {
     	JOptionPane option = new JOptionPane();
-    	GestorUsuario GU = new GestorUsuario();
+    	GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (usu.length()!=0 || pwd.length()!=0) {
         	if (GU.existeUsuario(usu, pwd)) {
             	return true;
@@ -447,7 +447,7 @@ public class Gestor {
 	}
 
 	public int enviarEmail (String email) {
-		GestorUsuario GU = new GestorUsuario();
+		GestorUsuario GU = GestorUsuario.getGestorUsuario();
 		String[] credenciales = GU.obtenerDatos(email);
 		JOptionPane option = new JOptionPane();
 		Pattern emailPat = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+"[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -468,7 +468,7 @@ public class Gestor {
 	}
 
     public int cambiar(String usu, String pwdOld, String pwd1, String pwd2) {
-        GestorUsuario GU = new GestorUsuario();
+        GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (comprobarDatosCambiarContrasena(usu, pwdOld, pwd1, pwd2)) {
 			GU.cambiarContrasena(usu, pwd1);
 			return 1;
@@ -479,7 +479,7 @@ public class Gestor {
 
     public int eliminarUsuario(String usu) {
     	JOptionPane option = new JOptionPane();
-        GestorUsuario GU = new GestorUsuario();
+        GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (GU.existeUsuario(usu)) {
         	int resp = JOptionPane.showConfirmDialog(null, "Estas seguro de que quieres eliminar al usuario: " + usu, "ATENCION", JOptionPane.YES_NO_OPTION);
         	if (resp == 0) {
