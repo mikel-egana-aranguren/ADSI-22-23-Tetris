@@ -1,6 +1,8 @@
 package com.zetcode;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GestorUsuario {
     private Usuario usuarioActual;
@@ -126,8 +128,14 @@ public class GestorUsuario {
     }
     
     public void eliminarUsuario(String usu) {
-    	String consulta = String.format(DELETE + FROM + "USUARIO" + WHERE + "nombreUsuario = '%s'", usu);
-    	SGBD.execVoidSQL(consulta);
+      List<String> consultas = new ArrayList<>();
+      consultas.add(String.format(DELETE + FROM + "PREMIOOBTENIDO" + WHERE + "nombreUsuario = '%s'", usu));
+      consultas.add(String.format(DELETE + FROM + "RANKING" + WHERE + "nombreUsuario = '%s'", usu));
+      consultas.add(String.format(DELETE + FROM + "PARTIDA" + WHERE + "nombreUsuario = '%s'", usu));
+      consultas.add(String.format(DELETE + FROM + "USUARIO" + WHERE + "nombreUsuario = '%s'", usu));
+      for (String consulta : consultas) {
+          SGBD.execVoidSQL(consulta);
+      }
     }
 
     public String[] obtenerDatos(String correo) {
