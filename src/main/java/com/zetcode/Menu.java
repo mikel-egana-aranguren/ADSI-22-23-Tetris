@@ -166,6 +166,15 @@ public class Menu extends JFrame {
 				}
 			});
 			contentPane.add(aceptar);
+			JButton cancelar = new JButton("Cancelar");
+			cancelar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					panelMenu();
+				}
+			});
+			contentPane.add(cancelar);
 			
 		} catch (Exception e) {
 			System.err.println(e);

@@ -100,3 +100,6 @@ INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Maestro', '<html>C
 INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Puntuador Extremo', '<html>Para completar este logro<br>debes obtener 1 millón de puntos.', 1000000);
 
 --Añadir en el diagrama ER la dificultad de partida
+INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (0, 400, '15x27');
+INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (1, 300, '15x22');
+INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (2, 150, '10x22');

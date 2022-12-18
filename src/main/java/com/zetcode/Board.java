@@ -297,6 +297,9 @@ public class Board extends JPanel {
             var msg = String.format("Game over. Score: %d", numLinesRemoved);
             statusbar.setText(msg);
             Gestor.comprobarProgresoPremiosFinalPartida();
+            CompartirResultados resultados = new CompartirResultados();
+            resultados.setVisible(true);
+            Tetris.getTetris().dispose();
         }
     }
 
