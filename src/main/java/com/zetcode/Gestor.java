@@ -33,9 +33,6 @@ public class Gestor {
     }
 
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
-        GestorUsuario gu = GestorUsuario.getGestorUsuario();
-        Usuario usuario = gu.obtenerUsuarioActual();
-        gu.getNombreUsuario(usuario);
         return GestorPremios.obtenerDescripcionPremio(nombrePremio);
     }
 

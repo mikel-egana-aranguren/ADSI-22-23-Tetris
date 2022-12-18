@@ -13,11 +13,11 @@ public class GestorPremios {
         ResultSet resultado;
 
         resultado = SGBD.execResultSQL(String.format(""
-        + "SELECT nombrepremio, progreso, progresoMax "
-        + "FROM Premio JOIN PremioObtenido "
-        + "ON PremioObtenido.nombrepremio=Premio.Nombre "
-        + "WHERE PremioObtenido.nombreusuario='%s'",
-            nombreUsuario
+            + "SELECT nombrepremio, progreso, progresoMax "
+            + "FROM Premio JOIN PremioObtenido "
+            + "ON PremioObtenido.nombrepremio=Premio.Nombre "
+            + "WHERE PremioObtenido.nombreusuario='%s'",
+                nombreUsuario
         ));
         try {
             while (resultado.next()) {
@@ -32,9 +32,16 @@ public class GestorPremios {
             e.printStackTrace();
         }
 
-        resultado = SGBD.execResultSQL(""
+        resultado = SGBD.execResultSQL(String.format(""
             + "SELECT nombre, progresoMax "
-            + "FROM Premio");
+            + "FROM Premio WHERE nombre NOT IN ("
+                + "SELECT nombrepremio "
+                + "FROM Premio JOIN PremioObtenido "
+                + "ON PremioObtenido.nombrepremio=Premio.Nombre "
+                + "WHERE PremioObtenido.nombreusuario='%s'"
+            + ")",
+                nombreUsuario
+        ));
         try {
             while (resultado.next()) {
                 String nombre = resultado.getString("nombre");
@@ -228,11 +235,11 @@ public class GestorPremios {
 
         Premio p = null;
         if (dificultad == 0 && puntos >= 5000) {
-            p = new Premio("Aprendiz", puntos, null);
+            p = new Premio("Aprendiz", 1, null);
         } else if (dificultad == 1 && puntos >= 10000) {
-            p = new Premio("Veterano", puntos, null);
+            p = new Premio("Veterano", 1, null);
         } else if (dificultad == 2 && puntos >= 30000) {
-            p = new Premio("Maestro", puntos, null);
+            p = new Premio("Maestro", 1, null);
         }
 
         return p;
