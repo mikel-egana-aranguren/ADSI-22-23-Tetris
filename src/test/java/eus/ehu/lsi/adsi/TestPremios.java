@@ -27,7 +27,7 @@ public class TestPremios {
         SGBD.inicializarTest();
         SGBD.execVoidSQL("INSERT INTO USUARIO(nombreUsuario,contrasena,email) VALUES ('usuariotest','contr','test@gmail.com')");
         GestorUsuario gu = GestorUsuario.getGestor();
-        Usuario usu = new Usuario("test");
+        Usuario usu = new Usuario("usuariotest");
         Partida par = new Partida();
         usu.setPartida(par);
         gu.setUsuario(usu);
@@ -57,7 +57,7 @@ public class TestPremios {
         assertEquals(premios.get(0).getNombre(), "Eliminador de Filas");
 
         JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
-        assertTrue(premio.getInt("progreso") > premio.getInt("progresoMax"));
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
 	}
 
     /**
