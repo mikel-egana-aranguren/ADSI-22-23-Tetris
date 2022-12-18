@@ -251,7 +251,7 @@ public class Clasificacion extends JFrame{
 	
 	class verMenu implements ActionListener{
 		public void actionPerformed(ActionEvent a) {
-			Menu frame=Menu.getMenu();
+			Menu frame = new Menu();
 			frame.setVisible(true);
 			dispose();	//Oculta la clasificacion
 		}

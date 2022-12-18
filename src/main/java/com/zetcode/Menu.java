@@ -36,39 +36,20 @@ import java.awt.Font;
 public class Menu extends JFrame {
 
 	private JPanel contentPane;
-	private static Menu miMenu = null;
 	JLabel mensaje = null;
 	private JButton nuevaPartida;
 	private JButton personalizarMapa;
-
-	/**
-	 * Launch the application.
-	 */
-	public void start() {
-		try {
-			miMenu.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void close() {
-		miMenu.dispose();
-	}
-	
-	public static Menu getMenu() {
-		if (miMenu == null) {
-			miMenu = new Menu();
-		}
-		return miMenu;
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public Menu() {
 		panelMenu();
-		Menu.getMenu().start();
+		try {
+			setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void panelMenu() {
@@ -99,7 +80,7 @@ public class Menu extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Menu.getMenu().panelSeleccionarPartida();
+				panelSeleccionarPartida();
 				
 			}
 		});
@@ -165,7 +146,7 @@ public class Menu extends JFrame {
 						if (!esta) {
 							ponerMensaje("EL id de partida no existe");
 						} else {
-							Menu.getMenu().close();
+							dispose();
 							boolean errorCargar = Gestor.cargarPartida(idSeleccionado);
 							if (errorCargar) {
 								ponerMensaje("Error al cargar partida");
