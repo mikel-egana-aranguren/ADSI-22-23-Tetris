@@ -516,7 +516,7 @@ public class Gestor {
             msgCompartir = "https://twitter.com/intent/tweet?text="+msgCompartir;
 
         }
-        else if (pBoton.equals("Facebook"))
+        else if (pBoton.equals("Facebook")) //Copiamos el mensaje en el protapapeles para que el usuario lo pegue en su post
         {
             String copiaMsg = msgCompartir;
             StringSelection stringSelection = new StringSelection(copiaMsg);
@@ -524,7 +524,7 @@ public class Gestor {
             clpbrd.setContents(stringSelection, null);
             msgCompartir = "https://www.facebook.com/";
         }
-        else if (pBoton.equals("Instagram"))
+        else if (pBoton.equals("Instagram")) //Copiamos el mensaje en el protapapeles para que el usuario lo pegue en su post
         {
             String copiaMsg = msgCompartir;
             StringSelection stringSelection = new StringSelection(copiaMsg);
@@ -534,7 +534,7 @@ public class Gestor {
         }
         try 
         {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create(msgCompartir));
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(msgCompartir)); //Abrimos la direccion que corresponda
         } 
         catch (java.io.IOException e) 
         {
@@ -547,7 +547,7 @@ public class Gestor {
         nomUsu = encodeValue(nomUsu);
         String msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido los siguientes premios: ";
         int t = 0;
-        if (pDirec.equals("Twitter"))
+        if (pDirec.equals("Twitter")) //como en Twitter el mensaje se genera en url no podemos usar espacios
         {
             msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20los%20siguientes%20premios:%20";
             int n = 0;
@@ -556,7 +556,7 @@ public class Gestor {
                 msgFinal = msgFinal+listaPremios.get(n)+",%20";
                 n++;
             }
-            if (msgFinal.length()>280)
+            if (msgFinal.length()>280) //si nos pasamos del limite de caracteres el mensaje aparecera a medias, asi que lo recortamos
             {
                 msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20"+listaPremios.size()+"%20premios!";
             }   
