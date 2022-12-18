@@ -85,22 +85,6 @@ CREATE TABLE MUSICA(
     PRIMARY KEY(codNombreMusica)
 );
 
-CREATE TABLE PERSONALIZACION(
-    nombreUsuario VARCHAR(20) NOT NULL,
-    codColorFondo INT NOT NULL,
-    codColorLadrillo INT NOT NULL,
-    codNombreMusica INT NOT NULL,
-    PRIMARY KEY(nombreUsuario),
-    FOREIGN KEY(nombreUsuario)
-    REFERENCES USUARIO(nombreUsuario),
-    FOREIGN KEY(codColorFondo)
-    REFERENCES COLORFONDO(codColorFondo),
-    FOREIGN KEY(codColorLadrillo)
-    REFERENCES COLORLADRILLO(codColorLadrillo),
-    FOREIGN KEY(codNombreMusica)
-    REFERENCES MUSICA(codNombreMusica)
-);
-
 INSERT INTO USUARIO VALUES('tetrixadmin', 'tetrixsa22', 'adsitetrix@gmail.com');
 
 --INSERT INTO DIFICULTAD VALUES("",,);
