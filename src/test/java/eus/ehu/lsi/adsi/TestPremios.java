@@ -93,7 +93,7 @@ public class TestPremios {
      */
     @Test
 	public void AlgunDesafio() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addFilas(par, 50);
         GestorPartida.addTetrises(par, 15);
@@ -128,7 +128,7 @@ public class TestPremios {
      */
     @Test
 	public void SoloAlFinalizar() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addPuntos(par, 1000000);
         Gestor.comprobarProgresoPremiosFinalPartida();
@@ -151,7 +151,7 @@ public class TestPremios {
      */
     @Test
 	public void SoloDurante() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addFilas(par, 50);
         Gestor.comprobarProgresoPremiosFinalPartida();
@@ -174,7 +174,7 @@ public class TestPremios {
      */
     @Test
 	public void AvanceDesafio() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addFilas(par, 37);
         Gestor.comprobarProgresoPremiosFinalPartida();
@@ -201,7 +201,7 @@ public class TestPremios {
      */
     @Test
 	public void AvanceDesafioCompletado() {
-        GestorUsuario gu = GestorUsuario.getGestor();
+        GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addFilas(par, 50);
         Gestor.comprobarProgresoPremiosFinalPartida();
