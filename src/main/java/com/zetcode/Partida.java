@@ -1,6 +1,7 @@
 package com.zetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Partida {
     private int fichasColocadas;
@@ -46,7 +47,20 @@ public class Partida {
     }
 
     public void anadirPremios(ArrayList<Premio> pPremios) {
-        premios.addAll(pPremios);
+        if (premios.size() > 0) {
+            HashMap<String, Premio> hmpremios = new HashMap<String, Premio>();
+            premios.forEach(premio -> hmpremios.put(premio.getNombre(), premio));
+            pPremios.forEach(premio -> {
+                String clave = premio.getNombre();
+                if (hmpremios.containsKey(clave)) {
+                    Premio suma = new Premio(clave, hmpremios.get(clave).getProgreso()+premio.getProgreso(), null);
+                    hmpremios.put(clave, suma);
+                } else {
+                    hmpremios.put(clave, premio);
+                }
+            });
+            premios.addAll(pPremios);
+        }
     }
     
     public int obtenerPuntos() {
