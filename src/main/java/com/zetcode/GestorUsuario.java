@@ -46,8 +46,13 @@ public class GestorUsuario {
         return usuarioActual;
     }
 
+<<<<<<< HEAD
     public void setUsuario(Usuario usu) {
         usuarioActual = usu;
+=======
+    public void setUsuario(String usu) {
+        usuarioActual = new Usuario(usu);
+>>>>>>> 7ad5acd0d0347d7f256d4c4af6b75fcadef487ef
     }
 
     public String getNombreUsuario() {

@@ -130,8 +130,7 @@ public class MenuDificultad extends JFrame {
 		JButton btnJugar = new JButton("Jugar");
 		btnJugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Tetris jugar = new Tetris();
-				jugar.setVisible(true);
+				Gestor.nuevaPartida();
 				MenuDificultad.this.dispose();
 			}
 		});

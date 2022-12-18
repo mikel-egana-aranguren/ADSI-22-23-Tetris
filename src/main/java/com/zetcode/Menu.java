@@ -103,6 +103,14 @@ public class Menu extends JFrame {
 		verRanking.addActionListener(new verClasificacion());
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton verPremios = new JButton("Ver Premios");
+		verPremios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuPremios premios = new MenuPremios();
+				premios.setLocationRelativeTo(null);
+				premios.setVisible(true);
+				dispose();
+			}
+		});
 		verPremios.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(verPremios);
 		contentPane.add(Box.createRigidArea(new Dimension(5, 0)));
