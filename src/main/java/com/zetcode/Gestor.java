@@ -428,7 +428,7 @@ public class Gestor {
 				int puntos = resultado.getInt("puntos");
 				estadoTablero = resultado.getString("estadoTablero");
 				String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
-				String dificultad = resultado.getString("dificultad");
+				int dificultad = resultado.getInt("dificultad");
 				GestorPartida.setIdPartida(partidaUsuario,pIdPartida);
 				GestorPartida.setPuntosPartida(partidaUsuario,puntos);
 				GestorPartida.setEstadoTablero(partidaUsuario,estadoTablero);
