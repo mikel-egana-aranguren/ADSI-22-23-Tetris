@@ -6,6 +6,7 @@ import com.zetcode.Gestor;
 import com.zetcode.GestorPartida;
 import com.zetcode.GestorUsuario;
 import com.zetcode.Partida;
+import com.zetcode.Premio;
 import com.zetcode.PremioDescripcion;
 import com.zetcode.SGBD;
 import com.zetcode.Tetris;
@@ -13,6 +14,9 @@ import com.zetcode.Usuario;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 
@@ -47,10 +51,13 @@ public class TestPremios {
         GestorUsuario gu = GestorUsuario.getGestor();
         Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
         GestorPartida.addFilas(par, 50);
-        Gestor.comprobarProgresoPremios();
         Gestor.comprobarProgresoPremiosFinalPartida();
 
-        System.out.println("Comprube que el premio \"Eliminador de filas\" se ha completado (y ningun otro)");
+        ArrayList<Premio> premios = par.obtenerPremios();
+        assertEquals(premios.get(0).getNombre(), "Eliminador de Filas");
+
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
+        assertTrue(premio.getInt("progreso") > premio.getInt("progresoMax"));
 	}
 
     /**
@@ -62,13 +69,12 @@ public class TestPremios {
      */
     @Test
 	public void SinCompletarDesafio() {
-        System.out.println("No hagas nada, espera a perder la partida");
-        System.out.println("Comprueba que el menu de fin de partida no menciona haber obtenido ningún premio");
-        System.out.println("Luego ve al menu de premios");
-        System.out.println("Comprueba que no hay progreso en ningún premio");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        Gestor.comprobarProgresoPremiosFinalPartida();
 
-        var game = new Tetris();
-        game.setVisible(true);
+        ArrayList<Premio> premios = par.obtenerPremios();
+        assertEquals(premios.size(), 0);
 	}
 
     /**
