@@ -257,7 +257,7 @@ public class Gestor {
     	GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (usu.length()!=0 || pwd.length()!=0) {
         	if (GU.existeUsuario(usu, pwd)) {
-				GU.setUsuario(usu);
+				setUsuario(usu);
             	return true;
             } else {
     			option.showMessageDialog(null, "Las credenciales introducidas no son correctas \nVuelve a intentarlo", "ERROR",JOptionPane.ERROR_MESSAGE);
@@ -267,6 +267,12 @@ public class Gestor {
 			option.showMessageDialog(null, "Por favor, rellene todos los campos", "ERROR",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+    }
+
+	public void setUsuario(String usu) {
+        // TODO: Esto lo he puesto para un test
+        Usuario usuarioActual = new Usuario(usu);
+		GestorUsuario.getGestorUsuario().setUsuario(usuarioActual);
     }
 
     private void recuperar(String nombreUsuario, String pwd, String destinatario) {
