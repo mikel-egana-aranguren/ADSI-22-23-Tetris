@@ -378,18 +378,19 @@ public class Board extends JPanel {
             numLinesRemoved += numFullLines;
 
             Gestor.addFilas(numFullLines);
+            
+            if (numFullLines == 1) {
+                Gestor.addPuntos(10);
+            } else if (numFullLines == 2) {
+                Gestor.addPuntos(50);
+            } else if (numFullLines == 3) {
+                Gestor.addPuntos(150);
+            } else {
+                Gestor.addPuntos(300);
+            }
 
             if (numFullLines >= 4) {
                 Gestor.addTetrises(1);
-                if (numFullLines == 1) {
-                    Gestor.addPuntos(10);
-                } else if (numFullLines == 2) {
-                    Gestor.addPuntos(50);
-                } else if (numFullLines == 3) {
-                    Gestor.addPuntos(150);
-                } else {
-                    Gestor.addPuntos(300);
-                }
             }
 
             statusbar.setText(String.valueOf(numLinesRemoved));
