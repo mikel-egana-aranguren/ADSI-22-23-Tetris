@@ -101,5 +101,5 @@ INSERT INTO PREMIO(nombre, descripcion, progresoMax) VALUES ('Puntuador Extremo'
 
 --Añadir en el diagrama ER la dificultad de partida
 INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (0, 400, '15x27');
-INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (0, 300, '15x22');
-INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (0, 150, '10x22');
+INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (1, 300, '15x22');
+INSERT INTO DIFICULTAD(nivelDificultad, velocidadLadrillos, tamanoTablero) VALUES (2, 150, '10x22');
