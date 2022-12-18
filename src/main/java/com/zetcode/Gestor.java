@@ -32,6 +32,10 @@ import javax.mail.internet.MimeMessage;
 //import javax.mail.*;
 
 public class Gestor {
+    /**
+     * Obtiene todos los premios del usuario.
+     * Tanto si se han completado como si no.
+    */
     public static JSONArray obtenerPremios() {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
@@ -53,14 +57,28 @@ public class Gestor {
     	GestorUsuario.getGestorUsuario().setUsuario(nom);
     }
 
+    /**
+     * Obtiene todo lo necesario para mostrar la descripción de un premio.
+     * 
+     * Esto es la descripción, su progreso, su nombre y su progreso máximo.
+     */
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
         return GestorPremios.obtenerDescripcionPremio(nombrePremio);
     }
 
+    /**
+     * Si el usuario ha progresado en un premio, se registra en su partida
+     */
     public static void comprobarProgresoPremios() {
         GestorPremios.comprobarProgresoPremios();
     }
 
+    /**
+     * Progresa en todos los premios, tanto de final de partida
+     * como los normales.
+     * 
+     * Después, actualiza la base de datos
+     */
     public static void comprobarProgresoPremiosFinalPartida() {
         GestorPremios.comprobarProgresoPremiosFinalPartida();
     }

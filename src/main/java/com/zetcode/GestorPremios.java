@@ -7,11 +7,16 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 public class GestorPremios {
+    /**
+     * Obtiene todos los premios del usuario.
+     * Tanto si se han completado como si no.
+    */
     public static ArrayList<Premio> obtenerPremios(String nombreUsuario) {
         ArrayList<Premio> listaPremios = new ArrayList<Premio>();
 
         ResultSet resultado;
 
+        // Todos los premios en los que ha progresado el usuario
         resultado = SGBD.execResultSQL(String.format(""
             + "SELECT nombrepremio, progreso, progresoMax "
             + "FROM Premio JOIN PremioObtenido "
@@ -32,6 +37,7 @@ public class GestorPremios {
             e.printStackTrace();
         }
 
+        // Todos los premios en los que no ha progresado el usuario
         resultado = SGBD.execResultSQL(String.format(""
             + "SELECT nombre, progresoMax "
             + "FROM Premio WHERE nombre NOT IN ("
@@ -57,6 +63,11 @@ public class GestorPremios {
         return listaPremios;
     }
 
+    /**
+     * Obtiene todo lo necesario para mostrar la descripción de un premio.
+     * 
+     * Esto es la descripción, su progreso, su nombre y su progreso máximo.
+     */
     public static JSONObject obtenerDescripcionPremio(String nombrePremio) {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
         Usuario usuario = gu.obtenerUsuarioActual();
@@ -108,11 +119,18 @@ public class GestorPremios {
         return json;
     }
 
+    /**
+     * Si el usuario ha progresado en un premio, se registra en su partida
+     */
     public static void comprobarProgresoPremios() {
         ArrayList<Premio> premios = obtenerPremiosProgresados();
         guardarProgresoPremios(premios);
     }
 
+    /**
+     * Los premios en los que el usuario ha progresado en esta partida
+     * desde que se llamó a esta función por última vez
+     */
     private static ArrayList<Premio> obtenerPremiosProgresados() {
         Premio pcf = obtenerPremioColocarFichas();
         Premio pef = obtenerPremioEliminarFilas();
@@ -132,6 +150,11 @@ public class GestorPremios {
         return listaPremios;
     }
 
+    /**
+     * Devuelve un premio si ha progresado en él
+     * 
+     * Si no, null
+     */
     private static Premio obtenerPremioColocarFichas() {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
@@ -147,6 +170,11 @@ public class GestorPremios {
         return p;
     }
 
+    /**
+     * Devuelve un premio si ha progresado en él
+     * 
+     * Si no, null
+     */
     private static Premio obtenerPremioEliminarFilas() {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
@@ -162,6 +190,11 @@ public class GestorPremios {
         return p;
     }
 
+    /**
+     * Devuelve un premio si ha progresado en él
+     * 
+     * Si no, null
+     */
     private static Premio obtenerPremioHacerTetris() {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
@@ -177,6 +210,9 @@ public class GestorPremios {
         return p;
     }
 
+    /**
+     * Añade los premios a la partida actual
+     */
     private static void guardarProgresoPremios(ArrayList<Premio> premios) {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
@@ -185,6 +221,12 @@ public class GestorPremios {
         GestorPartida.anadirPremios(partida, premios);
     }
 
+    /**
+     * Progresa en todos los premios, tanto de final de partida
+     * como los normales.
+     * 
+     * Después, actualiza la base de datos
+     */
     public static void comprobarProgresoPremiosFinalPartida() {
         ArrayList<Premio> premios = obtenerPremiosProgresadosFinalPartida();
         premios.forEach(premio -> progresarPremio(premio));
@@ -218,6 +260,10 @@ public class GestorPremios {
         return listaNombres;
     }
 
+    /**
+     * Progresa en todos los premios, tanto de final de partida
+     * como los normales.
+     */
     private static ArrayList<Premio> obtenerPremiosProgresadosFinalPartida() {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 
@@ -237,6 +283,11 @@ public class GestorPremios {
         return GestorPartida.obtenerPremios(partida);
     }
 
+    /**
+     * Devuelve un premio si ha progresado en él
+     * 
+     * Si no, null
+     */
     private static Premio obtenerPremioDificultad(Partida partida, Usuario usuario) {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
         int dificultad = GestorDificultad.getDificultad();
@@ -253,6 +304,9 @@ public class GestorPremios {
         return p;
     }
 
+    /**
+     * Devuelve el premio de obtener puntos
+     */
     private static Premio obtenerPremioPuntos(Partida partida) {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
 
@@ -260,6 +314,9 @@ public class GestorPremios {
         return p;
     }
 
+    /**
+     * Actualiza la base de datos con el progreso del premio
+     */
     private static void progresarPremio(Premio premio) {
         GestorUsuario gu = GestorUsuario.getGestorUsuario();
 

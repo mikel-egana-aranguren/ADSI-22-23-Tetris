@@ -19,6 +19,9 @@ public class Partida {
         premios = new ArrayList<Premio>();
     }
 
+    /**
+     * Devuelve y resetea el contador de fichas
+    */
     public int fichasColocadas() {
         int fichas = fichasColocadas;
         resetearContadorFichas();
@@ -29,6 +32,9 @@ public class Partida {
         fichasColocadas = 0;
     }
 
+    /**
+     * Devuelve y resetea el contador de filas
+    */
     public int filasEliminadas() {
         int filas = filasEliminadas;
         resetearContadorFilas();
@@ -39,6 +45,9 @@ public class Partida {
         filasEliminadas = 0;
     }
 
+    /**
+     * Devuelve y resetea el contador de tetrises
+    */
     public int tetrisHechos() {
         int tetrises = tetrisHechos;
         resetearContadorTetris();
@@ -49,6 +58,11 @@ public class Partida {
         tetrisHechos = 0;
     }
 
+    /**
+     * Añade los premios a la lista
+     * 
+     * Si alguno de los premios está repetido, suma sus progresos en un solo premio
+    */
     public void anadirPremios(ArrayList<Premio> pPremios) {
         if (pPremios.size() > 0) {
             HashMap<String, Premio> hmpremios = new HashMap<String, Premio>();
@@ -74,6 +88,10 @@ public class Partida {
         puntos += pPuntos;
     }
 
+    /**
+     * Devuelve todos los premios en los que se ha
+     * progresado en esta partida. Se hayan completado o no
+    */
     public ArrayList<Premio> obtenerPremios() {
         return premios;
     }
