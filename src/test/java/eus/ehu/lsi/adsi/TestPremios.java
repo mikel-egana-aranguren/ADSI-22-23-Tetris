@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -54,10 +55,12 @@ public class TestPremios {
         Gestor.comprobarProgresoPremiosFinalPartida();
 
         ArrayList<Premio> premios = par.obtenerPremios();
-        assertEquals(premios.get(0).getNombre(), "Eliminador de Filas");
+        assertEquals(premios.size(), 2);
 
         JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
         assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertEquals(premio.getInt("progreso"), 0);
 	}
 
     /**
@@ -74,7 +77,11 @@ public class TestPremios {
         Gestor.comprobarProgresoPremiosFinalPartida();
 
         ArrayList<Premio> premios = par.obtenerPremios();
-        assertEquals(premios.size(), 0);
+        assertEquals(premios.size(), 1); // Siempre se avanza en el premio por puntos, aunque se avance 0
+        assertEquals(premios.get(0).getNombre(), "Puntuador Extremo");
+
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertEquals(premio.getInt("progreso"), 0);
 	}
 
     /**
@@ -86,17 +93,30 @@ public class TestPremios {
      */
     @Test
 	public void AlgunDesafio() {
-        // Pasos:
-        // 1. Empezar una nueva partida
-        // 2. Alterar los datos de la partida para asegurarse de que se va a completar un desafío
-        // 3. Llenar el tablero de ladrillos para que acabe rápido
-        // 4. Imprimir un mensaje para que el tester no haga nada, simplemente pierda
-        // 5. Imprimir un mensaje con los logros que se van a obtener
-        // 5. Imprimir un mensaje para que el tester compruebe que se han completado los logros dichos anteriormente 
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        GestorPartida.addFilas(par, 50);
+        GestorPartida.addTetrises(par, 15);
+        GestorPartida.addPuntos(par, 1000000);
+        for (int i = 0; i < 287; i++) { // 287 no son suficientes para obtener el premio
+            GestorPartida.contarFicha(par);
+        }
+        Gestor.comprobarProgresoPremiosFinalPartida();
 
-        System.out.println("Para ejecutar este test lanza el programa con el argumento \"test1\"");
+        ArrayList<Premio> premios = par.obtenerPremios();
+        premios.forEach(premio -> System.out.println(premio.getNombre()));
+        assertEquals(premios.size(), 5); // además de los 4, tambien se obtiene el logro de dificultad
 
-        Tetris.main(null);
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Maestro del TETRIS");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Aprendiz");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Colocador de Fichas");
+        assertFalse(premio.getInt("progreso") >= premio.getInt("progresoMax"));
 	}
 
     /**
@@ -108,14 +128,18 @@ public class TestPremios {
      */
     @Test
 	public void SoloAlFinalizar() {
-        // Pasos:
-        // 1. Empezar una nueva partida
-        // 2. Alterar los datos de la partida para asegurarse de que se va a completar un desafío
-        // 3. Llenar el tablero de ladrillos para que acabe rápido
-        // 4. Imprimir un mensaje para que el tester no haga nada, simplemente pierda
-        // 5. Imprimir un mensaje con los logros que se van a obtener
-        // 5. Imprimir un mensaje para que el tester compruebe que se han completado los logros dichos anteriormente
-        fail("Not yet implemented");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        GestorPartida.addPuntos(par, 1000000);
+        Gestor.comprobarProgresoPremiosFinalPartida();
+
+        ArrayList<Premio> premios = par.obtenerPremios();
+        assertEquals(premios.size(), 2);
+
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Aprendiz");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
 	}
 
     /**
@@ -127,14 +151,18 @@ public class TestPremios {
      */
     @Test
 	public void SoloDurante() {
-        // Pasos:
-        // 1. Empezar una nueva partida
-        // 2. Alterar los datos de la partida para asegurarse de que se va a completar un desafío
-        // 3. Llenar el tablero de ladrillos para que acabe rápido
-        // 4. Imprimir un mensaje para que el tester no haga nada, simplemente pierda
-        // 5. Imprimir un mensaje con los logros que se van a obtener
-        // 5. Imprimir un mensaje para que el tester compruebe que se han completado los logros dichos anteriormente
-        fail("Not yet implemented");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        GestorPartida.addFilas(par, 50);
+        Gestor.comprobarProgresoPremiosFinalPartida();
+
+        ArrayList<Premio> premios = par.obtenerPremios();
+        assertEquals(premios.size(), 2);
+
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
+        assertTrue(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+        premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertEquals(premio.getInt("progreso"), 0);
 	}
 
     /**
@@ -146,12 +174,22 @@ public class TestPremios {
      */
     @Test
 	public void AvanceDesafio() {
-        // Pasos:
-        // 1. execSQL para avanzar (sin completar) un premio premio
-        // 2. Abrir la ventana de los premios
-        // 3. Imprimir un mensaje para que el tester compruebe que aparece un progreso
-        // 4. Borrar el progreso del premio
-        fail("Not yet implemented");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        GestorPartida.addFilas(par, 37);
+        Gestor.comprobarProgresoPremiosFinalPartida();
+
+        ArrayList<Premio> premios = par.obtenerPremios();
+        assertEquals(premios.size(), 2); // Siempre se añade 1 premio (de puntos) aunque solo se obtengan 0 puntos
+
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
+        assertFalse(premio.getInt("progreso") >= premio.getInt("progresoMax"));
+
+        premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
+        assertEquals(premio.getInt("progreso"), 37);
+
+        premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertEquals(premio.getInt("progreso"), 0);
 	}
 
     /**
@@ -163,13 +201,30 @@ public class TestPremios {
      */
     @Test
 	public void AvanceDesafioCompletado() {
-        // Pasos:
-        // 1. execSQL para completar un premio premio
-        // 2. execSQL para avanzar un premio premio
-        // 3. Abrir la ventana de los premios
-        // 4. Imprimir un mensaje para que el tester compruebe que el progreso se meustra correctamente
-        // 5. Borrar el progreso del premio
-        fail("Not yet implemented");
+        GestorUsuario gu = GestorUsuario.getGestor();
+        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
+        GestorPartida.addFilas(par, 50);
+        Gestor.comprobarProgresoPremiosFinalPartida();
+        GestorPartida.addFilas(par, 20);
+        Gestor.comprobarProgresoPremiosFinalPartida();
+
+        ArrayList<Premio> premios = par.obtenerPremios();
+        assertEquals(premios.size(), 2);
+
+        JSONObject premio = Gestor.obtenerDescripcionPremio("Eliminador de Filas");
+        int progreso = premio.getInt("progreso");
+        int progresoMax = premio.getInt("progresoMax");
+        assertTrue(progreso >= progresoMax);
+
+        int progresoFinal = progreso * 100 / progresoMax;
+		if (progresoFinal > 100) {
+			progresoFinal = 100;
+		}
+
+        assertEquals(progresoFinal, 100);
+
+        premio = Gestor.obtenerDescripcionPremio("Puntuador Extremo");
+        assertEquals(premio.getInt("progreso"), 0);
 	}
 
     /**
@@ -181,9 +236,7 @@ public class TestPremios {
      */
     @Test
 	public void SinJugarPartidas() {
-        // Pasos:
-        // 1. Abrir la ventana de los premios
-        // 2. Imprimir un mensaje para que el tester compruebe que todos los progresos están vacíos
-        fail("Not yet implemented");
+        JSONArray premios = Gestor.obtenerPremios();
+        assertEquals(premios.length(), 8);
 	}
 }

@@ -223,8 +223,16 @@ public class GestorPremios {
 
         Usuario usuario = gu.obtenerUsuarioActual();
         Partida partida = gu.obtenerPartidaUsuario(usuario);
-        obtenerPremioDificultad(partida, usuario);
-        obtenerPremioPuntos(partida);
+        Premio pd = obtenerPremioDificultad(partida, usuario);
+        Premio pp = obtenerPremioPuntos(partida);
+        ArrayList<Premio> premios = new ArrayList<Premio>();
+        if (pd != null) {
+            premios.add(pd);
+        }
+        if (pp != null) {
+            premios.add(pp);
+        }
+        GestorPartida.anadirPremios(partida, premios);
         comprobarProgresoPremios();
         return GestorPartida.obtenerPremios(partida);
     }
@@ -248,7 +256,7 @@ public class GestorPremios {
     private static Premio obtenerPremioPuntos(Partida partida) {
         Integer puntos = GestorPartida.obtenerPuntos(partida);
 
-        Premio p = new Premio("Puntuador extremo", puntos, null);
+        Premio p = new Premio("Puntuador Extremo", puntos, null);
         return p;
     }
 
