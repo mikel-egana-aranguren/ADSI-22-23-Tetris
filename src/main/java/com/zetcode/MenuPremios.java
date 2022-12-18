@@ -104,6 +104,9 @@ public class MenuPremios extends JFrame {
 		JButton botonVolver = new JButton("Volver");
 		botonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Menu menu = new Menu();
+				menu.setVisible(true);
+				dispose();
 			}
 		});
 		panel_volver.add(botonVolver);
