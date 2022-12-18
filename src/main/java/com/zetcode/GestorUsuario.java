@@ -47,7 +47,6 @@ public class GestorUsuario {
     }
 
     public void setUsuario(String usu) {
-        // TODO: Esto lo he puesto para un test
         usuarioActual = new Usuario(usu);
     }
 
