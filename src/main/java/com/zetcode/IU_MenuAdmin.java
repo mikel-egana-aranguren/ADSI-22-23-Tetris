@@ -149,11 +149,6 @@ public class IU_MenuAdmin extends JFrame {
 		panelCentral.add(btnVerRanking, gbc_btnVerRanking);
 		
 		JButton btnVerPremios = new JButton("Ver Premios");
-		btnVerPremios.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				verPremios();
-			}
-		});
 		btnVerPremios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verPremios();
@@ -208,7 +203,10 @@ public class IU_MenuAdmin extends JFrame {
 	}
 	
 	public void verPremios() {
-		
+		MenuPremios premios = new MenuPremios();
+		premios.setLocationRelativeTo(null);
+		premios.setVisible(true);
+		dispose();
 	}
 	
 	public void elimiarUsuario() {
