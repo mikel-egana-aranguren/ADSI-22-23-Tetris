@@ -29,6 +29,9 @@ import java.sql.SQLException;
 import org.json.JSONObject;
 
 import javax.swing.BorderFactory;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
 
 public class Menu extends JFrame {
 
@@ -70,13 +73,10 @@ public class Menu extends JFrame {
 	
 	public void panelMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(0, 0, 450, 350);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		setContentPane(contentPane);
 
 		JLabel titulo = new JLabel("Tetrix");

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Usuario {
     private String nombre;
     private Partida partida;
-    
+
     public Usuario(String pNombre) {
 		this.nombre = pNombre;
 	}

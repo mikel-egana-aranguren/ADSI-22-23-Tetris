@@ -1,13 +1,27 @@
 package com.zetcode;
 
+import java.sql.ResultSet;
+
 public class GestorUsuario {
     private Usuario usuarioActual;
     private static GestorUsuario miGestorUsuario;
     
+    // VARIABLES PARA EVITAR SQL INJECTION
+    private String SELECT = " SELECT ";
+    private String FROM = " FROM ";
+    private String WHERE = " WHERE ";
+    private String INSERT = " INSERT ";
+    private String INTO = " INTO ";
+    private String VALUES = " VALUES ";
+    private String AND = " AND ";
+    private String UPDATE = " UPDATE ";
+    private String SET = " SET ";
+    private String DELETE = " DELETE ";
+
     private GestorUsuario() {
-        
+
     }
-    
+        
     public static GestorUsuario getGestorUsuario() {
         if (miGestorUsuario == null) {
             miGestorUsuario = new GestorUsuario();
@@ -33,13 +47,17 @@ public class GestorUsuario {
     }
 
     public void setUsuario(Usuario usu) {
-      // TODO: Esto lo he puesto para un test
-      usuarioActual = usu;
+        // TODO: Esto lo he puesto para un test
+        usuarioActual = usu;
     }
-    
+
     public String getNombreUsuario() {
         
         return usuarioActual.getNombre();
+    }
+    public void registrarse(String usu, String email, String pwd1) {
+		String consulta =  String.format(INSERT + INTO + "USUARIO " + VALUES + "('%s', '%s', '%s')", usu,pwd1,email);
+		SGBD.execVoidSQL(consulta);
     }
     
     public boolean existeUsuario(String usu, String pwd) {
@@ -87,7 +105,23 @@ public class GestorUsuario {
 		}
     }
     
-    public void cambiarContraseña(String usu, String pwd1) {
+    public String getContrasena(String usuario) {
+    	String existe = String.format(SELECT + "contrasena" + FROM + "USUARIO" + WHERE + "nombreUsuario = '%s'", usuario);
+	    ResultSet result = SGBD.execResultSQL(existe);
+	    try {
+	    	if (result.next()) {
+	    		System.out.println(result.getString("contrasena"));
+	    		return result.getString("contrasena");
+	    	} else {
+				return null;
+			}
+    	} catch (Exception e) {
+			System.exit(1);
+			return null;
+		}
+    }
+    
+    public void cambiarContrasena(String usu, String pwd1) {
     	String consulta =  String.format(UPDATE + "USUARIO" + SET + "contrasena = '%s'" + WHERE + "nombreUsuario = '%s'", pwd1,usu);
 		SGBD.execVoidSQL(consulta);
     }
@@ -98,7 +132,7 @@ public class GestorUsuario {
     }
 
     public String[] obtenerDatos(String correo) {
-      String consulta = String.format(SELECT + "email, nombreUsuario, contrasena" + FROM + "USUARIO" + WHERE + "email = '%s'", correo);
+      String consulta = String.format(SELECT + "nombreUsuario, contrasena, email" + FROM + "USUARIO" + WHERE + "email = '%s'", correo);
       ResultSet resultado = SGBD.execResultSQL(consulta);
       String[] usu = null;
 
@@ -106,9 +140,9 @@ public class GestorUsuario {
         usu = new String[3];
         try {
           while (resultado.next()) {
-            usu[0] = resultado.getString("email");
-            usu[1] = resultado.getString("nombreUsuario");
-            usu[2] = resultado.getString("contrasena");
+            usu[0] = resultado.getString("nombreUsuario");
+            usu[1] = resultado.getString("contrasena");
+            usu[2] = resultado.getString("email");
           }
         } catch (Exception e) {
           // TODO: handle exception

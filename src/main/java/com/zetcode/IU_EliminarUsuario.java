@@ -71,6 +71,13 @@ public class IU_EliminarUsuario extends JFrame {
 		panelCentral.add(lblIndicaElUsuario);
 		
 		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					eliminar();
+				}
+			}
+		});
 		panelCentral.add(txtUsuario);
 		txtUsuario.setName("Usuario");
 		txtUsuario.setToolTipText("");
@@ -116,13 +123,17 @@ public class IU_EliminarUsuario extends JFrame {
 	
 	public void volver() {
 		IU_MenuAdmin iuMenuAdmin = new IU_MenuAdmin();
-		iuMenuAdmin.setVisible(true);
 		ocultar();
+		iuMenuAdmin.setVisible(true);
 	}
 	
 	public void eliminar() {
 		Gestor GPrincipal = new Gestor();
 		String txtNombreUsuario = txtUsuario.getText();
-		GPrincipal.eliminarUsuario(txtNombreUsuario);
+		if (GPrincipal.eliminarUsuario(txtNombreUsuario) == 1) {
+			IU_MenuAdmin iuMenuAdmin = new IU_MenuAdmin();
+			ocultar();
+			iuMenuAdmin.setVisible(true);
+		}
 	}
 }

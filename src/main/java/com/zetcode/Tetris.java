@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
 import org.apache.logging.log4j.LogManager;
@@ -66,6 +67,7 @@ public class Tetris extends JFrame {
         
         JButton guardarPartida = new JButton("Pausar Partida");
         add(guardarPartida, BorderLayout.NORTH);
+        guardarPartida.setFocusable(false);
 
         setTitle("Tetris");
         setSize(200, 400);
