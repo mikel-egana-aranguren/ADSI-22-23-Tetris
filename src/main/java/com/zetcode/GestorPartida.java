@@ -1,7 +1,5 @@
 package com.zetcode;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class GestorPartida {
