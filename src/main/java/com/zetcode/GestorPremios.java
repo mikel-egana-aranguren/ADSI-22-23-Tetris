@@ -256,6 +256,7 @@ public class GestorPremios {
                 }
                 s++;
             }
+            i++;
         }
         return listaNombres;
     }

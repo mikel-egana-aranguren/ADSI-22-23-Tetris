@@ -184,6 +184,7 @@ public class CompartirResultados extends JFrame {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				Gestor.nuevaPartida();
+				dispose();
 			}
 		});
 		panel.add(btnNewButton_Volver);
