@@ -122,7 +122,6 @@ public class Gestor {
     public int getDificultad() {
     	return GestorDificultad.getDificultad();
     }
-    
 
     public boolean comprobarDatosCambiarContraseña(String usuario, String pwdOld, String pwd1, String pwd2) {
     	JOptionPane option = new JOptionPane();
@@ -159,11 +158,6 @@ public class Gestor {
 			option.showMessageDialog(null, "No seas pillo, la del admin no se puede cambiar bobi", "ERROR",JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-    }
-
-    private boolean comprobar(String usu, String pwdVieja, String pwd1, String pwd2) {
-        // TODO
-        return false;
     }
 
     public boolean comprobarDatosRegistro(String usuario, String pEmail, String pwd1, String pwd2) {
@@ -263,6 +257,7 @@ public class Gestor {
     	GestorUsuario GU = GestorUsuario.getGestorUsuario();
         if (usu.length()!=0 || pwd.length()!=0) {
         	if (GU.existeUsuario(usu, pwd)) {
+				GU.setUsuario(usu);
             	return true;
             } else {
     			option.showMessageDialog(null, "Las credenciales introducidas no son correctas \nVuelve a intentarlo", "ERROR",JOptionPane.ERROR_MESSAGE);
