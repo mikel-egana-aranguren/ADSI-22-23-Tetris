@@ -2,6 +2,8 @@ package com.zetcode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Partida {
     private int fichasColocadas;
@@ -48,7 +50,7 @@ public class Partida {
     }
 
     public void anadirPremios(ArrayList<Premio> pPremios) {
-        if (premios.size() > 0) {
+        if (pPremios.size() > 0) {
             HashMap<String, Premio> hmpremios = new HashMap<String, Premio>();
             premios.forEach(premio -> hmpremios.put(premio.getNombre(), premio));
             pPremios.forEach(premio -> {
@@ -60,7 +62,7 @@ public class Partida {
                     hmpremios.put(clave, premio);
                 }
             });
-            premios.addAll(pPremios);
+            premios = hmpremios.values().stream().collect(Collectors.toCollection(ArrayList::new));
         }
     }
     
